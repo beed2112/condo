@@ -14,11 +14,13 @@
 
 
  
-grep -e '\[homeassistant' /var/log/syslog | awk '{print $10}' | sort -u | sed  's/\[//' |  sed  's/]//' > ha-domains.txt
+grep -e '\[homeassistant' /var/log/syslog | awk '{print $10 ":" $8}' | sort -u | sed  's/\[//' |  sed  's/]//' > ha-domains.txt
 
 
 for item in `cat ha-domains.txt`
 do
-cnt=`grep $item /var/log/syslog | wc -l`
-echo "$cnt - $item "
+  domain=`echo $item | awk -F: '{print $1}'`
+  level=`echo $item | awk -F: '{print $2}'`
+  cnt=`grep $domain /var/log/syslog | grep $level | wc -l`
+  echo "$cnt - $domain $level "
 done
