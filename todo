@@ -19,7 +19,9 @@ split autos into logical groups **********done
                            fan/hvac only runs in night mode
                            autos turning on and off autos
                            input booleans as flags, triggers, etc
-                           alert - from arasabo use the notify from the alert to trigger automations
+                           alert - from arasabo use the notify from the alert to trigger autos
+                                    notify to syslog with alert and use that to trigger autos
+                                    ... https://home-assistant.io/components/notify.syslog/ 
 *******-------------------------------------------------------------------------***************
 
 
