@@ -1,10 +1,28 @@
-tv sensor timing 
-exclude tv sensor from log 
+tv sensor timing **********done
+exclude tv sensor from log **********done
 history - include only switches, lights, automations
-use the sun as the trigger time for the light reset automation turn on
-install and configure master br switch
-install and configure master br shower switch
-install and configure master br lifx 
+use the sun as the trigger time for the light reset automation turn on **********done
+install and configure master br switch **********done
+install and configure master br shower switch **********done
+install and configure master br lifx **********done
 create bulb group 
 add bulb group to alarm 
 modify color resets to use bulb group 
+
+implement !include_dir_merge_list automations/ **********done
+test a the merge list **********done
+split autos into logical groups **********done
+
+*******-------------------------------------------------------------------------***************
+                        use what you just learned
+                           BR overhead being turned on ALWAYS turns off night mode
+                           fan/hvac only runs in night mode
+                           autos turning on and off autos
+                           input booleans as flags, triggers, etc
+                           alert - from arasabo use the notify from the alert to trigger automations
+*******-------------------------------------------------------------------------***************
+
+
+night mode 
+vacation
+bulb color
