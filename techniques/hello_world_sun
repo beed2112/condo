@@ -1,0 +1,17 @@
+# a simple automation with platform sun as trigger
+# 
+# persistent notification is cool... has no dependencies to set up... it is built in
+
+
+- alias: 'hello world sunset'
+  trigger:
+    platform: sun
+    # Possible values: sunset, sunrise
+    event: sunrise
+    # Optional time offset. +/-HH:MM:SS
+    # offset: '+00:03:00'
+  action:
+    service: persistent_notification.create
+    data:
+      message: "this is hello world sunset -message"
+      title: "this is hello world sunset - title"
