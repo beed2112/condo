@@ -1,0 +1,79 @@
+
+#----     Night time bedroom ceiling fan coordinated with Air conditioning 
+#
+#--    turn fan on when air turned off  -
+#
+- alias: 'BR Fan ON when air off'
+  trigger:
+    platform: state
+    entity_id: binary_sensor.arizona_thermostat_arizona_fan
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: state
+    entity_id: input_boolean.night_mode
+    state: 'on'
+  action:
+    - service: switch.turn_on
+      entity_id:
+      - switch.br_ceiling_fan
+      
+#--    turn fan off when air turned on
+#-
+- alias: 'BR Fan OFF when air on'
+  trigger:
+    platform: state
+    entity_id: binary_sensor.arizona_thermostat_arizona_fan
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: input_boolean.night_mode
+    state: 'on'         #
+  action:
+    - service: switch.turn_off
+      entity_id:
+      - switch.br_ceiling_fan
+
+# turn off fan air automations when we get up
+- alias: 'Stop the HVAC fan dance'
+  initial_state: False
+  trigger:
+    platform: state
+    entity_id: input_boolean.night_mode
+    from: 'on'
+    to: 'off'
+  action:
+    - service: switch.turn_off
+      entity_id: switch.br_ceiling_fan
+    - service: homeassistant.turn_off
+      entity_id: group.hvac_automations_g
+
+      
+
+
+- alias: 'zzz enable the HVAC fan dance'
+  trigger:
+    platform: state
+    entity_id: input_boolean.night_mode
+    from: 'off'
+    to: 'on'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: group.hvac_automations_g
+      
+- alias: 'start ceiling fan if hvac not running night'
+  trigger:
+    platform: state
+    entity_id: input_boolean.night_mode
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: binary_sensor.arizona_thermostat_arizona_fan
+    state: 'off'
+  action:
+    - service: switch.turn_on
+      entity_id: switch.br_ceiling_fan
+      
+      
