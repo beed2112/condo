@@ -1,0 +1,50 @@
+
+
+
+Automation 
+
+# check if furnace filter change time
+- alias: 'check furnace filter change date'
+  trigger:
+    platform: sun
+    # Possible values: sunset, sunrise
+    event: sunrise
+    # Optional time offset. +/-HH:MM:SS
+    # offset: '+00:03:00'
+  condition:
+    condition: template
+    value_template: '{{ states.sensor.date.state >= states.sensor.furnacefilter.state }}'
+  action:
+    service: persistent_notification.create
+    data:
+      message: "Furnace Filter"
+      title: "Time to change furnace filter"
+
++++-------------------------------------------------------------------------------------------
+
+Sensor definition
+
+  - platform: command_line
+    name: furnacefilter
+    scan_interval: 10800
+    command: "cat /home/homeassistant/.homeassistant/cmds/dash-furnacefilter.sensor"
+
++++-------------------------------------------------------------------------------------------
+
+
+dash-furnacefilter.sh
+
+#!/bin/bash
+# add 30 days to today and stuff it in the sensor
+
+date --date='+30 days' +%Y-%m-%d  > /home/homeassistant/.homeassistant/cmds/dash-furnacefilter.sensor
+
++++-------------------------------------------------------------------------------------------
+
+dasher config 
+
+{
+    "name": "furnace filter",
+    "address": "be:ee:d2:11:2d:ee",
+    "cmd": "/home/homeassistant/.homeassistant/cmds/dash-furnacefilter.sh"
+  },
