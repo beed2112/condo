@@ -1,2 +1,2 @@
 # condo
-assorted nonsense related to home assistant
+assorted stuffs related to home assistant
