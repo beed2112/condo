@@ -1,0 +1,18 @@
+
+# https://github.com/dale3h/hassctl
+
+# making life easy
+
+alias hahome='cd /home/homeassistant/.homeassistant/'
+alias haback='/home/homeassistant/.homeassistant/cmds/haback.sh'
+alias hacheck='hassctl config'
+alias harestart='hassctl restart'
+alias haupdate='hassctl update-hass'
+
+
+without hassctl
+
+alias hacheck='sudo /srv/homeassistant/bin/hass -c /home/homeassistant/.homeassistant/ --script check_config'
+alias harestart='sudo systemctl restart home-assistant@homeassistant.service'
+
+
