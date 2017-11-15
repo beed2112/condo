@@ -1,0 +1,6 @@
+#
+# haget -> pull the yaml files from the haserver to the local box
+# haput -> put the yaml files from the local box to the haserver
+
+alias haget='scp pi@haserver:/home/homeassistant/.homeassistant/*.yaml  /home/chronos/user/Downloads/HA/.; scp  pi@haserver:/home/homeassistant/.homeassistant/automations/*.yaml  /home/chronos/user/Downloads/HA/automations/. '
+alias haput='scp  /home/chronos/user/Downloads/HA/*.yaml pi@haserver:/home/homeassistant/.homeassistant/.; scp  /home/chronos/user/Downloads/HA/automations/*.yaml pi@haserver:/home/homeassistant/.homeassistant/automations/. '
