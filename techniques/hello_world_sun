@@ -7,7 +7,7 @@
   trigger:
     platform: sun
     # Possible values: sunset, sunrise
-    event: sunrise
+    event: sunset
     # Optional time offset. +/-HH:MM:SS
     # offset: '+00:03:00'
   action:
