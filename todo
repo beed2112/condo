@@ -5,7 +5,7 @@ use the sun as the trigger time for the light reset automation turn on *********
 install and configure master br switch **********done
 install and configure master br shower switch **********done
 install and configure master br lifx **********done
-create bulb group 
+create bulb group **********done
 add bulb group to alarm 
 modify color resets to use bulb group 
 
@@ -28,3 +28,13 @@ split autos into logical groups **********done
 night mode 
 vacation
 bulb color
+
+
+
+
+Config file processing
+https://github.com/geekofweek/homeassistant/tree/master/tools
+
+Wemo Dimmer
+https://community.home-assistant.io/t/wemo-dimmer-help/33547
+
