@@ -5,3 +5,5 @@ In effort to make maintenance, backups, and recovery a little more managable I c
 #/var/log
 #/home/homeassistant/.homeassistant
 
+Images
+[[https://github.com/username/repository/blob/master/img/octocat.png|alt=octocat]]
