@@ -1,4 +1,6 @@
 
+
+
 ### Why
 In effort to make maintenance, backups, and recovery a little more managable I chose to move the following directories to USB removable storage.  I use a rotation of 5 micoroSD cards so my concerns about wearing out the microSD cards were minimal.
 
@@ -26,7 +28,7 @@ This set up allows me to swap the micorSD cards and boot up to a fuctioning Home
   - move data in /home/homeassistant/.homeassistant to temp mount point
   - ```sudo chown``` 
   - ```sudo chmod```
-  - ```mounnt -a```
+  - ```mount -a```
   - lots of ```ls -la```
   - reboot 
   
