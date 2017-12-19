@@ -2,8 +2,8 @@
 
 # this script uses hard-coded paths 
 # This deletes the readme file and begins rebuilding it.. 
-rm /home/hass/.homeassistant/script/readme.md
-echo "# Original work by @beed2112" >> /home/hass/.homeassistant/script/readme.md
+
+echo "# Original work by @beed2112" > /home/hass/.homeassistant/script/readme.md
 echo "# Modified by @CCOSTAN" >> /home/hass/.homeassistant/script/readme.md
 echo "# Repo : https://github.com/CCOSTAN/Home-AssistantConfig" >> /home/hass/.homeassistant/script/readme.md
 echo "# Repo : https://github.com/beed2112/condo " >> /home/hass/.homeassistant/script/readme.md
