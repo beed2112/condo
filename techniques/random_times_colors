@@ -1,0 +1,33 @@
+
+
+picked this up frmom quadflight on discord
+
+
+
+```
+ pendant_random_delay_one:
+    sequence:
+
+        - service: light.turn_on
+          data:
+            entity_id: group.bar_pendant_lights
+          data_template:
+            rgb_color: ['{{ "{0:d}".format(range(100, 255)|random) }}' , '{{ "{0:d}".format(range(100, 255)|random) }}', '{{ "{0:d}".format(range(100, 255)|random) }}']
+            transition: 10
+        - delay: '00:00:{{ (range(15, 45)|random|int) }}'
+        - service: homeassistant.turn_on
+          entity_id: script.pendant_random_delay_two
+
+  pendant_random_delay_two:
+    sequence:
+
+        - service: light.turn_on
+          data:
+            entity_id: group.bar_pendant_lights
+          data_template:
+            rgb_color: ['{{ "{0:d}".format(range(100, 255)|random) }}' , '{{ "{0:d}".format(range(100, 255)|random) }}', '{{ "{0:d}".format(range(100, 255)|random) }}']
+            transition: 10
+        - delay: '00:00:{{ (range(15, 45)|random|int) }}'
+        - service: homeassistant.turn_on
+          entity_id: script.pendant_random_delay_one
+```          
