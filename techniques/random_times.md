@@ -1,7 +1,7 @@
 
 ![Random Times](img/random-sensor.png)
 
-
+```
 
 ### Using the random sensor to create random times and duration that would be used to simulate occupancy 
 
@@ -179,5 +179,6 @@ sensor:
           {%- endif %}
         
   
-  
+ ```
+ 
   
