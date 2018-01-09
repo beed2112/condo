@@ -127,7 +127,7 @@ sd 1:0:0:0: [sda] Attached SCSI removable disk
 
 Results of transfer tests
 
-Not a needs to be said here.
+Not a lot needs to be said here.
 
 ![1GB File](img/drivespeed-1gb.png)
 
