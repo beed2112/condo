@@ -1,0 +1,19 @@
+2018-01-29 14:49:39 INFO (MainThread) [homeassistant.loader] Loaded sensor.fail2ban from homeassistant.components.sensor.fail2ban
+2018-01-29 14:50:45 WARNING (MainThread) [homeassistant.components.http.ban] Login attempt or request with invalid authentication from 06.08.143.185
+2018-01-29 14:50:52 WARNING (MainThread) [homeassistant.components.http.ban] Login attempt or request with invalid authentication from 06.08.143.185
+2018-01-29 14:50:57 WARNING (MainThread) [homeassistant.components.http.ban] Login attempt or request with invalid authentication from 06.08.143.185
+2018-01-29 14:51:02 WARNING (MainThread) [homeassistant.components.http.ban] Login attempt or request with invalid authentication from 06.08.143.185
+2018-01-29 14:51:07 WARNING (MainThread) [homeassistant.components.http.ban] Login attempt or request with invalid authentication from 06.08.143.185
+2018-01-29 14:51:09 WARNING (MainThread) [homeassistant.components.http.ban] Login attempt or request with invalid authentication from 06.08.143.185
+2018-01-29 14:51:11 WARNING (MainThread) [homeassistant.components.http.ban] Login attempt or request with invalid authentication from 06.08.143.185
+2018-01-29 14:51:13 WARNING (MainThread) [homeassistant.components.http.ban] Login attempt or request with invalid authentication from 06.08.143.185
+2018-01-29 14:51:15 WARNING (MainThread) [homeassistant.components.http.ban] Login attempt or request with invalid authentication from 06.08.143.185
+2018-01-29 14:51:23 WARNING (MainThread) [homeassistant.components.http.ban] Login attempt or request with invalid authentication from 06.08.143.185
+2018-01-29 14:51:27 WARNING (MainThread) [homeassistant.components.http.ban] Login attempt or request with invalid authentication from 06.08.143.185
+2018-01-29 14:51:45 WARNING (MainThread) [homeassistant.components.http.ban] Login attempt or request with invalid authentication from 06.08.143.185
+2018-01-29 14:51:47 WARNING (MainThread) [homeassistant.components.http.ban] Login attempt or request with invalid authentication from 06.08.143.185
+2018-01-29 14:51:49 WARNING (MainThread) [homeassistant.components.http.ban] Login attempt or request with invalid authentication from 06.08.143.185
+2018-01-29 14:51:51 WARNING (MainThread) [homeassistant.components.http.ban] Login attempt or request with invalid authentication from 06.08.143.185
+2018-01-29 14:51:53 WARNING (MainThread) [homeassistant.components.http.ban] Login attempt or request with invalid authentication from 06.08.143.185
+2018-01-29 14:51:55 WARNING (MainThread) [homeassistant.components.http.ban] Login attempt or request with invalid authentication from 06.08.143.185
+2018-01-29 14:51:59 WARNING (MainThread) [homeassistant.components.http.ban] Login attempt or request with invalid authentication from 06.08.143.185
