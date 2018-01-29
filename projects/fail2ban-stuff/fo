@@ -1,0 +1,27 @@
+
+
+updated to match working in error messgase
+
+Original 
+[Definition]
+failregex = ^%(__prefix_line)s.*Login attempt or request with an invalid authentication from <HOST>.*$
+
+Modified
+
+[Definition]
+failregex = ^%(__prefix_line)s.*Login attempt or request with invalid authentication from <HOST>*$
+
+ignoreregex =
+
+[Init]
+#datepattern = ^%%y-%%m-%%d %%H:%%M:%%S
+
+
+
+
+
+Test command
+
+fail2ban-regex  fail2ban.test  /etc/fail2ban/filter.d/hass.local /etc/fail2ban/filter.d/hass.local
+
+
