@@ -2,16 +2,18 @@
 
 updated to match working in error messgase
 
-*Original* 
-```
+Original
+
+
 [Definition]
 failregex = ^%(__prefix_line)s.*Login attempt or request with an invalid authentication from <HOST>.*$
-```
+
+
 *Modified*
-```
+
 [Definition]
 failregex = ^%(__prefix_line)s.*Login attempt or request with invalid authentication from <HOST>*$
-```
+
 
 Date pattern stays 
 
