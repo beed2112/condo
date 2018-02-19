@@ -1,0 +1,93 @@
+  push:
+    categories:
+      - name: coffeepot
+        identifier: 'coffeepot'
+        actions:
+          - identifier: 'OFF_COFFEEPOT'
+            title: 'CP Off'
+            activationMode: 'background'
+            authenticationRequired: yes
+            destructive: yes
+            behavior: 'default'
+          - identifier: 'ON_COFFEEPOT'
+            title: 'CP On'
+            activationMode: 'background'
+            authenticationRequired: yes
+            destructive: no
+            behavior: 'default'
+      - name: pillone
+        identifier: 'pillone'
+        actions:
+          - identifier: 'OFF_PILLONE'
+            title: 'Took it'
+            activationMode: 'background'
+            authenticationRequired: yes
+            destructive: yes
+            behavior: 'default'
+          - identifier: 'ON_PILLONE'
+            title: 'Later'
+            activationMode: 'background'
+            authenticationRequired: yes
+            destructive: no
+            behavior: 'default'
+      - name: pilltwo
+        identifier: 'pilltwo'
+        actions:
+          - identifier: 'OFF_PILLTWO'
+            title: 'Took it'
+            activationMode: 'background'
+            authenticationRequired: yes
+            destructive: yes
+            behavior: 'default'
+          - identifier: 'ON_PILLTWO'
+            title: 'Later'
+            activationMode: 'background'
+            authenticationRequired: yes
+            destructive: no
+            behavior: 'default'
+      - name: pillthree
+        identifier: 'pillthree'
+        actions:
+          - identifier: 'OFF_PILLTHREE'
+            title: 'Took it'
+            activationMode: 'background'
+            authenticationRequired: yes
+            destructive: yes
+            behavior: 'default'
+          - identifier: 'ON_PILLTHREE'
+            title: 'Later'
+            activationMode: 'background'
+            authenticationRequired: yes
+            destructive: no
+            behavior: 'default'
+      - name: breakfast
+        identifier: 'breakfast'
+        actions:
+          - identifier: 'OFF_BREAKFAST'
+            title: 'OK'
+            activationMode: 'background'
+            authenticationRequired: yes
+            destructive: yes
+            behavior: 'default'
+          - identifier: 'ON_BREAKFAST'
+            title: 'Later'
+            activationMode: 'background'
+            authenticationRequired: yes
+            destructive: no
+            behavior: 'default'
+      - name: iostest
+        identifier: 'iostest'
+        actions:
+          - identifier: 'OFF_IOSTEST'
+            title: 'OK'
+            activationMode: 'background'
+            authenticationRequired: yes
+            destructive: yes
+            behavior: 'default'
+          - identifier: 'ON_IOSTEST'
+            title: 'Later'
+            activationMode: 'background'
+            authenticationRequired: yes
+            destructive: no
+            behavior: 'default'
+  

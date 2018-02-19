@@ -1,0 +1,76 @@
+  pill_one_taken:
+    name: Thyroid
+    icon: mdi:checkbox-marked-circle-outline
+  pill_two_taken:
+    name: Skin Morning
+    icon: mdi:checkbox-marked-circle-outline
+  pill_three_taken:
+    name: Skin Night
+    icon: mdi:checkbox-marked-circle-outline
+  pill_stop:
+    name: Pill Stop
+    icon: mdi:alarm-off
+  pill_one:
+    name: Thyroid
+    icon: mdi:pill
+  pill_two:
+    name: Skin Morning
+    icon: mdi:pill
+  pill_three:
+    name: Skin Night
+    icon: mdi:pill
+  pill_one_sent:
+    name: Thyroid
+    icon: mdi:telegram
+  pill_two_sent:
+    name: Skin Morning
+    icon: mdi:telegram
+  pill_three_sent:
+    name: Skin Evening
+    icon: mdi:telegram
+  breakfast_time:
+    name: Breakfast
+    icon: mdi:food-variant
+#
+#
+#
+  night_mode:
+    name: Night Mode
+    icon: mdi:sleep
+  on_vaca:
+    name: On Vacation
+    icon: mdi:airplane
+  bulb_wc_green:
+    name: WC Green
+    icon: mdi:lightbulb
+  bulb_br_shower_green:
+    name: BR Shower Green
+    icon: mdi:lightbulb
+#
+# use these these when i need a place holder in an automation trigger  see bathroom-lights.yaml
+#
+  always_off:
+    name: Always off
+    initial: off
+  always_on:
+    name: Always on
+    initial: on
+
+# never used these yet just hate to delete
+  wfh_mon:
+    name: WFH Monday
+    icon: mdi:lightbulb
+  wfh_tue:
+    name: WFH Tuesday
+    icon: mdi:lightbulb
+  wfh_wed:
+    name: WFH Wednesday
+    icon: mdi:lightbulb
+  wfh_thu:
+    name: WFH Thursday
+    icon: mdi:lightbulb
+  wfh_fri:
+    name: WFH Friday
+    icon: mdi:lightbulb
+
+  alarm_clock_status:

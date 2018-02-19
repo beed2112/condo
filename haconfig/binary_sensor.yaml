@@ -1,0 +1,12 @@
+  - platform: mqtt
+    name: "OpenMQTTGateway"
+    state_topic: "home/OpenMQTTGateway/LWT"
+    payload_on: "Online"
+    payload_off: "Offline"
+    device_class: "connectivity"
+  - platform: mqtt
+    name: "OpenMQTTGateway2"
+    state_topic: "home/OpenMQTTGateway2/LWT"
+    payload_on: "Online"
+    payload_off: "Offline"
+    device_class: "connectivity"

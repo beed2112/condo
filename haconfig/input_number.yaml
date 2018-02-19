@@ -1,0 +1,29 @@
+  alarm_clock_hour:
+    min: 0
+    max: 23
+    step: 1
+
+  alarm_clock_minute:
+    min: 0
+    max: 58
+    step: 2
+
+  wind_speed_threshold:
+    min: -1
+    max: 25
+    step: 1
+
+  mclight_animation_speed:
+    name: McLight Animation Speed
+    initial: 200
+    min: 1
+    max: 255
+    step: 1
+
+  mclight_brightness:
+    name: McLight Brightness
+    initial: 200
+    min: 1
+    max: 255
+    step: 1
+

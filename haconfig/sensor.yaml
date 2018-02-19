@@ -1,0 +1,883 @@
+  - platform: fail2ban
+    jails:
+      - sshd
+      - hass-iptables
+        #file path: /var/log/fail2ban.log
+    scan_interval: 60
+    file path: /var/log/fail2ban.log
+###------------------------------------Open MQTT GW --------------------------------------
+
+  - platform: mqtt
+    name: "MQTT RF Temperature"
+    state_topic: "home/DHTtoMQTT/dht1/temp"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | round(2)  }}'
+
+  - platform: mqtt
+    name: "MQTT RF Humidity"
+    state_topic: "home/DHTtoMQTT/dht1/hum"
+    unit_of_measurement: "%"
+    value_template: '{{ value | round(2)  }}'
+
+  - platform: mqtt
+    name: "MQTT RF Temperature2"
+    state_topic: "home/OpenMQTTGateway2/dht1/temp"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | round(2)  }}'
+
+  - platform: mqtt
+    name: "MQTT RF Humidity2"
+    state_topic: "home/OpenMQTTGateway2/dht1/hum"
+    unit_of_measurement: "%"
+    value_template: '{{ value | round(2)  }}'
+
+###---------------------------------------------------------------------------
+
+
+
+
+###------------------------------------Random --------------------------------------
+## generate random times for different parts of the day
+## using 10 minutes as the starting minute to make like easy
+## 86400 seconds in 24 hours
+ 
+  - platform: random
+    name: random_late_nite_hh
+    minimum: 00
+    maximum: 3
+    scan_interval: 86399
+    
+  - platform: random
+    name: random_late_nite_mm
+    minimum: 0
+    maximum: 59
+    scan_interval: 86399
+
+  - platform: random
+    name: random_late_nite_Duration
+    minimum: 5
+    maximum: 59
+    scan_interval: 86399
+ ###----
+ 
+  - platform: random
+    name: random_evening_hh
+    minimum: 16
+    maximum: 23
+    scan_interval: 86399
+    
+  - platform: random
+    name: random_evening_mm
+    minimum: 0
+    maximum: 59
+    scan_interval: 86399
+
+  - platform: random
+    name: random_evening_Duration
+    minimum: 5
+    maximum: 59
+    scan_interval: 86399
+###----
+  - platform: random
+    name: random_afternoon_hh
+    minimum: 12
+    maximum: 16
+    scan_interval: 86399
+    
+  - platform: random
+    name: random_afternoon_mm
+    minimum: 0
+    maximum: 59
+    scan_interval: 86399
+
+  - platform: random
+    name: random_afternoon_Duration
+    minimum: 5
+    maximum: 59
+    scan_interval: 86399
+###----
+
+  - platform: random
+    name: random_morning_hh
+    minimum: 07
+    maximum: 11
+    scan_interval: 86399
+
+  - platform: random
+    name: random_morning_mm
+    minimum: 0
+    maximum: 59
+    scan_interval: 86399
+
+  - platform: random
+    name: random_morning_Duration
+    minimum: 5
+    maximum: 59
+    scan_interval: 86399
+###----
+
+  - platform: random
+    name: random_early_morning_hh
+    minimum: 04
+    maximum: 06
+    scan_interval: 86399
+
+  - platform: random
+    name: random_early_morning_mm
+    minimum: 00
+    maximum: 59
+    scan_interval: 86399
+
+  - platform: random
+    name: random_early_morning_Duration
+    minimum: 5
+    maximum: 59
+    scan_interval: 86399
+###----
+###------------------------------------command_line begin  --------------------------------------
+  - platform: command_line
+    name: furnacefilter
+    scan_interval: 10800
+    command: "cat /home/homeassistant/.homeassistant/cmds/dash-furnacefilter.sensor"
+  - platform: command_line
+    name: SSL cert expiry
+    unit_of_measurement: days
+    scan_interval: 10800
+    command: "sudo ssl-cert-check -b -c /etc/letsencrypt/live/beedaz.duckdns.org/fullchain.pem | awk '{ print $NF }'"
+  - platform: command_line
+    name: mmj mike expire
+    scan_interval: 10800
+    command: "cat /home/homeassistant/.homeassistant/cmds/mikemmj"
+  - platform: command_line
+    name: azns sale
+    # scan_interval: 3600
+    command: "cat /home/homeassistant/.homeassistant/cmds/aznssale.txt"
+  - platform: command_line
+    name: azns check
+    # scan_interval: 3600
+    command: "/home/homeassistant/.homeassistant/cmds/azns.sh"
+  - platform: command_line
+    name: azns strains
+    # scan_interval: 3600
+    command: "cat /home/homeassistant/.homeassistant/cmds/aznsstrains.txt"
+  - platform: command_line
+    name: lr tv status
+    scan_interval: 5
+    command: "cat /home/homeassistant/.homeassistant/cmds/lr_tv.sensor"
+  - platform: command_line
+    name: wclightdash
+    scan_interval: 5
+    command: "cat /home/homeassistant/.homeassistant/cmds/dash-wclight.sensor"
+  - platform: command_line
+    name: melodiedash
+    scan_interval: 5
+    command: "cat /home/homeassistant/.homeassistant/cmds/dash-melodie.sensor"
+##-- homeassistant process information
+  - platform: command_line
+    name: ha_stat_percent_cpu
+    scan_interval: 300
+    unit_of_measurement: percent
+    command: "cat /home/homeassistant/.homeassistant/cmds/ha-cpu.sensor"
+  - platform: command_line
+    name: ha_stat_percent_memory
+    scan_interval: 300
+    unit_of_measurement: percent
+    command: "cat /home/homeassistant/.homeassistant/cmds/ha-mem.sensor"
+  - platform: command_line
+    name: ha_stat_virtual_mem
+    scan_interval: 300
+    unit_of_measurement: KB
+    command: "cat /home/homeassistant/.homeassistant/cmds/ha-vsz.sensor"
+    
+#
+###------------------------------------command_line end --------------------------------------
+
+
+###---------------------------------------------------------------Daily History Stats Begin
+  - platform: history_stats
+    name: patio on today
+    entity_id: switch.esp
+    state: 'on'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+  - platform: history_stats
+    name: Melodie Nighstand Light ON today
+    entity_id: switch.melodie_nightstand_
+    state: 'on'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+  - platform: history_stats
+    name: Router Fan ON today
+    entity_id: switch.router_fan
+    state: 'on'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+  - platform: history_stats
+    name: BR Ceiling Fan ON today
+    entity_id: switch.br_ceiling_fan
+    state: 'on'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+  - platform: history_stats
+    name: BR Switch ON today
+    entity_id: switch.br_switch
+    state: 'on'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+  - platform: history_stats
+    name: Coffee Pot ON today
+    entity_id: switch.coffee
+    state: 'on'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+  - platform: history_stats
+    name: Kitchen wax Heater ON today
+    entity_id: switch.kitchen_wax_heater
+    state: 'on'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+  - platform: history_stats
+    name: LR Ceiling Fan ON today
+    entity_id: switch.lr_ceiling_fan
+    state: 'on'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+  - platform: history_stats
+    name: LR Light ON today
+    entity_id: switch.lr_light
+    state: 'on'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+  - platform: history_stats
+    name: LR Switch ON today
+    entity_id: switch.lr_switch
+    state: 'on'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+  - platform: history_stats
+    name: Nest ON today
+    entity_id: binary_sensor.arizona_thermostat_arizona_fan
+    state: 'on'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+#-----------------------------------------------------------------Weekly History Stats Begin
+  - platform: history_stats
+    name: Melodie Nighstand Light ON Week
+    entity_id: switch.melodie_nightstand_
+    state: 'on'
+    type: time
+    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    duration:
+      days: 7
+  - platform: history_stats
+    name: Router Fan ON Week
+    entity_id: switch.router_fan
+    state: 'on'
+    type: time
+    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    duration:
+      days: 7
+  - platform: history_stats
+    name: BR Ceiling Fan ON Week
+    entity_id: switch.br_ceiling_fan
+    state: 'on'
+    type: time
+    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    duration:
+      days: 7
+  - platform: history_stats
+    name: BR Switch ON Week
+    entity_id: switch.br_switch
+    state: 'on'
+    type: time
+    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    duration:
+      days: 7
+  - platform: history_stats
+    name: Coffee Pot ON Week
+    entity_id: switch.coffee
+    state: 'on'
+    type: time
+    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    duration:
+      days: 7
+  - platform: history_stats
+    name: Kitchen wax Heater ON Week
+    entity_id: switch.kitchen_wax_heater
+    state: 'on'
+    type: time
+    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    duration:
+      days: 7
+  - platform: history_stats
+    name: LR Ceiling Fan ON Week
+    entity_id: switch.lr_ceiling_fan
+    state: 'on'
+    type: time
+    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    duration:
+      days: 7
+  - platform: history_stats
+    name: LR Light ON Week
+    entity_id: switch.lr_light
+    state: 'on'
+    type: time
+    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    duration:
+      days: 7
+  - platform: history_stats
+    name: LR Switch ON Week
+    entity_id: switch.lr_switch
+    state: 'on'
+    type: time
+    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    duration:
+      days: 7
+  - platform: history_stats
+    name: Nest ON Week
+    entity_id: binary_sensor.arizona_thermostat_arizona_fan
+    state: 'on'
+    type: time
+    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    duration:
+      days: 7
+#-----------------------------------------------------------------Last 30 History Stats Begin
+  - platform: history_stats
+    name: Melodie Nighstand Light ON Last 30
+    entity_id: switch.melodie_nightstand_
+    state: 'on'
+    type: time
+    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    duration:
+      days: 30
+  - platform: history_stats
+    name: Router Fan ON Last 30
+    entity_id: switch.router_fan
+    state: 'on'
+    type: time
+    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    duration:
+      days: 30
+  - platform: history_stats
+    name: BR Ceiling Fan ON Last 30
+    entity_id: switch.br_ceiling_fan
+    state: 'on'
+    type: time
+    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    duration:
+      days: 30
+  - platform: history_stats
+    name: BR Switch ON Last 30
+    entity_id: switch.br_switch
+    state: 'on'
+    type: time
+    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    duration:
+      days: 30
+  - platform: history_stats
+    name: Coffee Pot ON Last 30
+    entity_id: switch.coffee
+    state: 'on'
+    type: time
+    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    duration:
+      days: 30
+  - platform: history_stats
+    name: Kitchen wax Heater ON Last 30
+    entity_id: switch.kitchen_wax_heater
+    state: 'on'
+    type: time
+    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    duration:
+      days: 30
+  - platform: history_stats
+    name: LR Ceiling Fan ON Last 30
+    entity_id: switch.lr_ceiling_fan
+    state: 'on'
+    type: time
+    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    duration:
+      days: 30
+  - platform: history_stats
+    name: LR Light ON Last 30
+    entity_id: switch.lr_light
+    state: 'on'
+    type: time
+    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    duration:
+      days: 30
+  - platform: history_stats
+    name: LR Switch ON Last 30
+    entity_id: switch.lr_switch
+    state: 'on'
+    type: time
+    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    duration:
+      days: 30
+  - platform: history_stats
+    name: Nest ON Last 30
+    entity_id: binary_sensor.arizona_thermostat_arizona_fan
+    state: 'on'
+    type: time
+    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    duration:
+      days: 30
+#-----------------------------------------------------------------History Stats  End
+
+    
+###------------------------------------------------------gtt start ---------------
+
+  - platform: google_travel_time
+    display_options:
+      - 'friendly_name'
+      - 'distance'
+      - 'duration'
+    name: GTT Home To SF
+    api_key: !secret gtt_api_key
+    origin: zone.home
+    destination: 400 E Rio Salado Pkwy, Tempe, AZ 85281
+  - platform: google_travel_time
+    display_options:
+      - 'friendly_name'
+      - 'distance'
+      - 'duration'
+    name: GTT SF To Home
+    api_key: !secret gtt_api_key
+    origin: 400 E Rio Salado Pkwy, Tempe, AZ 85281
+    destination: zone.home
+  - platform: google_travel_time
+    display_options:
+      - 'friendly_name'
+      - 'distance'
+      - 'duration'
+    name: GTT Sky Harbor To Home
+    api_key: !secret gtt_api_key
+    origin: 15 E Sky Harbor Blvd, Phoenix, AZ 85034
+    destination: zone.home
+  - platform: google_travel_time
+    display_options:
+      - 'friendly_name'
+      - 'distance'
+      - 'duration'
+    name: GTT Home To Sky Harbor
+    api_key: !secret gtt_api_key
+    origin: zone.home
+    destination: 15 E Sky Harbor Blvd, Phoenix, AZ 85034
+  - platform: google_travel_time
+    display_options:
+      - 'friendly_name'
+      - 'distance'
+      - 'duration'
+    name: GTT North I17 to I10
+    api_key: !secret gtt_api_key
+    origin: 33.668251, -112.113230
+    destination: 33.464457, -112.109168
+  - platform: google_travel_time
+    display_options:
+      - 'friendly_name'
+      - 'distance'
+      - 'duration'
+    name: GTT South I10 to I17
+    api_key: !secret gtt_api_key
+    origin: 33.464457, -112.109168
+    destination: 33.668251, -112.113230
+  - platform: google_travel_time
+    display_options:
+      - 'friendly_name'
+      - 'distance'
+      - 'duration'
+    name: GTT Home to Mesa Gateway
+    api_key: !secret gtt_api_key
+    origin: zone.home
+    destination: 33.308644, -111.658907
+  - platform: google_travel_time
+    display_options:
+      - 'friendly_name'
+      - 'distance'
+      - 'duration'
+    name: GTT Mesa Gateway to Home
+    api_key: !secret gtt_api_key
+    origin: 33.308644, -111.658907
+    destination: zone.home
+  - platform: google_travel_time
+    display_options:
+      - 'friendly_name'
+      - 'distance'
+      - 'duration'
+    name: GTT Home to Tanger Westgate
+    api_key: !secret gtt_api_key
+    origin: zone.home
+    destination: 33.533748, -112.266716
+  - platform: google_travel_time
+    display_options:
+      - 'friendly_name'
+      - 'distance'
+      - 'duration'
+    name: GTT Tanger Westgate to Home
+    api_key: !secret gtt_api_key
+    origin: 33.533748, -112.266716
+    destination: zone.home
+  - platform: google_travel_time
+    display_options:
+      - 'friendly_name'
+      - 'distance'
+      - 'duration'
+    name: GTT Home to Apartment
+    api_key: !secret gtt_api_key2
+    origin: zone.home
+    destination: 41.449719, -90.538609
+
+###------------------------------------------------------gtt end ---------------
+
+###------------------------------------------------------weather  ---------------
+
+  - platform: wunderground
+    api_key: !secret wu_api_key
+    monitored_conditions:
+      - alerts
+      - dewpoint_f
+      - dewpoint_string
+      - feelslike_f
+      - feelslike_string
+      - heat_index_f
+      - heat_index_string
+      - elevation
+      - location
+      - observation_time
+      - precip_1hr_in
+      - precip_1hr_string
+      - precip_today_in
+      - precip_today_string
+      - pressure_in
+      - pressure_trend
+      - relative_humidity
+      - station_id
+      - solarradiation
+      - temperature_string
+      - temp_f
+      - UV
+      - visibility_mi
+      - weather
+      - wind_degrees
+      - wind_dir
+      - wind_gust_mph
+      - wind_mph
+      - wind_string
+      
+###------------------------------------------------------systemmonitor  ---------------
+
+  - platform: systemmonitor
+    resources:
+      - type: disk_use_percent
+        arg: /
+      - type: disk_use_percent
+        arg: /var/log
+      - type: memory_use_percent
+      - type: memory_use
+      - type: memory_free
+      - type: processor_use
+      - type: swap_use_percent
+      - type: swap_use
+      - type: swap_free
+      - type: last_boot
+      - type: since_last_boot
+      - type: network_in
+        arg: eth0
+      - type: network_out
+        arg: eth0
+      - type: packets_in
+        arg: eth0
+      - type: packets_out
+        arg: eth0
+      - type: ipv4_address
+        arg: eth0
+      - type: ipv6_address
+        arg: eth0
+      - type: network_in
+        arg: eth1
+      - type: network_out
+        arg: eth1
+      - type: packets_in
+        arg: eth1
+      - type: packets_out
+        arg: eth1
+      - type: ipv4_address
+        arg: eth1
+      - type: ipv6_address
+        arg: eth1
+
+###------------------------------------------------------time_date  ---------------
+
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+      - 'date_time'
+      - 'time_date'
+      - 'time_utc'
+      
+###------------------------------------------------------template  ---------------
+  - platform: template
+    sensors:
+    
+###------------------------------------------------------weather start ---------------
+      weather_update_time:
+        value_template: '{{ states.sensor.pws_observation_time.state | replace("Last Updated on ", "") }}'
+      
+      weather_alert:
+        # value_template: '{{states.sensor.pws_alerts.attributes.Message |replace ("\n", " ") | truncate(250)}}'
+        value_template: '{{states.sensor.pws_alerts.attributes.Message |replace ("\n", " ") }}'
+      weather_alert_description:
+        value_template: '{{states.sensor.pws_alerts.attributes.Description }}'
+      weather_alert_expires:
+        value_template: '{{states.sensor.pws_alerts.attributes.Expires }}'
+
+###------------------------------------------------------weather end ---------------
+
+###------------------------------------------------------alarm clock start  ---------------
+      alarm_clock_hour:
+        value_template: '{{ states.input_number.alarm_clock_hour.state | int }}'
+      alarm_clock_minute:
+        value_template: '{{ states.input_number.alarm_clock_minute.state | int }}'
+      alarm_clock_time:
+        value_template: >-
+          {{ states.sensor.alarm_clock_hour.state }}:
+          {%- if states.sensor.alarm_clock_minute.state|length == 1 -%}
+            0
+          {%- endif -%}
+            {{ states.sensor.alarm_clock_minute.state }}
+      alarm_clock_time_long:
+        value_template: >-
+          {% if states.sensor.alarm_clock_hour.state|length == 1 -%}
+            0
+          {%- endif -%}
+            {{ states.sensor.alarm_clock_hour.state }}:
+          {%- if states.sensor.alarm_clock_minute.state|length == 1 -%}
+            0
+          {%- endif -%}
+            {{ states.sensor.alarm_clock_minute.state }}
+
+###------------------------------------------------------alarm clock end  ---------------
+###------------------------------------Random --------------------------------------
+
+      random_late_nite_time:
+#        value_template: '{{ states.sensor.random_late_nite_hh.state }}:{{ states.sensor.random_late_nite_mm.state }}'
+        value_template: >
+          {% if states.sensor.random_late_nite_hh.state | length == 1 -%}
+            0{{states.sensor.random_late_nite_hh.state}}:
+          {%- else -%}
+            {{states.sensor.random_late_nite_hh.state}}:
+          {%- endif %}
+          {% if states.sensor.random_late_nite_mm.state | length == 1 -%}
+            0{{states.sensor.random_late_nite_mm.state}}
+          {%- else -%}
+            {{states.sensor.random_late_nite_mm.state}}
+          {%- endif %}
+      random_evening_time:
+#        value_template: '{{ states.sensor.random_evening_hh.state }}:{{ states.sensor.random_evening_mm.state }}'
+        value_template: >
+          {% if states.sensor.random_evening_hh.state | length == 1 -%}
+            0{{states.sensor.random_evening_hh.state}}:
+          {%- else -%}
+            {{states.sensor.random_evening_hh.state}}:
+          {%- endif %}
+          {% if states.sensor.random_evening_mm.state | length == 1 -%}
+            0{{states.sensor.random_evening_mm.state}}
+          {%- else -%}
+            {{states.sensor.random_evening_mm.state}}
+          {%- endif %}
+      random_afternoon_time:
+#        value_template: '{{ states.sensor.random_afternoon_hh.state }}:{{ states.sensor.random_afternoon_mm.state }}'
+        value_template: >
+          {% if states.sensor.random_afternoon_hh.state | length == 1 -%}
+            0{{states.sensor.random_afternoon_hh.state}}:
+          {%- else -%}
+            {{states.sensor.random_afternoon_hh.state}}:
+          {%- endif %}
+          {% if states.sensor.random_afternoon_mm.state | length == 1 -%}
+            0{{states.sensor.random_afternoon_mm.state}}
+          {%- else -%}
+            {{states.sensor.random_afternoon_mm.state}}
+          {%- endif %}
+      random_morning_time:
+#        value_template: '{{ states.sensor.random_morning_hh.state }}:{{ states.sensor.random_morning_mm.state }}'
+        value_template: >
+          {% if states.sensor.random_morning_hh.state | length == 1 -%}
+            0{{states.sensor.random_morning_hh.state}}:
+          {%- else -%}
+            {{states.sensor.random_morning_hh.state}}:
+          {%- endif %}
+          {% if states.sensor.random_morning_mm.state | length == 1 -%}
+            0{{states.sensor.random_morning_mm.state}}
+          {%- else -%}
+            {{states.sensor.random_morning_mm.state}}
+          {%- endif %}
+      random_early_morning_time:
+        value_template: >
+          {% if states.sensor.random_early_morning_hh.state | length == 1 -%}
+            0{{states.sensor.random_early_morning_hh.state}}:
+          {%- else -%}
+            {{states.sensor.random_early_morning_hh.state}}:
+          {%- endif %}
+          {% if states.sensor.random_early_morning_mm.state | length == 1 -%}
+            0{{states.sensor.random_early_morning_mm.state}}
+          {%- else -%}
+            {{states.sensor.random_early_morning_mm.state}}
+          {%- endif %}
+        
+          
+###------------------------------------------------------sun start  ---------------
+# Sun attribites
+      sun_sunset_time:
+        value_template: '{{ as_timestamp(states.sun.sun.attributes.next_setting)  | timestamp_custom("%H:%M") }}'
+      sun_sunrise_time:
+        value_template: '{{ as_timestamp(states.sun.sun.attributes.next_rising)  | timestamp_custom("%H:%M") }}'
+      sun_dusk_time:
+        value_template: '{{ as_timestamp(states.sun.sun.attributes.next_dusk)  | timestamp_custom("%H:%M") }}'
+      sun_dawn_time:
+        value_template: '{{ as_timestamp(states.sun.sun.attributes.next_dawn)  | timestamp_custom("%H:%M") }}'
+      sun_elevation:
+        value_template: '{{ states.sun.sun.attributes.elevation   }}'
+      sun_azimuth:
+        value_template: '{{ states.sun.sun.attributes.azimuth  }}'
+
+###------------------------------------------------------sun end  ---------------
+
+###------------------------------------------------------gtt start ---------------
+
+      # get the drive time from the gtt container
+      duration_home_to_sf:
+        value_template: >
+          {% if states.sensor.gtt_home_to_sf.state %}
+            {{ states.sensor.gtt_home_to_sf.attributes.duration_in_traffic.split(' ')[0] | int }}
+          {% else %}
+            0
+          {% endif %}
+#        entity_id: sensor.gtt_home_to_sf
+        unit_of_measurement: 'min'
+      duration_sf_to_home:
+        value_template: >
+          {% if states.sensor.gtt_sf_to_home.state %}
+            {{ states.sensor.gtt_sf_to_home.attributes.duration_in_traffic.split(' ')[0] | int }}
+          {% else %}
+            0
+          {% endif %}
+#        entity_id: sensor.gtt_sf_to_home
+        unit_of_measurement: 'min'
+      duration_home_to_sky_harbor:
+        value_template: >
+          {% if states.sensor.gtt_home_to_sky_harbor.state %}
+            {{ states.sensor.gtt_home_to_sky_harbor.attributes.duration_in_traffic.split(' ')[0] | int }}
+          {% else %}
+            0
+          {% endif %}
+#        entity_id: sensor.gtt_home_to_sky_harbor
+        unit_of_measurement: 'min'
+      duration_sky_harbor_to_home:
+        value_template: >
+          {% if states.sensor.gtt_sky_harbor_to_home.state %}
+            {{ states.sensor.gtt_sky_harbor_to_home.attributes.duration_in_traffic.split(' ')[0] | int }}
+          {% else %}
+            0
+          {% endif %}
+#        entity_id: sensor.gtt_sky_harbor_to_home
+        unit_of_measurement: 'min'
+      duration_north_i17_to_i10:
+        value_template: >
+          {% if states.sensor.gtt_north_i17_to_i10.state %}
+            {{ states.sensor.gtt_north_i17_to_i10.attributes.duration_in_traffic.split(' ')[0] | int }}
+          {% else %}
+            0
+          {% endif %}
+#        entity_id: sensor.gtt_north_i17_to_i10
+        unit_of_measurement: 'min'
+      duration_south_i10_to_i17:
+        value_template: >
+          {% if states.sensor.gtt_south_i10_to_i17.state %}
+            {{ states.sensor.gtt_south_i10_to_i17.attributes.duration_in_traffic.split(' ')[0] | int }}
+          {% else %}
+            0
+          {% endif %}
+# entity_id: sensor.gtt_south_i10_to_i17
+        unit_of_measurement: 'min'
+      # get the drive time from the gtt container
+      duration_home_to_mesa_gateway:
+        value_template: >
+          {% if states.sensor.gtt_home_to_mesa_gateway.state %}
+            {{ states.sensor.gtt_home_to_mesa_gateway.attributes.duration_in_traffic.split(' ')[0] | int }}
+          {% else %}
+            0
+          {% endif %}
+#        entity_id: sensor.gtt_home_to_mesa_gateway
+        unit_of_measurement: 'min'
+      # get the drive time from the gtt container
+      duration_home_to_tanger:
+        value_template: >
+          {% if states.sensor.gtt_home_to_tanger_westgate.state %}
+            {{ states.sensor.gtt_home_to_tanger_westgate.attributes.duration_in_traffic.split(' ')[0] | int }}
+          {% else %}
+            0
+          {% endif %}
+#        entity_id: sensor.gtt_home_to_tanger_westgate
+        unit_of_measurement: 'min'
+      # get the drive time from the gtt container
+      duration_mesa_gateway_to_home:
+        value_template: >
+          {% if states.sensor.gtt_mesa_gateway_to_home.state %}
+            {{ states.sensor.gtt_mesa_gateway_to_home.attributes.duration_in_traffic.split(' ')[0] | int }}
+          {% else %}
+            0
+          {% endif %}
+#        entity_id: sensor.gtt_mesa_gateway_to_home
+        unit_of_measurement: 'min'
+      # get the drive time from the gtt container
+      duration_tanger_westgate_to_home:
+        value_template: >
+          {% if states.sensor.gtt_tanger_westgate_to_home.state %}
+            {{ states.sensor.gtt_tanger_westgate_to_home.attributes.duration_in_traffic.split(' ')[0] | int }}
+          {% else %}
+            0
+          {% endif %}
+#        entity_id: sensor.gtt_tanger_westgate_to_home
+        unit_of_measurement: 'min'
+      # get the drive time from the gtt container
+      duration_home_to_apt:
+        value_template: >
+          {% if states.sensor.gtt_home_to_apartment.state %}
+            {{ states.sensor.gtt_home_to_apartment.state | multiply(0.016) }}
+          {% else %}
+            0
+          {% endif %}
+# entity_id: sensor.gtt_home_to_apartment
+        unit_of_measurement: 'hrs'
+
+###------------------------------------------------------gtt end  ---------------
+
+
+###-----------------------------------------------------somfy windthreshold---------------
+
+      wind_speed_threshold:
+        value_template: '{{ states.input_number.wind_speed_threshold.state | int }}'
+        
+      
+      
+      pill_one_taken:
+        value_template: '{{ as_timestamp(states.automation.pill_p_1_taken.attributes.last_triggered) | timestamp_custom("%D %H:%M")}}'
+  
+  
+      pill_two_taken:
+        value_template: '{{ as_timestamp(states.automation.pill_2_taken.attributes.last_triggered) | timestamp_custom("%D %H:%M")}}'
+  
+      pill_three_taken:
+        value_template: '{{ as_timestamp(states.automation.pill_3_taken.attributes.last_triggered) | timestamp_custom("%D %H:%M")}}'
