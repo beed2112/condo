@@ -1,0 +1,90 @@
+ ####  Test automations with ios notify melodie phone
+#-autodoc
+#-autodoc        name: yy ios notify test off melodie
+#-autodoc description: test automation ..
+#-autodoc        file: test-ios.yaml
+#-autodoc
+- alias: 'yy ios notify test off melodie'
+  trigger:
+    platform: state
+    entity_id: input_boolean.on_vaca
+    to: 'off'
+  action:
+    service: notify.ios_iphone_melodie_personal
+    data:
+        message: "Test message"
+        data:
+          push:
+            category: "iostest" # Needs to match the top level identifier you used in the ios configuration
+          action_data: # Anything passed in action_data will get echoed back to Home Assistant.
+            entity_id: input_boolean.pill_one
+            my_custom_data: foo_bar
+          
+#################################################################
+####  Test automations with ios notify
+#-autodoc
+#-autodoc        name: yy ios notify test on mike phone
+#-autodoc description: test automation ..
+#-autodoc        file: test-ios.yaml
+#-autodoc
+- alias: 'yy ios notify test on mike phone '
+  trigger:
+    platform: state
+    entity_id: input_boolean.on_vaca
+    to: 'on'
+  action:
+    service: notify.ios_michaels_iphone
+    data:
+        message: "Test message"
+        data:
+          push:
+            category: "iostest" # Needs to match the top level identifier you used in the ios configuration
+          action_data: # Anything passed in action_data will get echoed back to Home Assistant.
+            entity_id: input_boolean.pill_one
+            my_custom_data: foo_bar
+            
+#-autodoc
+#-autodoc        name: yy ios notify test on mike ipad
+#-autodoc description: test automation ..
+#-autodoc        file: test-ios.yaml
+#-autodoc
+- alias: 'yy ios notify test on mike ipad '
+  trigger:
+    platform: state
+    entity_id: input_boolean.on_vaca
+    to: 'on'
+  action:
+    service: notify.ios_mike_ipad
+    data:
+        message: "Test message"
+        data:
+          push:
+            category: "iostest" # Needs to match the top level identifier you used in the ios configuration
+          action_data: # Anything passed in action_data will get echoed back to Home Assistant.
+            entity_id: input_boolean.pill_one
+            my_custom_data: foo_bar
+
+
+
+
+#-autodoc
+#-autodoc        name: syslog
+#-autodoc description: test automation ..
+#-autodoc        file: test-ios.yaml
+#-autodoc
+- alias: 'syslog  '
+  trigger:
+    platform: event
+    event_type: call_service
+    event_data:
+      domain: notify
+      service: syslog
+      message: '2112'
+  action:
+   - service: persistent_notification.create
+     data_template:
+       message: '{{states.sensor.date__time.state}} Message:2112 - {{trigger.event.data["service_data"]}}'
+       title: "Syslog Test"
+        
+# call_service|{"domain": "notify", "service": "syslog", "service_data": {"message": "this is the massage"}, "service_call_id": "1967758832-30"}
+

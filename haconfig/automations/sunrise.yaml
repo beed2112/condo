@@ -1,0 +1,39 @@
+
+# Turn off Patio Light sunset group at (sunset + 1hr )
+#-autodoc
+#-autodoc        name: Patio CF Light Sunrise off
+#-autodoc description: Turn off the Paitio ceiling fan light at sunrise
+#-autodoc        file: sunrise.yaml
+#-autodoc
+- alias: 'Patio CF Light Sunrise off'
+  trigger:
+    platform: sun
+    # Possible values: sunset, sunrise
+    event: sunrise
+    # Optional time offset. +/-HH:MM:SS
+    # offset: '+00:03:00'
+  action:
+    - service: switch.turn_off
+      entity_id: switch.patiolight
+
+# check if furnace filter change time
+#-autodoc
+#-autodoc        name: zzz check furnace filter change date
+#-autodoc description: Check to see if it is time to change the furnace filter based on a date set at the last change.
+#-autodoc        file: sunrise.yaml
+#-autodoc
+- alias: 'zzz check furnace filter change date'
+  trigger:
+    platform: sun
+    # Possible values: sunset, sunrise
+    event: sunrise
+    # Optional time offset. +/-HH:MM:SS
+    # offset: '+00:03:00'
+  condition:
+    condition: template
+    value_template: '{{ states.sensor.date.state >= states.sensor.furnacefilter.state }}'
+  action:
+    service: persistent_notification.create
+    data:
+      message: "Furnace Filter"
+      title: "Time to change furnace filter"

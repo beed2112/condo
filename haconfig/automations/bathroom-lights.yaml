@@ -1,0 +1,241 @@
+
+#####------------------------------------------------------------------------------------#####
+##### This is all about the WC light                                                     #####
+##### Turn on when dash button is pressed                                                #####
+##### Since the outlet is switched we have to use automations to get the colors set      #####
+##### Using Good Night autotomation triggers/conditions to set light to red              #####
+##### if the switch is used in the morning will set it to white when we can talk to it   #####
+##### melodie's night stand light in the morning set To white when we can talk to it     #####
+#####------------------------------------------------------------------------------------#####
+
+
+#-autodoc
+#-autodoc        name: WC Light on color dash
+#-autodoc description: When WC dash buttons are pressed turn on WC light for 2 munutes and 30 seconds.
+#-autodoc        file: bathroom-lights.yaml
+#-autodoc
+
+- alias: 'WC Light on color dash '
+  trigger:
+    platform: state
+    entity_id: sensor.wclightdash
+    from: '0'
+    to: '1'
+  action:
+    - service: switch.turn_on
+      entity_id: switch.wc_light_switch
+    - wait_template: "{{ states.switch.wc_light_switch.state == 'on' }}"
+    # - service: light.lifx_set_state
+    #   data:
+    #     entity_id: light.masterwclight
+    #     # rgb_color: [0,100,0]
+    #     color_name: green
+    #     brightness: 100
+    - service: light.turn_on
+      data:
+        entity_id: light.masterwclight
+    - delay: 00:02:30
+    - service: light.turn_off
+      data:
+        entity_id: light.masterwclight
+    - service: switch.turn_off
+      entity_id: switch.wc_light_switch
+
+
+#####---------------------------------------------Change bulbs to green when night mode on    BEGIN---------#####
+#-autodoc
+#-autodoc        name: WC set green
+#-autodoc description: House goes into night mode set the light in the WC to green, light is turned off 30 seconds after color is set.
+#-autodoc        file: bathroom-lights.yaml
+#-autodoc
+
+- alias: 'WC set green'
+  trigger:
+    platform: state
+    entity_id: input_boolean.night_mode
+    from: 'off'
+    to: 'on'
+  action:
+    - service: switch.turn_on
+      entity_id: switch.wc_light_switch
+    - wait_template: "{{ states.light.masterwclight.state == 'on' }}"
+#    - delay: 00:02:30
+    - service: light.lifx_set_state
+      data:
+        entity_id: light.masterwclight
+        color_name: green
+        #rgb_color: [0,100,0]
+        brightness: 100
+    - delay: 00:00:30
+    - service: light.turn_off
+      data:
+        entity_id: light.masterwclight
+    - service: switch.turn_off
+      entity_id: switch.wc_light_switch
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.bulb_wc_green
+
+
+#-autodoc
+#-autodoc        name: Shower set green
+#-autodoc description: House goes into night mode set the light in the Master Shower to green, light is turned off 30 seconds after color is set.
+#-autodoc        file: bathroom-lights.yaml
+#-autodoc
+
+- alias: 'Shower set green'
+  trigger:
+    platform: state
+    entity_id: input_boolean.night_mode
+    from: 'off'
+    to: 'on'
+  action:
+    - service: switch.turn_on
+      entity_id: switch.br_shower
+#    - delay: 00:02:30
+    - wait_template: "{{ states.light.master_br_shower.state == 'on' }}"
+    - service: light.lifx_set_state
+      data:
+        entity_id: light.master_br_shower
+        color_name: green
+        #rgb_color: [0,100,0]
+        brightness: 100
+    - delay: 00:00:30
+    - service: light.turn_off
+      data:
+        entity_id: light.master_br_shower
+    - service: switch.turn_off
+      entity_id: switch.br_shower
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.bulb_br_shower_green
+#
+  
+  
+#####---------------------------------------------Change bulbs to green when night mode on    END ---------#####
+  
+    
+
+###------------------------------------------------Set bulbs to white when night mode goes off    BEGIN
+
+#-autodoc
+#-autodoc        name: WC set white
+#-autodoc description: House goes into day mode set the light in the WC to white, light is turned off 30 seconds after color is set.
+#-autodoc        file: bathroom-lights.yaml
+#-autodoc
+
+- alias: 'WC set to white'
+  trigger:
+    platform: state
+    entity_id: input_boolean.night_mode
+    from: 'on'
+    to: 'off'
+  action:
+    - service: switch.turn_on
+      entity_id: switch.wc_light_switch
+    - wait_template: "{{ states.light.masterwclight.state == 'on' }}"
+#    - delay: 00:02:30
+    - service: light.lifx_set_state
+      data:
+        entity_id: light.masterwclight
+        color_name: white
+        #rgb_color: [0,100,0]
+        brightness: 180
+    - delay: 00:00:30
+    - service: light.turn_off
+      data:
+        entity_id: light.masterwclight
+    - service: switch.turn_off
+      entity_id: switch.wc_light_switch
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.bulb_wc_green
+
+
+#-autodoc
+#-autodoc        name: Shower set to white
+#-autodoc description: When House goes into day mode set the light in the Master Shower to white, light is turned off 30 seconds after color is set.
+#-autodoc        file: bathroom-lights.yaml
+#-autodoc
+
+- alias: 'Shower set to white'
+  trigger:
+    platform: state
+    entity_id: input_boolean.night_mode
+    from: 'on'
+    to: 'off'
+  action:
+    - service: switch.turn_on
+      entity_id: switch.br_shower
+#    - delay: 00:02:30
+    - wait_template: "{{ states.light.master_br_shower.state == 'on' }}"
+    - service: light.lifx_set_state
+      data:
+        entity_id: light.master_br_shower
+        color_name: white
+        #rgb_color: [0,100,0]
+        brightness: 180
+    - delay: 00:00:30
+    - service: light.turn_off
+      data:
+        entity_id: light.master_br_shower
+    - service: switch.turn_off
+      entity_id: switch.br_shower
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.bulb_br_shower_green
+
+###------------------------------------------------Set bulbs to white when night mode goes off    END
+
+#-autodoc
+#-autodoc        name: WC Light reset to white - script
+#-autodoc description: Set both WC & Master Shower to white, this is called by stripts also present on the GUI.
+#-autodoc        file: bathroom-lights.yaml
+#-autodoc
+
+
+# this automation is called by script
+- alias: 'WC Light reset to white - script'
+#  initial_state: False
+  trigger:
+    platform: state
+    entity_id: input_boolean.always_on
+    from: 'on'
+    to: 'off'          #this should never happen ..
+  action:
+    - service: switch.turn_on
+      entity_id: switch.wc_light_switch
+    - service: switch.turn_on
+      entity_id: switch.br_shower
+    - wait_template: "{{ states.light.masterwclight.state == 'on' }}"
+    - service: light.lifx_set_state
+      data:
+        entity_id: light.masterwclight
+        color_name: white
+        brightness: 180
+    - service: light.turn_on
+      data:
+        entity_id: light.masterwclight
+    - wait_template: "{{ states.light.master_br_shower.state == 'on' }}"
+    - service: light.lifx_set_state
+      data:
+        entity_id: light.master_br_shower
+        color_name: white
+        brightness: 180
+    - service: light.turn_on
+      data:
+        entity_id: light.master_br_shower
+    - delay: 00:00:02
+    - service: switch.turn_off
+      entity_id: switch.wc_light_switch
+    - service: switch.turn_off
+      entity_id: switch.br_shower
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.bulb_wc_green
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.bulb_br_shower_green
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

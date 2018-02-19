@@ -1,0 +1,34 @@
+# Turn on stuff in sunset group at (sunset - 30min )
+#-autodoc
+#-autodoc        name: LR switch Sunset(-30) on
+#-autodoc description: Turn on the living room light plugged into the switched outlet and wemo outlet 30 minutes before sunset.
+#-autodoc        file: sunset.yaml
+#-autodoc
+- alias: 'LR switch Sunset(-30) on'
+  trigger:
+    platform: sun
+    event: sunset
+    offset: '-00:03:00'
+  action:
+    - service: switch.turn_on
+      entity_id:
+      - switch.lr_switch
+      - switch.lr_light
+
+
+#-autodoc
+#-autodoc        name: Patio CF Light Sunset  on
+#-autodoc description: Turn on the patio ceiling fan light sunset.
+#-autodoc        file: sunset.yaml
+#-autodoc
+- alias: 'Patio CF Light Sunset on'
+  trigger:
+    platform: sun
+    event: sunset
+  action:
+    - service: switch.turn_on
+      entity_id:
+      - switch.patio_outlet
+      - switch.lr_light
+
+

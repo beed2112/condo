@@ -1,0 +1,60 @@
+#-autodoc
+#-autodoc        name: Melodie nightstand ON dash
+#-autodoc description: When the nightstand stand button is pressed and sensor is on turn on the nightstand light - emulating a toggle switch
+#-autodoc        file: melodie-dash.yaml
+#-autodoc
+- alias: 'Melodie nightstand ON dash '
+  trigger:
+    platform: state
+    entity_id: sensor.melodiedash
+    from: '0'
+    to: '1'
+  action:
+    - service: switch.turn_on
+      entity_id: switch.melodie_nightstand_
+      
+#-autodoc
+#-autodoc        name: Melodie nightstand OFF dash
+#-autodoc description: When the nightstand stand button is pressed and sensor is off turn off the nightstand light - emulating a toggle switch
+#-autodoc        file: melodie-dash.yaml
+#-autodoc
+- alias: 'Melodie nightstand OFF dash '
+  trigger:
+    platform: state
+    entity_id: sensor.melodiedash
+    from: '1'
+    to: '0'
+  action:
+    - service: switch.turn_off
+      entity_id: switch.melodie_nightstand_
+
+#### Begin -Change the sensor used by the dash button so it always has current state of light
+#-autodoc
+#-autodoc        name: zzz Nightstand sensor to ON
+#-autodoc description: When the nightstand stand light is turned on update the sensor value so it has current status
+#-autodoc        file: melodie-dash.yaml
+#-autodoc
+- alias: 'zzz Nightstand sensor to ON'
+  trigger:
+    platform: state
+    entity_id: switch.melodie_nightstand_
+    from: 'off'
+    to: 'on'
+  action:
+    - service: shell_command.melodie_nightstand_on
+#-autodoc
+#-autodoc        name: zzz Nightstand sensor to OFF
+#-autodoc description: When the nightstand stand light is turned off update the sensor value so it has current status
+#-autodoc        file: melodie-dash.yaml
+#-autodoc
+- alias: 'zzz Nightstand sensor to OFF'
+  trigger:
+    platform: state
+    entity_id: switch.melodie_nightstand_
+    from: 'on'
+    to: 'off'
+  action:
+    - service: shell_command.melodie_nightstand_off
+
+
+#### End - Change the sensor used by the dash button so it always has current state of light

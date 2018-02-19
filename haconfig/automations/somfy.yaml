@@ -1,0 +1,27 @@
+#-autodoc
+#-autodoc        name: Raise Shade any wind  GE set threshold mph
+#-autodoc description: If the wind speed or a wind gust is above the set threshold value (set in interface) raise the runshade and put a notify on the GUI.
+#-autodoc        file: somfy.yaml
+#-autodoc
+- alias: 'Raise Shade any wind  GE set threshold mph'
+  trigger:
+    - platform: template
+      value_template: '{{ states.sensor.pws_wind_mph.state | int >= states.sensor.wind_speed_threshold.state | int }}'
+    - platform: template
+      value_template: '{{ states.sensor.pws_wind_gust_mph.state | int >= states.sensor.wind_speed_threshold.state | int }}'
+  condition:
+    condition: state
+    entity_id: switch.somfy
+    # entity_id: switch.router_fan
+    state: 'on'
+  action:
+    - service: switch.turn_off
+      entity_id:
+      - switch.somfy
+      # entity_id:
+      # - switch.router_fan
+    - service: persistent_notification.create
+      data:
+        message: ' {{states.sensor.date__time.state}} Sun Shade Raised WS={{ states.sensor.pws_wind_mph.state}} GUST={{ states.sensor.pws_wind_gust_mph.state}} TH={{ states.sensor.wind_speed_threshold.state}}'
+        title: "Sun Shade Raised"
+        

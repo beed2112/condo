@@ -1,0 +1,63 @@
+
+#----    Good night set status begin
+#
+#-autodoc
+#-autodoc        name: Good Night - set status
+#-autodoc description: When the TV is turned off (drops off network) after 9:30pm turn on night mode.
+#-autodoc              The TV is monitored agressively in the evenings by command line sensor
+#-autodoc        file: goodnight.yaml
+#-autodoc
+#
+- alias: 'Good Night - set status'
+  trigger:
+    platform: state
+    entity_id: sensor.lr_tv_status      #this is the lr room tv uses command_line -lr tv status
+    from: '1'
+    to: '0'
+  condition:
+    condition: time
+    after: '21:30:00'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.night_mode
+      
+#----    Good night set status end
+#-autodoc
+#-autodoc        name: Night mode activated
+#-autodoc description: When night mode has been acitvated raise the patio shade, turn light on in bedroom, after 2 minute delay turnn off living room lights.
+#-autodoc              After 30 minute delay tun on night to day monitor automation
+#-autodoc        file: goodnight.yaml
+#-autodoc
+- alias: 'Night mode activated'
+  trigger:
+    platform: state
+    entity_id: input_boolean.night_mode
+    from: 'off'
+    to: 'on'
+  action:
+    - service: switch.turn_on
+      entity_id:
+      # - switch.br_overhead
+      - switch.melodie_nightstand_
+    - service: switch.turn_off
+      entity_id:
+      - switch.somfy
+    - service: notify.ios_michaels_iphone
+      data:
+        message: "Good Night!"
+        data:
+          push:
+            sound: "US-EN-Alexa-Good-Night.wav"
+    - delay: 00:02:00
+    - service: switch.turn_off
+      entity_id:
+      - switch.somfy
+      - switch.lr_ceiling_fan
+      - switch.lr_light
+      - switch.lr_switch
+    - service: light.turn_off
+      entity_id:
+      - light.lr_oh
+    - delay: 00:30:00
+    - service: homeassistant.turn_on
+      entity_id: automation.switch_off_night_mode_br_oh_trigger

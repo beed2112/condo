@@ -1,0 +1,28 @@
+#-autodoc
+#-autodoc        name: Morning Alarm
+#-autodoc description: If alarm status is on trigger when current time equal alarm set time.  Will turn on the devices in group.morning and send notify to phone.
+#-autodoc        file: alarm.yaml
+#-autodoc
+
+# Alarm Clock
+- alias: 'Morning alarm'
+  hide_entity: False
+  trigger:
+      platform: template
+      value_template: '{{ states.sensor.time.state == states.sensor.alarm_clock_time_long.state }}'
+  condition:
+    condition: state
+    entity_id: input_boolean.alarm_clock_status
+    state: 'on'
+  action:
+    - service: switch.turn_on
+      entity_id: group.morning
+    - delay: 00:02:00
+    - service: notify.ios_michaels_iphone
+      data:
+        message: "Good Morning!"
+        data:
+          push:
+             sound: "US-EN-Alexa-Good-Morning.wav"
+            # badge: 5
+  

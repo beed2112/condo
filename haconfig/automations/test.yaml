@@ -1,0 +1,590 @@
+###----------------------default view begin----------------------------------------------###
+
+  default_view:
+   name: DEFAULT
+   view: true
+   icon: mdi:home
+   entities:
+     - group.basic
+
+  basic:
+    name: " "
+    control: hidden
+    entities:
+      - climate.arizona_arizona
+      - binary_sensor.arizona_thermostat_arizona_fan
+      - sensor.pws_weather
+      - sensor.pws_temp_f
+      - switch.lr_light
+      - switch.lr_switch
+      - switch.br_overhead
+      - switch.br_switch
+      - switch.br_hall
+      - switch.melodie_nightstand_
+      - switch.wc_light_switch
+      - switch.kitchen_wax_heater
+      - switch.coffee
+      - switch.lr_ceiling_fan
+      - switch.br_ceiling_fan
+      - switch.somfy
+      - switch.patiolight
+      - switch.patiofan
+     
+###----------------------default view end----------------------------------------------###
+
+###----------------------Melodie view begin----------------------------------------------###
+  melodie_v:
+   name: ""
+   view: true
+   icon: mdi:pharmacy
+   entities:
+     - group.melodie_1_g
+     - group.melodie_2_g
+     - group.melodie_4_g
+     - group.melodie_5_g
+     - group.melodie_stop_g
+     
+  melodie_1_g:
+    name: "Last Taken  "
+    control: hidden
+    entities:
+      - sensor.pill_one_taken
+      - sensor.pill_two_taken
+      - sensor.pill_three_taken
+      
+  melodie_2_g:
+    name: "Pill to take"
+    control: hidden
+    entities:
+      - input_boolean.pill_one
+      - input_boolean.pill_two
+      - input_boolean.pill_three
+
+  melodie_4_g:
+    name: "Mark Taken"
+    control: hidden
+    entities:
+      - input_boolean.pill_one_taken
+      - input_boolean.pill_two_taken
+      - input_boolean.pill_three_taken
+      
+
+  melodie_5_g:
+    name: "First alert sent"
+    control: hidden
+    entities:
+      - input_boolean.pill_one_sent
+      - input_boolean.pill_two_sent
+      - input_boolean.pill_three_sent
+
+  melodie_stop_g:
+    name: "Stop the alerts for today"
+    control: hidden
+    entities:
+      - input_boolean.pill_stop
+
+###----------------------Melodie view begin----------------------------------------------###
+
+###----------------------weather begin----------------------------------------------###
+
+  weather_view:
+    name: Weather
+    view: yes
+    icon: mdi:white-balance-sunny
+    entities:
+      - group.wunderground1
+      - group.wunderground2
+      - group.weather_alert_group
+
+  weather_alert_group:
+    name: Weather
+    icon: mdi:white-balance-sunny
+    entities:
+      - sensor.weather_alert_description
+      - sensor.weather_alert_expires
+      - sensor.weather_alert
+      
+  wunderground1:
+    name: Weather
+    icon: mdi:white-balance-sunny
+    entities:
+      - sensor.pws_weather
+      - sensor.pws_temp_f
+      - sensor.pws_feelslike_string
+      - sensor.pws_relative_humidity
+      - sensor.pws_wind_mph
+      # - sensor.pws_wind_string
+      - sensor.pws_wind_dir
+      - sensor.pws_wind_gust_mph
+      - sensor.pws_precip_today_in
+
+  wunderground2:
+    name: Weather
+    icon: mdi:white-balance-sunny
+    entities:
+      # - sensor.pws_observation_time
+      - sensor.weather_update_time   # a cleaned up sensor.pws_observation_time
+      - sensor.pws_station_id
+      - sensor.pws_location
+      - sensor.pws_elevation
+
+
+  # wunderground3:
+  #   name: Alert
+  #   icon: mdi:white-balance-sunny
+  #   entities:
+  #     - sensor.weather_alert
+
+
+###----------------------weather end----------------------------------------------###
+
+###----------------------------control panel begin----------------------------------------###
+  control_v:
+    name: 'Control Panel'
+    view: yes
+    icon: mdi:tune
+    control: hidden
+    entities:
+      - group.control_g
+
+ 
+  control_g:
+    name: 'Controls'
+    icon: mdi:tune
+    control: hidden
+    entities:
+      - input_boolean.night_mode
+      - input_boolean.on_vaca
+      - input_boolean.bulb_wc_green
+      - input_boolean.bulb_br_shower_green
+      - script.white
+      - script.green
+      - script.night
+      - sensor.wind_speed_threshold
+      - input_number.wind_speed_threshold
+
+ 
+      
+
+###----------------------------control panel end----------------------------------------###
+
+
+###----------------------------gtt begin----------------------------------------###
+  travel_times_v:
+    name: "Travel Times"
+    view: yes
+    icon: mdi:car
+    entities:
+      - group.travel_times_g
+      
+  travel_times_g:
+    name: "Travel Times"
+    icon: mdi:car
+    entities:
+      - sensor.duration_home_to_sf
+      - sensor.duration_sf_to_home
+      - sensor.duration_home_to_sky_harbor
+      - sensor.duration_sky_harbor_to_home
+      - sensor.duration_north_i17_to_i10
+      - sensor.duration_south_i10_to_i17
+      - sensor.duration_home_to_tanger
+      - sensor.duration_tanger_westgate_to_home
+      - sensor.duration_home_to_mesa_gateway
+      - sensor.duration_mesa_gateway_to_home
+      - sensor.duration_home_to_apt
+      
+###----------------------------gtt end----------------------------------------###
+
+###----------------------------timedate begin----------------------------------------###
+  timedate_views:
+    name: Time~Dates
+    view: yes
+    icon: mdi:clock
+    entities:
+      - group.timedates
+      - group.timedates2
+      
+  timedates:
+    name: Time Date
+    entities:
+      - sensor.time
+      - sensor.date
+      - sensor.date__time
+      - sensor.time__date
+      - sensor.time_utc
+
+
+  timedates2:
+    name: Sun info
+    entities:
+      - sun.sun
+      - sensor.sun_sunset_time
+      - sensor.sun_dusk_time
+      - sensor.sun_dawn_time
+      - sensor.sun_sunrise_time
+      - sensor.sun_elevation
+      - sensor.sun_azimuth
+      
+###----------------------------timedate end----------------------------------------###
+      
+###----------------------stats begin----------------------------------------------###
+
+  stats_view:
+    name: Stats
+    view: yes
+    icon: mdi:percent
+    entities:
+     - group.stats_group_day
+     - group.stats_group_week
+     - group.stats_group_last30
+      
+  stats_group_day:
+    name: Today
+    control: hidden
+    entities:
+     - sensor.nest_on_today
+     - sensor.lr_ceiling_fan_on_today
+     - sensor.lr_light_on_today
+     - sensor.lr_switch_on_today
+     - sensor.melodie_nighstand_light_on_today
+     - sensor.br_ceiling_fan_on_today
+     - sensor.br_switch_on_today
+     - sensor.coffee_pot_on_today
+     - sensor.kitchen_wax_heater_on_today
+     - sensor.router_fan_on_today
+
+  stats_group_week:
+    name: Last 7 days
+    control: hidden
+    entities:
+     - sensor.nest_on_week
+     - sensor.lr_ceiling_fan_on_week
+     - sensor.lr_light_on_week
+     - sensor.lr_switch_on_week
+     - sensor.melodie_nighstand_light_on_week
+     - sensor.br_ceiling_fan_on_week
+     - sensor.br_switch_on_week
+     - sensor.coffee_pot_on_week
+     - sensor.kitchen_wax_heater_on_week
+     - sensor.router_fan_on_week
+
+  stats_group_last30:
+    name: Last 30 days
+    control: hidden
+    entities:
+     - sensor.nest_on_last_30
+     - sensor.lr_ceiling_fan_on_last_30
+     - sensor.lr_light_on_last_30
+     - sensor.lr_switch_on_last_30S
+     - sensor.melodie_nighstand_light_on_last_30
+     - sensor.br_ceiling_fan_on_last_30
+     - sensor.br_switch_on_last_30
+     - sensor.coffee_pot_on_last_30
+     - sensor.kitchen_wax_heater_on_last_30
+     - sensor.router_fan_on_last_30
+
+###----------------------------stats end----------------------------------------###
+
+###----------------------------mmj begin----------------------------------------###
+
+  mmj_view:
+    name: mmj
+    view: yes
+    icon: mdi:cannabis
+    entities:
+      - group.mmj
+
+  mmj:
+    name: AZNS
+    control: hidden
+    entities:
+     - sensor.azns_strains
+     - sensor.azns_sale
+ 
+###----------------------------mmj end----------------------------------------###
+
+###----------------------------geek views begin----------------------------------------###
+  
+  geek_views:
+    name: System
+    view: yes
+    icon: mdi:raspberrypi
+    entities:
+      - group.all_automations
+      - group.geekview
+      - group.geekview2
+ 
+  geekview:
+    name: 'I'
+    control: hidden
+    entities:
+      - sensor.lr_tv_status
+      - light.masterwclight
+      - light.master_br_shower
+      - switch.br_shower
+      - switch.somfy
+      - switch.esp
+      - switch.router_fan
+      - sensor.cpu_use
+      - sensor.received_eth0
+      - sensor.sent_eth0
+      - sensor.disk_use_
+      - sensor.disk_use_varlog
+      - sensor.ram_use
+      - sensor.ram_free
+      - input_boolean.pill_one
+      - input_boolean.pill_two
+      - input_boolean.pill_three
+      
+      
+  geekview2:
+    name: 'II'
+    entities:
+      - sensor.swap_use
+      - sensor.swap_free
+      - sensor.last_boot
+      - sensor.since_last_boot
+
+###----------------------------geek views end----------------------------------------###
+      
+
+###----------------------------alarm begin----------------------------------------###
+  alarm_clock:
+    name: 'Alarm Clock'
+    view: yes
+    icon: mdi:alarm
+    entities:
+      - group.alarm_clock1
+      - group.alarm_clock2
+      - group.morning
+ 
+  alarm_clock1:
+    name: 'Controls'
+    icon: mdi:alarm
+    entities:
+      - sensor.alarm_clock_time
+      - input_number.alarm_clock_hour
+      - input_number.alarm_clock_minute
+
+  alarm_clock2:
+    name: 'Off/On '
+    icon: mdi:switch
+    entities:
+      - input_boolean.alarm_clock_status
+  
+  morning:
+    name: Morning on
+    control: hidden
+    entities:
+      - switch.br_switch
+      - switch.coffee
+      - switch.br_shower
+      - switch.wc_light_switch
+      
+  
+  automations_to_toggle_g:
+    name: Automations to toggle
+    control: hidden
+    entities:
+      - automation.br_fan_off_when_air_on
+      - automation.br_fan_on_when_air_off
+      - automation.good_night
+      - automation.melodie_nightstand_off_dash_
+      - automation.melodie_nightstand_on_dash_
+      - automation.morning_alarm
+      - automation.wc_light_on_color_dash_
+      - automation.wc_light_reset_to_white__at_morning
+      - automation.wc_light_reset_to_white__script
+      - automation.wc_light_reset_to_white__switch_trigger
+      - automation.wc_prime_it_green
+      - automation.xx_coffee_pot_is_on_send
+      - automation.xx_coffeepot_off_response
+      - automation.xx_coffeepot_on_response
+      - automation.yy_ios_notify_test_off
+      - automation.yy_ios_notify_test_on
+      - automation.zzz_enable_once_a_day_automatons
+      - automation.zzz_nightstand_sensor_to_off
+      - automation.zzz_nightstand_sensor_to_on
+      
+  hvac_automations_g:
+    name: Automations to toggle
+    control: hidden
+    entities:
+      - automation.br_fan_off_when_air_on
+      - automation.br_fan_on_when_air_off
+      - automation.stop_the_hvac_fan_dance
+      
+###--------------------------------------------------------------------###
+
+  br_mode_triggers:
+    name: " "
+    control: hidden
+    entities:
+      - switch.br_overhead
+      - switch.br_hall
+
+
+
+
+
+
+
+
+
+  # controls:
+  #   name: Controls
+  #   control: hidden
+  #   entities:
+  #     - input_boolean.on_vaca
+  #     - input_boolean.wfh_mon
+  #     - input_boolean.wfh_tue
+  #     - input_boolean.wfh_wed
+  #     - input_boolean.wfh_thu
+  #     - input_boolean.wfh_fri
+
+##############################################################################################
+#########  NOTHING live goes below here
+##############################################################################################
+  # main:
+  #   name: Main
+  #   entities:
+  #     - switch.lr_light
+  #     - switch.lr_switch
+  #     - switch.lr_ceiling_fan
+  #     - switch.kitchen_wax_heater
+  #     - switch.coffee
+ 
+  # bedroom:
+  #   name: Bedroom
+  #   entities:
+  #     - switch.br_ceiling_fan
+  #     - switch.br_switch
+  #     - switch.melodie_nightstand_
+
+
+
+
+  # nest:
+  #   name: Nest
+  #   entities:
+  #     - climate.arizona_arizona
+  #     - sensor.arizona_thermostat_arizona_humidity
+  #     - binary_sensor.arizona_thermostat_arizona_fan
+  #     - sensor.arizona_thermostat_arizona_temperature
+  #     - sensor.arizona_thermostat_arizona_target
+  #     - sensor.arizona_thermostat_arizona_operation_mode
+  #     - binary_sensor.arizona_thermostat_arizona_online
+  #     - binary_sensor.arizona_thermostat_arizona_has_leaf
+  #     - binary_sensor.arizona_thermostat_arizona_is_locked
+  #     - binary_sensor.arizona_thermostat_arizona_is_using_emergency_heat
+  #     - sensor.arizona_thermostat_arizona_hvac_state
+      
+  # tracked:
+  #   name: Tracked Objects
+  #   entities:
+  #     - device_tracker.brceilingfan
+  #     - device_tracker.brswitchedoutlet
+  #     - device_tracker.coffeepot
+  #     - device_tracker.lrplug
+  #     - device_tracker.lrswitchedoutlet
+  #     - device_tracker.michaelsiphone
+  #     - device_tracker.mikecromebook
+  #     - device_tracker.mikeipad
+  #     - device_tracker.nest
+  #     - device_tracker.wemounused
+  #     - device_tracker.wpwd17rk
+
+  # sensor_pi:
+  #   name: Raspberry Pi
+  #   entities:
+  #     - switch.router_fan
+  #     - sensor.cpu_use
+  #     - sensor.disk_use_
+  #     - sensor.disk_use_varlog
+  #     - sensor.ram_use
+  #     - sensor.ram_free
+  #     - sensor.swap_use
+  #     - sensor.swap_free
+  #     - sensor.last_boot
+  #     - sensor.since_last_boot
+  #     - sensor.received_eth1
+  #     - sensor.sent_eth1
+
+
+  # autos:
+  #   name: "Automations"
+  #   control: hidden
+  #   entities:
+  #     - automation.auto_renew_ssl_cert
+  #     - automation.morning_alarm
+  #     - automation.sunrise_patio_off
+  #     - automation.sunset25_patio_on
+  #     - automation.sunset_triggers
+  #     - automation.weather_alert_0
+  #     - automation.weather_alert_1
+  #     - automation.lr_tv_0
+
+
+  # fan_cron:
+  #   name: 'Cycle BR Ceiling Fan'
+  #   view: yes
+  #   icon: mdi:fan
+  #   entities:
+  #     - group.fan_cron1
+  #     # - group.fan_cron2
+
+ 
+  # fan_cron1:
+  #   name: 'Fan Cron5'
+  #   icon: mdi:fan
+  #   entities:
+  #     - automation.fan_cron
+  #     - input_boolean.fan_cron_status
+  #     - sensor.fan_cron_minute
+  #     - input_number.fan_cron_minute
+  #     - sensor.fan_cron_hour_start
+  #     - input_number.fan_cron_hour_start
+  #     - sensor.fan_cron_hour_end
+  #     - input_number.fan_cron_hour_end
+
+
+  # fan_cron2:
+  #   name: 'Off/On '
+  #   icon: mdi:switch
+  #   entities:
+  #     - input_boolean.fan_cron_status
+      
+          
+
+
+# wunderground:
+#  name: Weather
+#  icon: mdi:white-balance-sunny
+#  entities:
+#    - sensor.pws_dewpoint_f
+#    - sensor.pws_heat_index_f
+#    - sensor.pws_uv
+#    - sensor.pws_wind_degrees
+#    - sensor.pws_pressure_in
+#    - sensor.pws_alerts
+#    - sensor.pws_pressure_trend
+#    - sensor.pws_precip_today_in
+#    - sensor.pws_visibility_mi
+#    - sensor.pws_solarradiation
+#    - sensor.pws_precip_1hr_in
+  # test_views:
+  #   name: System
+  #   view: yes
+  #   icon: mdi:beaker
+  #   entities:
+  #     - group.sandbox
+  #     - group.controls
+  # sandbox:
+  #   name: Sandbox
+  #   control: hidden
+  #   entities:
+  #     - device_tracker.michaelsiphone
+  #     - device_tracker.wpwd17rk
+  #     - switch.wemo_switch
+  #     - automation.mike_home_light_off
+  #     - automation.mike_home_light_on
