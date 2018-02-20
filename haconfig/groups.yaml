@@ -316,23 +316,7 @@
 
 ###----------------------------stats end----------------------------------------###
 
-###----------------------------mmj begin----------------------------------------###
 
-  mmj_view:
-    name: mmj
-    view: yes
-    icon: mdi:cannabis
-    entities:
-      - group.mmj
-
-  mmj:
-    name: AZNS
-    control: hidden
-    entities:
-     - sensor.azns_strains
-     - sensor.azns_sale
- 
-###----------------------------mmj end----------------------------------------###
 
 ###----------------------------geek views begin----------------------------------------###
   
