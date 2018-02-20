@@ -140,27 +140,6 @@
     scan_interval: 10800
     command: "cat /home/homeassistant/.homeassistant/cmds/dash-furnacefilter.sensor"
   - platform: command_line
-    name: SSL cert expiry
-    unit_of_measurement: days
-    scan_interval: 10800
-    command: "sudo ssl-cert-check -b -c /etc/letsencrypt/live/beedaz.duckdns.org/fullchain.pem | awk '{ print $NF }'"
-  - platform: command_line
-    name: mmj mike expire
-    scan_interval: 10800
-    command: "cat /home/homeassistant/.homeassistant/cmds/mikemmj"
-  - platform: command_line
-    name: azns sale
-    # scan_interval: 3600
-    command: "cat /home/homeassistant/.homeassistant/cmds/aznssale.txt"
-  - platform: command_line
-    name: azns check
-    # scan_interval: 3600
-    command: "/home/homeassistant/.homeassistant/cmds/azns.sh"
-  - platform: command_line
-    name: azns strains
-    # scan_interval: 3600
-    command: "cat /home/homeassistant/.homeassistant/cmds/aznsstrains.txt"
-  - platform: command_line
     name: lr tv status
     scan_interval: 5
     command: "cat /home/homeassistant/.homeassistant/cmds/lr_tv.sensor"
