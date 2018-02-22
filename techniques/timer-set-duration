@@ -1,0 +1,69 @@
+
+timer: 
+
+Use timer to control how long widgit is turned on
+
+------
+
+Here are the items to set up  configuration.yaml type items in monolothic config speak
+
+#define the timer - duration specified in seconds
+timer:
+  mytimer:
+    duration: '600'
+
+# bring in as minutes we multiply later to turn into seconds
+input_number:
+  slider1:
+    name: Slider
+    initial: 5
+    min: 0
+    max: 100
+    step: 1
+
+
+# entity to turn off and on 
+input_boolean:
+  widgit:
+    initial: off
+    
+    
+    
+ ##########
+ 
+ Automations   --- automations.yaml
+ 
+ - alias: 'start timer for specified duration and turn on widgit'
+  trigger:
+    platform: event
+    event_type: call_service
+    event_data:
+      domain: notify
+  action:
+   - service: timer.start
+     data_template:
+       entity_id: "timer.mytimer"
+       duration: '{{ states.input_number.slider1.state | multiply(60) |int}}'
+   - service: homeassistant.turn_on
+     entity_id: input_boolean.widgit
+
+# use the time finished event to turn off widgit
+- alias: Timerstop
+  trigger:
+    platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.mytimer
+  action:
+   - service: homeassistant.turn_off
+     entity_id: input_boolean.widgit
+                                  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+    
+    
