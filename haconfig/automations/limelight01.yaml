@@ -1,0 +1,145 @@
+#-autodoc
+#-autodoc        name: Limelight01 Mclight Animation Speed
+#-autodoc description: Automation to change animation speed on Limelight01 LEDs
+#-autodoc        file: limelight01.yaml
+#-autodoc
+
+- alias: Mclight Animation Speed
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: input_number.mclight_animation_speed
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: "LIMELIGHT_01/in"
+        payload: '?{{ trigger.to_state.state | int }}'
+
+#-autodoc
+#-autodoc        name: Limelight01 Mclight Brightness
+#-autodoc description: Automation to change brightness on Limelight01 LEDs
+#-autodoc        file: limelight01.yaml
+#-autodoc
+
+- alias: Mclight Brightness
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: input_number.mclight_brightness
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: "LIMELIGHT_01/in"
+        payload: '%{{ trigger.to_state.state | int }}'
+        
+#-autodoc
+#-autodoc        name: LIMELIGHT_01 Random Static Color
+#-autodoc description: Limelight01 set random color static
+#-autodoc        file: limelight01.yaml
+#-autodoc
+- alias: LIMELIGHT_01 Random Static Color
+  initial_state: off
+  trigger:
+    - platform: time
+      seconds: '/30'
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: "LIMELIGHT_01/in"
+        payload: >-
+          {% set r = range(0, 255)|random %}
+          {% set g = range(0, 255)|random %}
+          {% set b = range(0, 255)|random %}
+          {{ '*' ~ '%02x%02x%02x' | format(g, r, b)}}
+#-autodoc
+#-autodoc        name: LIMELIGHT_01 Random Default Color
+#-autodoc description: Limelight01 set random default color
+#-autodoc        file: limelight01.yaml
+#-autodoc
+- alias: LIMELIGHT_01 Random Default Color
+  initial_state: off
+  trigger:
+    - platform: time
+      seconds: '/30'
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: "LIMELIGHT_01/in"
+        payload: >-
+          {% set r = range(0, 255)|random %}
+          {% set g = range(0, 255)|random %}
+          {% set b = range(0, 255)|random %}
+          {{ '#' ~ '%02x%02x%02x' | format(g, r, b)}}
+
+
+#-autodoc
+#-autodoc        name: LIMELIGHT_01 Random Effect
+#-autodoc description: Limelight01 set random random effect
+#-autodoc        file: limelight01.yaml
+#-autodoc
+- alias: LIMELIGHT_01 Random Effect
+  initial_state: off
+  trigger:
+    - platform: time
+      minutes: '/5'
+      seconds: 00
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: "LIMELIGHT_01/in"
+        payload: >-
+          {{ [
+              "/0",
+              "/1",
+              "/2",
+              "/3",
+              "/4",
+              "/5",
+              "/6",
+              "/7",
+              "/8",
+              "/9",
+              "/10",
+              "/11",
+              "/12",
+              "/13",
+              "/14",
+              "/15",
+              "/16",
+              "/17",
+              "/18",
+              "/19",
+              "/20",
+              "/21",
+              "/22",
+              "/23",
+              "/24",
+              "/25",
+              "/26",
+              "/27",
+              "/29",
+              "/30",
+              "/31",
+              "/32",
+              "/33",
+              "/34",
+              "/35",
+              "/36",
+              "/37",
+              "/38",
+              "/39",
+              "/40",
+              "/42",
+              "/43",
+              "/44",
+              "/47",
+              "/48",
+              "/49",
+              "/50",
+              "/51",
+              "/52",
+              "/53",
+              "/54",
+              "/55"
+              ] |random }}
+              

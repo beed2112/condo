@@ -8,7 +8,7 @@
   trigger:
     platform: sun
     event: sunset
-    offset: '-00:03:00'
+    offset: '-00:30:00'
   action:
     - service: switch.turn_on
       entity_id:
@@ -21,14 +21,14 @@
 #-autodoc description: Turn on the patio ceiling fan light sunset.
 #-autodoc        file: sunset.yaml
 #-autodoc
-- alias: 'Patio CF Light Sunset on'
-  trigger:
-    platform: sun
-    event: sunset
-  action:
-    - service: switch.turn_on
-      entity_id:
-      - switch.patio_outlet
-      - switch.lr_light
+# - alias: 'Patio CF Light Sunset on'
+#   trigger:
+#     platform: sun
+#     event: sunset
+#   action:
+#     - service: switch.turn_on
+#       entity_id:
+#       - switch.patio_outlet
+#       - switch.lr_light
 
 

@@ -8,6 +8,54 @@
 ##### melodie's night stand light in the morning set To white when we can talk to it     #####
 #####------------------------------------------------------------------------------------#####
 
+#-autodoc
+#-autodoc        name: WC light on with motion
+#-autodoc description: Turn on the WC light based on motion. Timer length set in GUI. Will not act if light is already on This automation is enabled in nightmode (goodnight.yaml) and disabled in day mode (nite-day-mode.yaml)
+#-autodoc        file: bathroom-lights.yaml
+#-autodoc
+
+- alias: 'WC light on with motion'
+  initial_state: False
+  trigger:
+    platform: state
+    entity_id: binary_sensor.openmqttgateway1_motion
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: switch.wc_light_switch
+    state: 'off'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.wc_light_switch
+    - service: timer.start
+      data_template:
+        entity_id: "timer.br_night_motion"
+        duration: '{{ states.input_number.wc_motion_time_on.state | multiply(60) |int}}'
+    # - service: homeassistant.turn_off
+    #   entity_id: automation.wc_light_on_with_motion
+
+#-autodoc
+#-autodoc        name: Motion WC light time ends
+#-autodoc description: Turn off WC light when the timer ends
+#-autodoc        file: bathroom-lights.yaml
+#-autodoc
+ 
+- alias: 'Motion WC light time ends'
+  initial_state: True
+  trigger:
+    - platform: event
+      event_type: timer.finished
+      event_data:
+        entity_id: timer.br_night_motion
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.wc_light_switch
+    # - service: homeassistant.turn_on
+    #   entity_id: automation.wc_light_on_with_motion
+
+
+
 
 #-autodoc
 #-autodoc        name: WC Light on color dash

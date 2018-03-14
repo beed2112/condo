@@ -61,3 +61,15 @@
     - delay: 00:30:00
     - service: homeassistant.turn_on
       entity_id: automation.switch_off_night_mode_br_oh_trigger
+
+
+
+- alias: 'Night Mode WC motion on'
+  trigger:
+    platform: state
+    entity_id: input_boolean.night_mode
+    from: 'off'
+    to: 'on'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: automation.wc_light_on_with_motion

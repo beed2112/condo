@@ -29,3 +29,12 @@
       
       
       
+- alias: 'Day Mode WC motion off'
+  trigger:
+    platform: state
+    entity_id: input_boolean.night_mode
+    from: 'on'
+    to: 'off'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: automation.wc_light_on_with_motion
