@@ -34,58 +34,7 @@
      
 ###----------------------default view end----------------------------------------------###
 
-###----------------------Melodie view begin----------------------------------------------###
-  melodie_v:
-   name: ""
-   view: true
-   icon: mdi:pharmacy
-   entities:
-     - group.melodie_1_g
-     - group.melodie_2_g
-     - group.melodie_4_g
-     - group.melodie_5_g
-     - group.melodie_stop_g
-     
-  melodie_1_g:
-    name: "Last Taken  "
-    control: hidden
-    entities:
-      - sensor.pill_one_taken
-      - sensor.pill_two_taken
-      - sensor.pill_three_taken
-      
-  melodie_2_g:
-    name: "Pill to take"
-    control: hidden
-    entities:
-      - input_boolean.pill_one
-      - input_boolean.pill_two
-      - input_boolean.pill_three
 
-  melodie_4_g:
-    name: "Mark Taken"
-    control: hidden
-    entities:
-      - input_boolean.pill_one_taken
-      - input_boolean.pill_two_taken
-      - input_boolean.pill_three_taken
-      
-
-  melodie_5_g:
-    name: "First alert sent"
-    control: hidden
-    entities:
-      - input_boolean.pill_one_sent
-      - input_boolean.pill_two_sent
-      - input_boolean.pill_three_sent
-
-  melodie_stop_g:
-    name: "Stop the alerts for today"
-    control: hidden
-    entities:
-      - input_boolean.pill_stop
-
-###----------------------Melodie view begin----------------------------------------------###
 
 ###----------------------weather begin----------------------------------------------###
 
@@ -148,6 +97,10 @@
     control: hidden
     entities:
       - group.control_g
+      - group.condo_temperatures_g
+      - group.condo_humidity_g
+      - group.condo_motion_g
+      - group.actions_g
 
  
   control_g:
@@ -159,17 +112,42 @@
       - input_boolean.on_vaca
       - input_boolean.bulb_wc_green
       - input_boolean.bulb_br_shower_green
+      - sensor.wind_speed_threshold
+      - input_number.wind_speed_threshold
+      - input_number.den_motion_time_on
+      - input_number.wc_motion_time_on
+      # - input_number.mclight_animation_speed
+      # - input_number.mclight_brightness
+      # - light.limelight_01
+
+  actions_g:
+    name: 'Actions'
+    icon: mdi:tune
+    control: hidden
+    entities:
       - script.white
       - script.green
       - script.night
-      - sensor.wind_speed_threshold
-      - input_number.wind_speed_threshold
-      - input_number.mclight_animation_speed
-      - input_number.mclight_brightness
-      - light.limelight_01
 
- 
+  condo_temperatures_g:
+    name: 'Environmental'
+    icon: mdi:tune
+    control: hidden
+    entities:
+      - sensor.mqtt_rf_temperature
+      - sensor.mqtt_rf_temperature2
+      - sensor.mqtt_rf_temperature3
+      - sensor.mqtt_rf_humidity
+      - sensor.mqtt_rf_humidity2
+      - sensor.mqtt_rf_humidity3
       
+  condo_motion_g:
+    name: 'Motion'
+    icon: mdi:tune
+    control: hidden
+    entities:
+      - binary_sensor.openmqttgateway1_motion
+      - binary_sensor.openmqttgateway3_motion
 
 ###----------------------------control panel end----------------------------------------###
 
@@ -247,15 +225,22 @@
       - sensor.random_early_morning_time
       - sensor.random_early_morning_Duration
 
-  timedates4:
-    name: OpenMqtt Test
-    entities:
-      - binary_sensor.openmqttgateway
-      - sensor.mqtt_rf_temperature
-      - sensor.mqtt_rf_humidity
-      - binary_sensor.openmqttgateway2
-      - sensor.mqtt_rf_temperature2
-      - sensor.mqtt_rf_humidity2
+  # timedates4:
+  #   name: OpenMqtt Test
+  #   entities:
+  #     - binary_sensor.openmqttgateway1
+  #     - sensor.mqtt_rf_temperature
+  #     - sensor.mqtt_rf_humidity
+  #     - binary_sensor.openmqttgateway1_motion
+  #     - binary_sensor.openmqttgateway2
+  #     - sensor.mqtt_rf_temperature2
+  #     - sensor.mqtt_rf_humidity2
+  #     - binary_sensor.openmqttgateway3
+  #     - sensor.mqtt_rf_temperature3
+  #     - sensor.mqtt_rf_humidity3
+  #     - binary_sensor.openmqttgateway3_motion
+  #     - input_boolean.motionactivated_den
+  #     - timer.den_motion
 ###----------------------------timedate end----------------------------------------###
       
 ###----------------------stats begin----------------------------------------------###
@@ -316,7 +301,23 @@
 
 ###----------------------------stats end----------------------------------------###
 
+###----------------------------mmj begin----------------------------------------###
 
+  mmj_view:
+    name: mmj
+    view: yes
+    icon: mdi:cannabis
+    entities:
+      - group.mmj
+
+  mmj:
+    name: AZNS
+    control: hidden
+    entities:
+     - sensor.azns_strains
+     - sensor.azns_sale
+ 
+###----------------------------mmj end----------------------------------------###
 
 ###----------------------------geek views begin----------------------------------------###
   
@@ -325,6 +326,7 @@
     view: yes
     icon: mdi:raspberrypi
     entities:
+      - group.geekview1
       - group.geekview
       - group.geekview2
       - group.geekview3
@@ -342,7 +344,12 @@
       - switch.esp
       - switch.router_fan
       
-      
+  geekview1:
+    name: ' '
+    entities:
+      - binary_sensor.openmqttgateway1
+      - binary_sensor.openmqttgateway2
+      - binary_sensor.openmqttgateway3
       
   geekview2:
     name: ' '
@@ -403,6 +410,9 @@
       - switch.coffee
       - switch.br_shower
       - switch.wc_light_switch
+#     - switch.br_overhead
+      - switch.br_switch
+#     - switch.melodie_nightstand_
       
   
   automations_to_toggle_g:
@@ -447,7 +457,58 @@
       - switch.br_hall
 
 
+###----------------------Melodie view begin----------------------------------------------###
+  # melodie_v:
+  # name: ""
+  # view: true
+  # icon: mdi:pharmacy
+  # entities:
+  #   - group.melodie_1_g
+  #   - group.melodie_2_g
+  #   - group.melodie_4_g
+  #   - group.melodie_5_g
+  #   - group.melodie_stop_g
+     
+  # melodie_1_g:
+  #   name: "Last Taken  "
+  #   control: hidden
+  #   entities:
+  #     - sensor.pill_one_taken
+  #     - sensor.pill_two_taken
+  #     - sensor.pill_three_taken
+      
+  # melodie_2_g:
+  #   name: "Pill to take"
+  #   control: hidden
+  #   entities:
+  #     - input_boolean.pill_one
+  #     - input_boolean.pill_two
+  #     - input_boolean.pill_three
 
+  # melodie_4_g:
+  #   name: "Mark Taken"
+  #   control: hidden
+  #   entities:
+  #     - input_boolean.pill_one_taken
+  #     - input_boolean.pill_two_taken
+  #     - input_boolean.pill_three_taken
+      
+
+  # melodie_5_g:
+  #   name: "First alert sent"
+  #   control: hidden
+  #   entities:
+  #     - input_boolean.pill_one_sent
+  #     - input_boolean.pill_two_sent
+  #     - input_boolean.pill_three_sent
+
+  # melodie_stop_g:
+  #   name: "Stop the alerts for today"
+  #   control: hidden
+  #   entities:
+  #     - input_boolean.pill_stop
+
+###----------------------Melodie view begin----------------------------------------------###
 
 
 

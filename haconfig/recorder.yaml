@@ -3,6 +3,7 @@
   purge_keep_days: 32
   exclude:
     entities:
+      - automation.motion_for_den_light_timer_restart
       - binary_sensor.arizona_thermostat_arizona_is_locked
       - binary_sensor.arizona_thermostat_arizona_is_using_emergency_heat
       - device_tracker.24ab81bfae1a

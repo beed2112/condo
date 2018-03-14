@@ -6,6 +6,48 @@
       mode_guest: 'on'
       mode_night: 'on'
       mode_vac: 'off'
+    
+    switch.router_fan:
+      friendly_name: Den Light
+###---------------------------------openmqttgw stuff ------------------------------------###
+
+    binary_sensor.openmqttgateway1:
+      friendly_name: BR MQTT
+    binary_sensor.openmqttgateway2:
+      friendly_name: LR MQTT
+    binary_sensor.openmqttgateway3:
+      friendly_name: Den MQTT
+
+
+    binary_sensor.openmqttgateway1_motion:
+      friendly_name: BR
+    binary_sensor.openmqttgateway3_motion:
+      friendly_name: Den
+
+    sensor.mqtt_rf_humidity:
+      friendly_name: BR Humidity
+      icon: mdi:water-percent
+    sensor.mqtt_rf_humidity2:
+      friendly_name: LR Humidity
+      icon: mdi:water-percent
+    sensor.mqtt_rf_humidity3:
+      friendly_name: Den Humidity
+      icon: mdi:water-percent
+
+
+    sensor.mqtt_rf_temperature:
+      friendly_name: BR Temp
+    sensor.mqtt_rf_temperature2:
+      friendly_name: LR Temp
+    sensor.mqtt_rf_temperature3:
+      friendly_name: Den Temp
+    
+
+
+
+###---------------------------------openmqttgw stuff ------------------------------------###
+
+
 ###---------------------------------lights-switches begin------------------------------------###
 
     light.masterwclight:

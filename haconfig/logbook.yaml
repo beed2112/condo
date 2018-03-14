@@ -1,82 +1,94 @@
+  include:
+    domains:
+      - automation
+      - light
+      - switch
+#      - input_boolean
   exclude:
     entities:
-      - sensor.last_boot
-      - media_player.living_room_apple_tv
-      - binary_sensor.arizona_thermostat_arizona_is_locked
-      - binary_sensor.arizona_thermostat_arizona_is_using_emergency_heat
-      - device_tracker.brswitchedoutlet
-      - device_tracker.brceilingfan
-      - device_tracker.coffeepot
-      - device_tracker.lrplug
-      - device_tracker.lrswitchedoutlet
-      - device_tracker.nest
-      - device_tracker.wemounused
-      - media_player.samsung_led50_un50h6350
-      - device_tracker.michaelsiphone
-      - group.tracked
-      - device_tracker.mike_ipad
-      - device_tracker.mikecromebook
-      - device_tracker.lrtv
-      - device_tracker.brceilingfan
-      - device_tracker.nest
-      - device_tracker.brswitchedoutlet
-      - device_tracker.coffeepot
-      - device_tracker.lrplug
-      - device_tracker.lrswitchedoutlet
-      - device_tracker.wemounused
-      - device_tracker.wpwd17rk
-      - device_tracker.mikeipad
-      - device_tracker.mikeipad_2
-      - device_tracker.livingrmappletv
-      - device_tracker.melodiesipad
-      - device_tracker.7cb0c231e309
-      - device_tracker.iphonempersonal
-      - device_tracker.vitalsigns
-      - device_tracker.24ab81bfae1a
-      - device_tracker.7081eb1553fe
-      - sensor.time
-      - sensor.last_boot
-      - media_player.samsung_led50_un50h6350
-      - sensor.time
-      - sensor.date__time
-      - sensor.time__date
-      - sensor.time_utc
-      - sensor.time_2
-      - sensor.sun_dusk_time
-      - sensor.sun_sunset_time
-      - sensor.sun_dawn_time
-      - sensor.sun_sunrise_time
-      - sensor.sunrise_time
-      - sensor.sunset_time
-      - sensor.since_last_boot
-      - sensor.last_boot
-      - sensor.pws_alerts
-      - sensor.pws_dewpoint_f
-      - sensor.pws_dewpoint_string
-      - sensor.pws_elevation
-      - sensor.pws_feelslike_f
-      - sensor.pws_feelslike_string
-      - sensor.pws_heat_index_f
-      - sensor.pws_heat_index_string
-      - sensor.pws_location
-      - sensor.pws_observation_time
-      - sensor.pws_precip_1hr_in
-      - sensor.pws_precip_1hr_string
-      - sensor.pws_precip_today_in
-      - sensor.pws_precip_today_string
-      - sensor.pws_pressure_in
-      - sensor.pws_pressure_trend
-      - sensor.pws_relative_humidity
-      - sensor.pws_solarradiation
-      - sensor.pws_station_id
-      - sensor.pws_temp_c
-      - sensor.pws_temperature_string
-      - sensor.pws_temp_f
-      - sensor.pws_uv
-      - sensor.pws_visibility_mi
-      - sensor.pws_weather
-      - sensor.pws_wind_degrees
-      - sensor.pws_wind_dir
-      - sensor.pws_wind_gust_mph
-      - sensor.pws_wind_string
+      - automation.motion_for_den_light_timer_restart
+      
+
+
+  # exclude:
+  #   entities:
+  #     - sensor.last_boot
+  #     - media_player.living_room_apple_tv
+  #     - binary_sensor.arizona_thermostat_arizona_is_locked
+  #     - binary_sensor.arizona_thermostat_arizona_is_using_emergency_heat
+  #     - device_tracker.brswitchedoutlet
+  #     - device_tracker.brceilingfan
+  #     - device_tracker.coffeepot
+  #     - device_tracker.lrplug
+  #     - device_tracker.lrswitchedoutlet
+  #     - device_tracker.nest
+  #     - device_tracker.wemounused
+  #     - media_player.samsung_led50_un50h6350
+  #     - device_tracker.michaelsiphone
+  #     - group.tracked
+  #     - device_tracker.mike_ipad
+  #     - device_tracker.mikecromebook
+  #     - device_tracker.lrtv
+  #     - device_tracker.brceilingfan
+  #     - device_tracker.nest
+  #     - device_tracker.brswitchedoutlet
+  #     - device_tracker.coffeepot
+  #     - device_tracker.lrplug
+  #     - device_tracker.lrswitchedoutlet
+  #     - device_tracker.wemounused
+  #     - device_tracker.wpwd17rk
+  #     - device_tracker.mikeipad
+  #     - device_tracker.mikeipad_2
+  #     - device_tracker.livingrmappletv
+  #     - device_tracker.melodiesipad
+  #     - device_tracker.7cb0c231e309
+  #     - device_tracker.iphonempersonal
+  #     - device_tracker.vitalsigns
+  #     - device_tracker.24ab81bfae1a
+  #     - device_tracker.7081eb1553fe
+  #     - sensor.time
+  #     - sensor.last_boot
+  #     - media_player.samsung_led50_un50h6350
+  #     - sensor.time
+  #     - sensor.date__time
+  #     - sensor.time__date
+  #     - sensor.time_utc
+  #     - sensor.time_2
+  #     - sensor.sun_dusk_time
+  #     - sensor.sun_sunset_time
+  #     - sensor.sun_dawn_time
+  #     - sensor.sun_sunrise_time
+  #     - sensor.sunrise_time
+  #     - sensor.sunset_time
+  #     - sensor.since_last_boot
+  #     - sensor.last_boot
+  #     - sensor.pws_alerts
+  #     - sensor.pws_dewpoint_f
+  #     - sensor.pws_dewpoint_string
+  #     - sensor.pws_elevation
+  #     - sensor.pws_feelslike_f
+  #     - sensor.pws_feelslike_string
+  #     - sensor.pws_heat_index_f
+  #     - sensor.pws_heat_index_string
+  #     - sensor.pws_location
+  #     - sensor.pws_observation_time
+  #     - sensor.pws_precip_1hr_in
+  #     - sensor.pws_precip_1hr_string
+  #     - sensor.pws_precip_today_in
+  #     - sensor.pws_precip_today_string
+  #     - sensor.pws_pressure_in
+  #     - sensor.pws_pressure_trend
+  #     - sensor.pws_relative_humidity
+  #     - sensor.pws_solarradiation
+  #     - sensor.pws_station_id
+  #     - sensor.pws_temp_c
+  #     - sensor.pws_temperature_string
+  #     - sensor.pws_temp_f
+  #     - sensor.pws_uv
+  #     - sensor.pws_visibility_mi
+  #     - sensor.pws_weather
+  #     - sensor.pws_wind_degrees
+  #     - sensor.pws_wind_dir
+  #     - sensor.pws_wind_gust_mph
+  #     - sensor.pws_wind_string
 

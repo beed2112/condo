@@ -208,3 +208,12 @@ binary_sensor: !include binary_sensor.yaml
 #     title: Dashboard
 #     icon: mdi:vector-square
 #     url: http://
+
+
+#define the timer - duration specified in seconds
+timer:
+  den_motion:
+    duration: '600'
+  br_night_motion:
+    duration: '180'
+    

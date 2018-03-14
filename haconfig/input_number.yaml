@@ -10,7 +10,7 @@
 
   wind_speed_threshold:
     min: -1
-    max: 25
+    max: 15
     step: 1
 
   mclight_animation_speed:
@@ -27,3 +27,16 @@
     max: 255
     step: 1
 
+  wc_motion_time_on:
+    name: WC duration
+    initial: 3
+    min: 1
+    max: 60
+    step: 1
+
+  den_motion_time_on:
+    name: Den duration
+    initial: 10
+    min: 1
+    max: 60
+    step: 1
