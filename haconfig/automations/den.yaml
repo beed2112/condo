@@ -21,7 +21,7 @@
     - service: timer.start
       data_template:
         entity_id: "timer.den_motion"
-        duration: '{{ states.input_number.wc_motion_time_on.state | multiply(60) |int}}'
+        duration: '{{ states.input_number.den_motion_time_on.state | multiply(60) |int}}'
     - service: homeassistant.turn_on
       entity_id: input_boolean.motionactivated_den
 
@@ -46,7 +46,7 @@
     - service: timer.start
       data_template:
         entity_id: "timer.den_motion"
-        duration: '{{ states.input_number.wc_motion_time_on.state | multiply(60) |int}}'
+        duration: '{{ states.input_number.den_motion_time_on.state | multiply(60) |int}}'
 
 #-autodoc
 #-autodoc        name: Motion den light time ends
