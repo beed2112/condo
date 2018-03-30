@@ -97,3 +97,39 @@
   action:
     - service: homeassistant.turn_on
       entity_id: group.automations_to_toggle_
+
+#-autodoc
+#-autodoc        name:
+#-autodoc description:
+#-autodoc        file:
+#-autodoc
+- alias: Something opened
+  trigger:
+    platform: state
+    # entity_id: group.433sensors_g
+    # entity_id: binary_sensor.entry, binary_sensor.patio, binary_sensor.screen, binary_sensor.lr_n, binary_sensor.lr_e,binary_sensor.dr, binary_sensor.kitchen, binary_sensor.br, binary_sensor.den
+    entity_id: !secret openings_to_watch
+    from: 'off'
+    to: 'on'
+  # for:
+#   minutes: 10
+  action:
+    service: persistent_notification.create
+    data_template:
+      message: ' {{states.sensor.date__time.state}} - {{ trigger.from_state.attributes.friendly_name}} has been opened'
+      title: "Something Opened"
+- alias: Something closed
+  trigger:
+    platform: state
+    # entity_id: binary_sensor.entry, binary_sensor.patio, binary_sensor.screen, binary_sensor.lr_n, binary_sensor.lr_e,binary_sensor.dr, binary_sensor.kitchen, binary_sensor.br, binary_sensor.den
+    entity_id: !secret openings_to_watch
+    from: 'on'
+    to: 'off'
+  # for:
+  #   minutes: 10
+  action:
+    service: persistent_notification.create
+    data_template:
+      message:  ' {{states.sensor.date__time.state}} - {{ trigger.from_state.attributes.friendly_name}} has been closed'
+      title: "Something Closed"
+      
