@@ -79,12 +79,53 @@
     event_data:
       domain: notify
       service: syslog
-      message: '2112'
+      #message: C2112
+  condition:
+    condition: template
+    value_template: '{{ "o2112" in trigger.event.data.service_data["message"]}}'
   action:
    - service: persistent_notification.create
      data_template:
-       message: '{{states.sensor.date__time.state}} Message:2112 - {{trigger.event.data["service_data"]}}'
+       message: '{{states.sensor.date__time.state}} coffee pot is on.'
        title: "Syslog Test"
-        
+
+      # message: '{{states.sensor.date__time.state}} service data: - {{trigger.event.data["service_data"] }} -C2112 in message: -{{ "C2112" in trigger.event.data.service_data["message"]}}  domain: {{ trigger.event.data["domain"]}} message: {{ trigger.event.data.service_data["message"]}}'
+      
 # call_service|{"domain": "notify", "service": "syslog", "service_data": {"message": "this is the massage"}, "service_call_id": "1967758832-30"}
 
+
+- alias: 'holdopen'
+  trigger:
+    platform: event
+    event_type: call_service
+    event_data:
+      domain: notify
+      service: syslog
+  condition:
+    condition: template
+    value_template: '{{ "o5150" in trigger.event.data.service_data["message"]}}'
+  action:
+      service: notify.ios_michaels_iphone
+      data_template:
+        message: >
+         Here is what is open:
+         {%- for entity_id in states.group.hvac_watchlist_g.attributes.entity_id -%}
+          {% set parts = entity_id.split('.') -%}
+          {%- if states(entity_id) == 'on' %}
+          {%- if loop.first %} {% elif loop.last %} {% else %} - {% endif -%}{{ states[parts[0]][parts[1]].name }}  for {{relative_time(states[parts[0]][parts[1]].last_updated)}}  {% endif -%}
+          {%- endfor %}
+          
+- alias: 'holdopen over'
+  trigger:
+    platform: event
+    event_type: call_service
+    event_data:
+      domain: notify
+      service: syslog
+  condition:
+    condition: template
+    value_template: '{{ "c5150" in trigger.event.data.service_data["message"]}}'
+  action:
+      service: notify.ios_michaels_iphone
+      data_template:
+        message: "all closed now"
