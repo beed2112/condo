@@ -101,6 +101,7 @@
       - group.condo_humidity_g
       - group.condo_motion_g
       - group.actions_g
+      - group.433sensors_g
 
  
   control_g:
@@ -148,6 +149,58 @@
     entities:
       - binary_sensor.openmqttgateway1_motion
       - binary_sensor.openmqttgateway3_motion
+
+  433sensors_g:
+    name: 'Doors & Windows'
+    icon: mdi:tune
+    control: hidden
+    entities:
+      - binary_sensor.entry
+      - binary_sensor.patio
+      - binary_sensor.screen
+      - binary_sensor.shade
+      - binary_sensor.lr_n
+      - binary_sensor.lr_e
+      - binary_sensor.dr
+      - binary_sensor.kitchen
+      - binary_sensor.br
+      - binary_sensor.den
+      
+  433sensors_doors_g:
+    name: 'Doors'
+    icon: mdi:tune
+    control: hidden
+    entities:
+      - binary_sensor.entry
+      - binary_sensor.patio
+      - binary_sensor.screen
+
+      
+  433sensors_windows_g:
+    name: 'Windows'
+    icon: mdi:tune
+    control: hidden
+    entities:
+      - binary_sensor.lr_n
+      - binary_sensor.lr_e
+      - binary_sensor.dr
+      - binary_sensor.kitchen
+      - binary_sensor.br
+      - binary_sensor.den
+
+  hvac_watchlist_g:
+    name: 'HVAC Watchlist'
+    icon: mdi:tune
+    control: hidden
+    entities:
+      - binary_sensor.patio
+      - binary_sensor.lr_n
+      - binary_sensor.lr_e
+      - binary_sensor.dr
+      - binary_sensor.kitchen
+      - binary_sensor.br
+      - binary_sensor.den
+      - binary_sensor.entry
 
 ###----------------------------control panel end----------------------------------------###
 
@@ -370,8 +423,8 @@
     name: ' '
     entities:
       - device_tracker.michaels_iphone
-      - device_tracker.mike_ipad
-      - device_tracker.mikechromebook
+      # - device_tracker.mike_ipad
+      # - device_tracker.mikechromebook
       - device_tracker.michaelsiphone
 
 

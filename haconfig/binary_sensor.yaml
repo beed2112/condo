@@ -30,7 +30,21 @@
     device_class: "motion"
     
 ###------- Door window sensors
-# Tamper code: 12598791 ??
+#
+#  GS-WDS07 Wireless Door Magnetic Strip 433MHz for Security Alarm Home System
+#  https://fccid.io/2AIKI-G90/
+#
+
+# Tamper code: 783623
+  - platform: mqtt
+    name: "Shade"
+    state_topic: "home/433toMQTT"
+    payload_on: "783626"
+    payload_off: "783630"
+    device_class: "opening"
+
+
+# Tamper code: 12598791
   - platform: mqtt
     name: "Entry"
     state_topic: "home/433toMQTT"
@@ -101,3 +115,21 @@
     payload_on: "818954"
     payload_off: "818958"
     device_class: "window"
+    
+    
+    
+#----  workday sensors
+  - platform: workday
+    country: US
+    name: today_work_day
+
+  - platform: workday
+    country: US
+    name: tomorrow_work_day
+    days_offset: +1
+
+  - platform: workday
+    country: US
+    name: yesterday_work_day
+    days_offset: -1
+    
