@@ -115,8 +115,17 @@
     payload_on: "818954"
     payload_off: "818958"
     device_class: "window"
-    
-    
+
+# Motion  1823626
+# Tamper  1823627
+
+  - platform: mqtt
+    name: "Entry motion"
+    qos: 0
+    state_topic: "home/433toMQTT"
+    payload_on: "1823626"
+    payload_off: "1823626off"
+    device_class: motion
     
 #----  workday sensors
   - platform: workday

@@ -9,6 +9,24 @@
     
     switch.router_fan:
       friendly_name: Den Light
+
+    device_tracker.michaels_iphone:
+      friendly_name: Mike Phone BT
+      
+    device_tracker.michaelsiphone:
+      friendly_name: Mike Phone WL
+      
+      
+    device_tracker.iphone_melodie_personal:
+      friendly_name: Melodie Phone BT
+      
+    
+    device_tracker.melodies_ipad_2:
+      friendly_name: Melodie iPad BT
+    
+    binary_sensor.entry_motion:
+      friendly_name: Entry
+      
 ###---------------------------------openmqttgw stuff ------------------------------------###
 
     binary_sensor.openmqttgateway1:
@@ -42,7 +60,12 @@
     sensor.mqtt_rf_temperature3:
       friendly_name: Den Temp
     
-
+    binary_sensor.entry:
+      icon: mdi:door
+    binary_sensor.patio:
+      icon: mdi:door
+    binary_sensor.screen:
+      icon: mdi:door
 
 
 ###---------------------------------openmqttgw stuff ------------------------------------###

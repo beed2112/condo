@@ -1,3 +1,5 @@
+  hvac_cool_off_watchdog:
+    name: HVAC Cool off
   motionactivated_den:
     name: Den MA
   pill_one_taken:

@@ -4,9 +4,20 @@
       - light
       - switch
 #      - input_boolean
+    entities:
+      - binary_sensor.entry
+      - binary_sensor.patio
+      - binary_sensor.screen
+      - binary_sensor.lr_n
+      - binary_sensor.lr_e
+      - binary_sensor.dr
+      - binary_sensor.kitchen
+      - binary_sensor.br
+      - binary_sensor.den
   exclude:
     entities:
       - automation.motion_for_den_light_timer_restart
+ 
       
 
 

@@ -150,7 +150,7 @@ device_tracker:
     password: !secret ddwrt_password
   - platform: bluetooth_tracker
     new_device_defaults:
-      track_new_devices: False
+      track_new_devices: True
 
 
 
@@ -216,4 +216,6 @@ timer:
     duration: '600'
   br_night_motion:
     duration: '180'
+  hvac_watchdog:
+    duration: '300'
     

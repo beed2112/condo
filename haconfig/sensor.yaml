@@ -9,13 +9,13 @@
 
   - platform: mqtt
     name: "MQTT RF Temperature"
-    state_topic: "home/DHTtoMQTT/dht1/temp"
+    state_topic: "home/OpenMQTTGateway1/dht1/temp"
     unit_of_measurement: "°C"
     value_template: '{{ value | round(2)  }}'
 
   - platform: mqtt
     name: "MQTT RF Humidity"
-    state_topic: "home/DHTtoMQTT/dht1/hum"
+    state_topic: "home/OpenMQTTGateway1/dht1/hum"
     unit_of_measurement: "%"
     value_template: '{{ value | round(2)  }}'
 
@@ -30,6 +30,18 @@
     state_topic: "home/OpenMQTTGateway2/dht1/hum"
     unit_of_measurement: "%"
     value_template: '{{ value | round(2)  }}'
+    
+  - platform: mqtt
+    name: "MQTT RF Temperature3"
+    state_topic: "home/OpenMQTTGateway3/dht1/temp"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | round(2)  }}'
+  - platform: mqtt
+    name: "MQTT RF Humidity3"
+    state_topic: "home/OpenMQTTGateway3/dht1/hum"
+    unit_of_measurement: "%"
+    value_template: '{{ value | round(2)  }}'
+    
 
 ###---------------------------------------------------------------------------
 
@@ -140,6 +152,27 @@
     scan_interval: 10800
     command: "cat /home/homeassistant/.homeassistant/cmds/dash-furnacefilter.sensor"
   - platform: command_line
+    name: SSL cert expiry
+    unit_of_measurement: days
+    scan_interval: 10800
+    command: "sudo ssl-cert-check -b -c /etc/letsencrypt/live/beedaz.duckdns.org/fullchain.pem | awk '{ print $NF }'"
+  - platform: command_line
+    name: mmj mike expire
+    scan_interval: 10800
+    command: "cat /home/homeassistant/.homeassistant/cmds/mikemmj"
+  - platform: command_line
+    name: azns sale
+    # scan_interval: 3600
+    command: "cat /home/homeassistant/.homeassistant/cmds/aznssale.txt"
+  - platform: command_line
+    name: azns check
+    # scan_interval: 3600
+    command: "/home/homeassistant/.homeassistant/cmds/azns.sh"
+  - platform: command_line
+    name: azns strains
+    # scan_interval: 3600
+    command: "cat /home/homeassistant/.homeassistant/cmds/aznsstrains.txt"
+  - platform: command_line
     name: lr tv status
     scan_interval: 5
     command: "cat /home/homeassistant/.homeassistant/cmds/lr_tv.sensor"
@@ -173,245 +206,245 @@
 
 
 ###---------------------------------------------------------------Daily History Stats Begin
-  - platform: history_stats
-    name: patio on today
-    entity_id: switch.esp
-    state: 'on'
-    type: time
-    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    end: '{{ now() }}'
-  - platform: history_stats
-    name: Melodie Nighstand Light ON today
-    entity_id: switch.melodie_nightstand_
-    state: 'on'
-    type: time
-    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    end: '{{ now() }}'
-  - platform: history_stats
-    name: Router Fan ON today
-    entity_id: switch.router_fan
-    state: 'on'
-    type: time
-    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    end: '{{ now() }}'
-  - platform: history_stats
-    name: BR Ceiling Fan ON today
-    entity_id: switch.br_ceiling_fan
-    state: 'on'
-    type: time
-    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    end: '{{ now() }}'
-  - platform: history_stats
-    name: BR Switch ON today
-    entity_id: switch.br_switch
-    state: 'on'
-    type: time
-    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    end: '{{ now() }}'
-  - platform: history_stats
-    name: Coffee Pot ON today
-    entity_id: switch.coffee
-    state: 'on'
-    type: time
-    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    end: '{{ now() }}'
-  - platform: history_stats
-    name: Kitchen wax Heater ON today
-    entity_id: switch.kitchen_wax_heater
-    state: 'on'
-    type: time
-    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    end: '{{ now() }}'
-  - platform: history_stats
-    name: LR Ceiling Fan ON today
-    entity_id: switch.lr_ceiling_fan
-    state: 'on'
-    type: time
-    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    end: '{{ now() }}'
-  - platform: history_stats
-    name: LR Light ON today
-    entity_id: switch.lr_light
-    state: 'on'
-    type: time
-    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    end: '{{ now() }}'
-  - platform: history_stats
-    name: LR Switch ON today
-    entity_id: switch.lr_switch
-    state: 'on'
-    type: time
-    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    end: '{{ now() }}'
-  - platform: history_stats
-    name: Nest ON today
-    entity_id: binary_sensor.arizona_thermostat_arizona_fan
-    state: 'on'
-    type: time
-    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    end: '{{ now() }}'
-#-----------------------------------------------------------------Weekly History Stats Begin
-  - platform: history_stats
-    name: Melodie Nighstand Light ON Week
-    entity_id: switch.melodie_nightstand_
-    state: 'on'
-    type: time
-    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    duration:
-      days: 7
-  - platform: history_stats
-    name: Router Fan ON Week
-    entity_id: switch.router_fan
-    state: 'on'
-    type: time
-    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    duration:
-      days: 7
-  - platform: history_stats
-    name: BR Ceiling Fan ON Week
-    entity_id: switch.br_ceiling_fan
-    state: 'on'
-    type: time
-    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    duration:
-      days: 7
-  - platform: history_stats
-    name: BR Switch ON Week
-    entity_id: switch.br_switch
-    state: 'on'
-    type: time
-    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    duration:
-      days: 7
-  - platform: history_stats
-    name: Coffee Pot ON Week
-    entity_id: switch.coffee
-    state: 'on'
-    type: time
-    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    duration:
-      days: 7
-  - platform: history_stats
-    name: Kitchen wax Heater ON Week
-    entity_id: switch.kitchen_wax_heater
-    state: 'on'
-    type: time
-    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    duration:
-      days: 7
-  - platform: history_stats
-    name: LR Ceiling Fan ON Week
-    entity_id: switch.lr_ceiling_fan
-    state: 'on'
-    type: time
-    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    duration:
-      days: 7
-  - platform: history_stats
-    name: LR Light ON Week
-    entity_id: switch.lr_light
-    state: 'on'
-    type: time
-    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    duration:
-      days: 7
-  - platform: history_stats
-    name: LR Switch ON Week
-    entity_id: switch.lr_switch
-    state: 'on'
-    type: time
-    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    duration:
-      days: 7
-  - platform: history_stats
-    name: Nest ON Week
-    entity_id: binary_sensor.arizona_thermostat_arizona_fan
-    state: 'on'
-    type: time
-    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    duration:
-      days: 7
-#-----------------------------------------------------------------Last 30 History Stats Begin
-  - platform: history_stats
-    name: Melodie Nighstand Light ON Last 30
-    entity_id: switch.melodie_nightstand_
-    state: 'on'
-    type: time
-    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    duration:
-      days: 30
-  - platform: history_stats
-    name: Router Fan ON Last 30
-    entity_id: switch.router_fan
-    state: 'on'
-    type: time
-    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    duration:
-      days: 30
-  - platform: history_stats
-    name: BR Ceiling Fan ON Last 30
-    entity_id: switch.br_ceiling_fan
-    state: 'on'
-    type: time
-    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    duration:
-      days: 30
-  - platform: history_stats
-    name: BR Switch ON Last 30
-    entity_id: switch.br_switch
-    state: 'on'
-    type: time
-    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    duration:
-      days: 30
-  - platform: history_stats
-    name: Coffee Pot ON Last 30
-    entity_id: switch.coffee
-    state: 'on'
-    type: time
-    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    duration:
-      days: 30
-  - platform: history_stats
-    name: Kitchen wax Heater ON Last 30
-    entity_id: switch.kitchen_wax_heater
-    state: 'on'
-    type: time
-    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    duration:
-      days: 30
-  - platform: history_stats
-    name: LR Ceiling Fan ON Last 30
-    entity_id: switch.lr_ceiling_fan
-    state: 'on'
-    type: time
-    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    duration:
-      days: 30
-  - platform: history_stats
-    name: LR Light ON Last 30
-    entity_id: switch.lr_light
-    state: 'on'
-    type: time
-    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    duration:
-      days: 30
-  - platform: history_stats
-    name: LR Switch ON Last 30
-    entity_id: switch.lr_switch
-    state: 'on'
-    type: time
-    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    duration:
-      days: 30
-  - platform: history_stats
-    name: Nest ON Last 30
-    entity_id: binary_sensor.arizona_thermostat_arizona_fan
-    state: 'on'
-    type: time
-    end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-    duration:
-      days: 30
+#   - platform: history_stats
+#     name: patio on today
+#     entity_id: switch.esp
+#     state: 'on'
+#     type: time
+#     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     end: '{{ now() }}'
+#   - platform: history_stats
+#     name: Melodie Nighstand Light ON today
+#     entity_id: switch.melodie_nightstand_
+#     state: 'on'
+#     type: time
+#     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     end: '{{ now() }}'
+#   - platform: history_stats
+#     name: Router Fan ON today
+#     entity_id: switch.router_fan
+#     state: 'on'
+#     type: time
+#     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     end: '{{ now() }}'
+#   - platform: history_stats
+#     name: BR Ceiling Fan ON today
+#     entity_id: switch.br_ceiling_fan
+#     state: 'on'
+#     type: time
+#     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     end: '{{ now() }}'
+#   - platform: history_stats
+#     name: BR Switch ON today
+#     entity_id: switch.br_switch
+#     state: 'on'
+#     type: time
+#     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     end: '{{ now() }}'
+#   - platform: history_stats
+#     name: Coffee Pot ON today
+#     entity_id: switch.coffee
+#     state: 'on'
+#     type: time
+#     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     end: '{{ now() }}'
+#   - platform: history_stats
+#     name: Kitchen wax Heater ON today
+#     entity_id: switch.kitchen_wax_heater
+#     state: 'on'
+#     type: time
+#     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     end: '{{ now() }}'
+#   - platform: history_stats
+#     name: LR Ceiling Fan ON today
+#     entity_id: switch.lr_ceiling_fan
+#     state: 'on'
+#     type: time
+#     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     end: '{{ now() }}'
+#   - platform: history_stats
+#     name: LR Light ON today
+#     entity_id: switch.lr_light
+#     state: 'on'
+#     type: time
+#     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     end: '{{ now() }}'
+#   - platform: history_stats
+#     name: LR Switch ON today
+#     entity_id: switch.lr_switch
+#     state: 'on'
+#     type: time
+#     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     end: '{{ now() }}'
+#   - platform: history_stats
+#     name: Nest ON today
+#     entity_id: binary_sensor.arizona_thermostat_arizona_fan
+#     state: 'on'
+#     type: time
+#     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     end: '{{ now() }}'
+# #-----------------------------------------------------------------Weekly History Stats Begin
+#   - platform: history_stats
+#     name: Melodie Nighstand Light ON Week
+#     entity_id: switch.melodie_nightstand_
+#     state: 'on'
+#     type: time
+#     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     duration:
+#       days: 7
+#   - platform: history_stats
+#     name: Router Fan ON Week
+#     entity_id: switch.router_fan
+#     state: 'on'
+#     type: time
+#     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     duration:
+#       days: 7
+#   - platform: history_stats
+#     name: BR Ceiling Fan ON Week
+#     entity_id: switch.br_ceiling_fan
+#     state: 'on'
+#     type: time
+#     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     duration:
+#       days: 7
+#   - platform: history_stats
+#     name: BR Switch ON Week
+#     entity_id: switch.br_switch
+#     state: 'on'
+#     type: time
+#     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     duration:
+#       days: 7
+#   - platform: history_stats
+#     name: Coffee Pot ON Week
+#     entity_id: switch.coffee
+#     state: 'on'
+#     type: time
+#     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     duration:
+#       days: 7
+#   - platform: history_stats
+#     name: Kitchen wax Heater ON Week
+#     entity_id: switch.kitchen_wax_heater
+#     state: 'on'
+#     type: time
+#     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     duration:
+#       days: 7
+#   - platform: history_stats
+#     name: LR Ceiling Fan ON Week
+#     entity_id: switch.lr_ceiling_fan
+#     state: 'on'
+#     type: time
+#     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     duration:
+#       days: 7
+#   - platform: history_stats
+#     name: LR Light ON Week
+#     entity_id: switch.lr_light
+#     state: 'on'
+#     type: time
+#     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     duration:
+#       days: 7
+#   - platform: history_stats
+#     name: LR Switch ON Week
+#     entity_id: switch.lr_switch
+#     state: 'on'
+#     type: time
+#     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     duration:
+#       days: 7
+#   - platform: history_stats
+#     name: Nest ON Week
+#     entity_id: binary_sensor.arizona_thermostat_arizona_fan
+#     state: 'on'
+#     type: time
+#     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     duration:
+#       days: 7
+# #-----------------------------------------------------------------Last 30 History Stats Begin
+#   - platform: history_stats
+#     name: Melodie Nighstand Light ON Last 30
+#     entity_id: switch.melodie_nightstand_
+#     state: 'on'
+#     type: time
+#     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     duration:
+#       days: 30
+#   - platform: history_stats
+#     name: Router Fan ON Last 30
+#     entity_id: switch.router_fan
+#     state: 'on'
+#     type: time
+#     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     duration:
+#       days: 30
+#   - platform: history_stats
+#     name: BR Ceiling Fan ON Last 30
+#     entity_id: switch.br_ceiling_fan
+#     state: 'on'
+#     type: time
+#     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     duration:
+#       days: 30
+#   - platform: history_stats
+#     name: BR Switch ON Last 30
+#     entity_id: switch.br_switch
+#     state: 'on'
+#     type: time
+#     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     duration:
+#       days: 30
+#   - platform: history_stats
+#     name: Coffee Pot ON Last 30
+#     entity_id: switch.coffee
+#     state: 'on'
+#     type: time
+#     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     duration:
+#       days: 30
+#   - platform: history_stats
+#     name: Kitchen wax Heater ON Last 30
+#     entity_id: switch.kitchen_wax_heater
+#     state: 'on'
+#     type: time
+#     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     duration:
+#       days: 30
+#   - platform: history_stats
+#     name: LR Ceiling Fan ON Last 30
+#     entity_id: switch.lr_ceiling_fan
+#     state: 'on'
+#     type: time
+#     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     duration:
+#       days: 30
+#   - platform: history_stats
+#     name: LR Light ON Last 30
+#     entity_id: switch.lr_light
+#     state: 'on'
+#     type: time
+#     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     duration:
+#       days: 30
+#   - platform: history_stats
+#     name: LR Switch ON Last 30
+#     entity_id: switch.lr_switch
+#     state: 'on'
+#     type: time
+#     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     duration:
+#       days: 30
+#   - platform: history_stats
+#     name: Nest ON Last 30
+#     entity_id: binary_sensor.arizona_thermostat_arizona_fan
+#     state: 'on'
+#     type: time
+#     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#     duration:
+#       days: 30
 #-----------------------------------------------------------------History Stats  End
 
     
@@ -566,6 +599,9 @@
       - type: memory_use
       - type: memory_free
       - type: processor_use
+      - type: load_1m
+      - type: load_5m
+      - type: load_15m
       - type: swap_use_percent
       - type: swap_use
       - type: swap_free
@@ -584,17 +620,17 @@
       - type: ipv6_address
         arg: eth0
       - type: network_in
-        arg: eth1
-      - type: network_out
-        arg: eth1
-      - type: packets_in
-        arg: eth1
-      - type: packets_out
-        arg: eth1
-      - type: ipv4_address
-        arg: eth1
-      - type: ipv6_address
-        arg: eth1
+      #   arg: eth1
+      # - type: network_out
+      #   arg: eth1
+      # - type: packets_in
+      #   arg: eth1
+      # - type: packets_out
+      #   arg: eth1
+      # - type: ipv4_address
+      #   arg: eth1
+      # - type: ipv6_address
+      #   arg: eth1
 
 ###------------------------------------------------------time_date  ---------------
 
