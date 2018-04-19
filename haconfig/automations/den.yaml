@@ -11,6 +11,11 @@
       entity_id: binary_sensor.openmqttgateway3_motion
       from: 'off'
       to: 'on'
+    - platform: state
+      entity_id: binary_sensor.entry_motion
+      # entity_id: binary_sensor.lr_n
+      from: 'off'
+      to: 'on'
   condition:
     condition: state
     entity_id: switch.router_fan

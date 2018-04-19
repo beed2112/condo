@@ -1,0 +1,45 @@
+#-autodoc
+#-autodoc        name: Alert on opening
+#-autodoc description: Sned message that something is open.  This acts on the syslog message sent by alert when someting in the group is opened.  "In" was lazy look into regex
+#-autodoc        file: openings.yaml
+#-autodoc
+- alias: 'Alert on opening'
+  trigger:
+    platform: event
+    event_type: call_service
+    event_data:
+      domain: notify
+      service: syslog
+  condition:
+    condition: template
+    value_template: '{{ "o5150" in trigger.event.data.service_data["message"]}}'
+  action:
+      service: notify.ios_michaels_iphone
+      data_template:
+        message: >
+         Here is what is open:
+         {%- for entity_id in states.group.hvac_watchlist_g.attributes.entity_id -%}
+          {% set parts = entity_id.split('.') -%}
+          {%- if states(entity_id) == 'on' %}
+          {%- if loop.first %} {% elif loop.last %} {% else %} - {% endif -%}{{ states[parts[0]][parts[1]].name }}  for {{relative_time(states[parts[0]][parts[1]].last_updated)}}  {% endif -%}
+          {%- endfor %}
+
+#-autodoc
+#-autodoc        name: Alert when all closed
+#-autodoc description: Send message when all closed.  This acts on the syslog message sent by alert when all openings in group are closed.  "In" was lazy look into regex
+#-autodoc        file: openings.yaml
+#-autodoc
+- alias: 'Alert when all closed'
+  trigger:
+    platform: event
+    event_type: call_service
+    event_data:
+      domain: notify
+      service: syslog
+  condition:
+    condition: template
+    value_template: '{{ "c5150" in trigger.event.data.service_data["message"]}}'
+  action:
+      service: notify.ios_michaels_iphone
+      data_template:
+        message: "all closed now"
