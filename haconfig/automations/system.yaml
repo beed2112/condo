@@ -106,13 +106,9 @@
 - alias: Something opened
   trigger:
     platform: state
-    # entity_id: group.433sensors_g
-    # entity_id: binary_sensor.entry, binary_sensor.patio, binary_sensor.screen, binary_sensor.lr_n, binary_sensor.lr_e,binary_sensor.dr, binary_sensor.kitchen, binary_sensor.br, binary_sensor.den
     entity_id: !secret openings_to_watch
     from: 'off'
     to: 'on'
-  # for:
-#   minutes: 10
   action:
     service: persistent_notification.create
     data_template:
@@ -121,15 +117,29 @@
 - alias: Something closed
   trigger:
     platform: state
-    # entity_id: binary_sensor.entry, binary_sensor.patio, binary_sensor.screen, binary_sensor.lr_n, binary_sensor.lr_e,binary_sensor.dr, binary_sensor.kitchen, binary_sensor.br, binary_sensor.den
     entity_id: !secret openings_to_watch
     from: 'on'
     to: 'off'
-  # for:
-  #   minutes: 10
   action:
     service: persistent_notification.create
     data_template:
       message:  ' {{states.sensor.date__time.state}} - {{ trigger.from_state.attributes.friendly_name}} has been closed'
       title: "Something Closed"
+
+- alias: 'Entry Motion Sensor Off Timer'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: binary_sensor.entry_motion
+    to: 'on'
+    for:
+     seconds: 4
+  action:
+    service: mqtt.publish
+    data:
+      topic: 'home/433toMQTT'
+      payload: '1823626off'
+      retain: 'true'
+      
+      
       
