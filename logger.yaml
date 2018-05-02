@@ -1,0 +1,26 @@
+  default: info
+  logs:
+    homeassistant.components.binary_sensor.mqtt: error
+    homeassistant.core: error
+    homeassistant.components.http: warning
+    homeassistant.components.http.ban: warning
+    homeassistant.components.recorder: error
+    homeassistant.components.recorder.util: error
+    homeassistant.components.sensor: error
+    homeassistant.components.sensor.command_line: error
+    homeassistant.components.history: error
+    homeassistant.components.websocket_api: error
+    homeassistant.components.switch: error
+    homeassistant.components.switch.command_line: error
+    homeassistant.components.device_tracker: error
+    homeassistant.components.device_tracker.ddwrt: error
+    homeassistant.components.light: error
+    homeassistant.components.light.lifx: error
+    #homeassistant.components.light: info
+    #homeassistant.components.light.lifx: info
+    homeassistant.components.discovery: info
+    homeassistant.setup: info
+    homeassistant.loader: info
+    homeassistant.components.automation: info
+    homeassistant.helpers.script: info
+    homeassistant.components.wemo: info

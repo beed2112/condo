@@ -1,0 +1,74 @@
+#-autodoc
+#-autodoc        name: Motion for den light on
+#-autodoc description: If the den light is not on turn it on when motion is detected.  On time is set in the GUI
+#-autodoc
+#-autodoc        file: den.yaml
+#-autodoc
+- alias: 'Motion for den light on'
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.den_motion
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.entry_motion
+      # entity_id: binary_sensor.lr_n
+      from: 'off'
+      to: 'on'
+  condition:
+    condition: state
+    entity_id: switch.router_fan
+    state: 'off'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.router_fan
+    - service: timer.start
+      data_template:
+        entity_id: "timer.den_motion"
+        duration: '{{ states.input_number.den_motion_time_on.state | multiply(60) |int}}'
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.motionactivated_den
+
+#-autodoc
+#-autodoc        name: Motion for den light timer restart
+#-autodoc description: Restart the timer when motion detected.  On time is set in the GUI
+#-autodoc
+#-autodoc        file: den.yaml
+#-autodoc
+- alias: 'Motion for den light timer restart'
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.den_motion
+      from: 'off'
+      to: 'on'
+  condition:
+    condition: state
+    entity_id: input_boolean.motionactivated_den
+    state: 'on'
+  action:
+    - service: timer.start
+      data_template:
+        entity_id: "timer.den_motion"
+        duration: '{{ states.input_number.den_motion_time_on.state | multiply(60) |int}}'
+
+#-autodoc
+#-autodoc        name: Motion den light time ends
+#-autodoc description: If timer ends motion has not been detected turn light off. On time is set in the GUI
+#-autodoc
+#-autodoc        file: den.yaml
+#-autodoc
+- alias: 'Motion den light time ends'
+  initial_state: True
+  trigger:
+    - platform: event
+      event_type: timer.finished
+      event_data:
+        entity_id: timer.den_motion
+  action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.motionactivated_den
+    - service: homeassistant.turn_off
+      entity_id: switch.router_fan
+      

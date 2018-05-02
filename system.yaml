@@ -1,0 +1,145 @@
+###################################################################
+#-autodoc
+#-autodoc        name: zz Auto Renew SSL Cert
+#-autodoc description: Renew SSL cert 28 day before expires
+#-autodoc        file: system.yaml
+#-autodoc
+
+- alias: 'zz Auto Renew SSL Cert'
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.ssl_cert_expiry
+    below: 29
+  action:
+    service: shell_command.renew_ssl
+    
+# fire when weather alert changes to 1 show the group in the weather view
+#-autodoc
+#-autodoc        name: zz Weather alert 1
+#-autodoc description: When there is an active weather alert show the group containing the alert information
+#-autodoc        file: system.yaml
+#-autodoc
+- alias: 'zz Weather alert 1'
+  trigger:
+    platform: state
+    entity_id: sensor.pws_alerts
+    from: '0'
+    to: '1'
+  action:
+    service: group.set_visibility
+    entity_id: group.weather_alert_group
+    data:
+      visible: True
+
+# # fire when weather alert changes to 0 hide the group in the weather view
+# fire when weather alert changes to 1 show the group in the weather view
+#-autodoc
+#-autodoc        name: zz Weather alert 0
+#-autodoc description: When the weather alert becomes inactive hide the group containing the alert information
+#-autodoc        file: system.yaml
+#-autodoc
+- alias: 'zz Weather alert 0'
+  trigger:
+    platform: state
+    entity_id: sensor.pws_alerts
+    from: '1'
+    to: '0'
+  action:
+    service: group.set_visibility
+    entity_id: group.weather_alert_group
+    data:
+      visible: False
+# fire when HA restarts and Hide aert group if no active alert
+#-autodoc
+#-autodoc        name: zz Weather alert 0
+#-autodoc description: When HA restarts hide the group containing the alert information if no active alert
+#-autodoc        file: system.yaml
+#-autodoc
+- alias: 'zz Weatheralert hide on HA start if no active alert'
+  hide_entity: False
+  trigger:
+      platform: homeassistant
+      event: start
+  condition:
+    condition: state
+    entity_id: sensor.pws_alerts
+    state: '0'
+  action:
+    service: group.set_visibility
+    entity_id: group.weather_alert_group
+    data:
+      visible: False
+#-autodoc
+#-autodoc        name: zzz toggle automations off
+#-autodoc description: Turn off the group of automations in group.automations_to_toggle_g whne House goes to vacation mode
+#-autodoc        file: system.yaml
+#-autodoc
+- alias: 'zzz toggle automations off'
+  trigger:
+    platform: state
+    entity_id: input_boolean.on_vaca
+    from: 'off'
+    to: 'on'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: group.automations_to_toggle_g
+#-autodoc
+#-autodoc        name: zzz toggle automations on
+#-autodoc description: Turn on the group of automations in group.automations_to_toggle_g whne House goes out of vacation mode
+#-autodoc        file: system.yaml
+#-autodoc
+- alias: 'zzz toggle automations on'
+  trigger:
+    platform: state
+    entity_id: input_boolean.on_vaca
+    from: 'on'
+    to: 'off'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: group.automations_to_toggle_
+
+#-autodoc
+#-autodoc        name:
+#-autodoc description:
+#-autodoc        file:
+#-autodoc
+- alias: Something opened
+  trigger:
+    platform: state
+    entity_id: !secret openings_to_watch
+    from: 'off'
+    to: 'on'
+  action:
+    service: persistent_notification.create
+    data_template:
+      message: ' {{states.sensor.date__time.state}} - {{ trigger.from_state.attributes.friendly_name}} has been opened'
+      title: "Something Opened"
+- alias: Something closed
+  trigger:
+    platform: state
+    entity_id: !secret openings_to_watch
+    from: 'on'
+    to: 'off'
+  action:
+    service: persistent_notification.create
+    data_template:
+      message:  ' {{states.sensor.date__time.state}} - {{ trigger.from_state.attributes.friendly_name}} has been closed'
+      title: "Something Closed"
+
+- alias: 'Entry Motion Sensor Off Timer'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: binary_sensor.entry_motion
+    to: 'on'
+    for:
+     seconds: 4
+  action:
+    service: mqtt.publish
+    data:
+      topic: 'home/433toMQTT'
+      payload: '1823626off'
+      retain: 'true'
+      
+      
+      

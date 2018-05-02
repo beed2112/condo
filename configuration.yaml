@@ -1,0 +1,259 @@
+homeassistant:
+# Name of the location where Home Assistant is running
+# Location required to calculate the time the sun rises and sets
+# Impacts weather/sunrise data (altitude above sea level in meters)
+# metric for Metric, imperial for Imperial
+# Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  name: Condo
+  latitude: !secret config_latitude
+  longitude: !secret config_longitude
+  elevation: 377
+  unit_system: imperial
+  
+  time_zone: America/Phoenix
+
+  customize: !include customize.yaml
+
+
+# mqtt using remote host
+mqtt:
+  broker: mqttserver
+  client_id: haserver
+  username: !secret mqtt_user
+  password: !secret mqtt_pass
+  
+
+    
+#influx "telemetry database - using different host"
+influxdb:
+  host: !secret influx_host
+  database: !secret influx_db
+  default_measurement: state
+
+
+#iOS notification
+notify:
+  - name: iOSApp
+    platform: ios
+    # target: !secret iosapp_target
+    target:
+      - target: !secret iosapp_target
+      - target: !secret iosapp_target_melodie
+      - target: !secret iosapp_target_mikepad
+  - name: scene_generator
+    platform: file
+    filename: generated_scene.yaml
+    timestamp: false
+  - name: syslog
+    platform: syslog
+
+
+# Enables configuration UI
+config:
+
+
+http:
+  api_password: !secret api_pass
+  ssl_certificate: !secret ssl_certificate
+  ssl_key: !secret ssl_key
+  base_url: !secret base_url
+  # ip_ban_enabled: True
+  # login_attempts_threshold: 5
+
+# Checks for available updates
+updater:
+  include_used_components: true
+
+#Discover some devices automatically
+# discovery:
+#   ignore:
+#     - apple_tv
+#     - samsung_tv
+
+
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+#conversation:
+
+
+    
+python_script:
+
+
+# not using
+# media_player:
+#   - platform: firetv
+#     device: lr-firetv
+
+
+
+
+wemo: !include wemo.yaml
+
+ios: !include ios.yaml
+
+  
+
+
+shell_command: !include shell_command.yaml
+
+
+
+# tracked:
+# Show links to resources in log and frontend
+#introduction:
+
+# Enables the frontend
+
+frontend: !include frontend.yaml
+
+  
+
+
+recorder: !include recorder.yaml
+
+# Enables support for tracking state changes over time.
+history: !include history.yaml
+
+# View all events in a logbook
+logbook: !include logbook.yaml
+
+# what we log to HAs log and syslog
+logger: !include logger.yaml
+
+    
+# Track the sun
+sun:
+  
+
+  
+ 
+
+# Weather Prediction
+ - platform: yr
+   monitored_conditions:
+    - WindSpeed
+
+# Text to speech
+# tts:
+#   platform: google
+
+nest:
+  client_id: !secret nest_client_id
+  client_secret: !secret nest_client_secret
+
+
+device_tracker:
+  - platform: ddwrt
+    host: !secret ddwrt_host
+    username: !secret ddwrt_username
+    password: !secret ddwrt_password
+  - platform: bluetooth_tracker
+    new_device_defaults:
+      track_new_devices: True
+
+
+
+light: !include light.yaml
+
+ 
+
+sensor: !include sensor.yaml
+
+
+
+switch: !include switch.yaml
+
+
+group: !include groups.yaml
+
+# a directory of automaions
+automation: !include_dir_merge_list automations/
+
+# for testing to specific a specific file only
+#automation: !include automations/test-ios.yaml
+
+script: !include scripts.yaml
+
+
+
+input_number: !include input_number.yaml
+
+
+input_boolean: !include input_boolean.yaml
+
+input_select:
+  opening_list:
+    name: Sensor
+    options:
+     - Nothing
+     - Shade
+     - Entry
+     - Patio
+     - Screen
+     - BR
+     - Den
+     - Kitchen
+     - LR N
+     - LR E
+     - DR
+     - Entry motion
+
+  # opening_list_on:
+  #   name: Turn on Sensor
+  #   options:
+  #   - Shade
+  #   - Entry
+  #   - Patio
+  #   - Screen
+  #   - BR
+  #   - Den
+  #   - Kitchen
+  #   - LR N
+  #   - LR E
+  #   - DR
+
+  opening_list_action:
+    name: Action
+    options:
+     - "Off"
+     - "On"
+
+notify ios:
+  - name: iOS
+    platform: group
+    services:
+      - service: ios_michaels_iphone
+      - service: ios_iphone_melodie_personal
+      - service: ios_mike_ipad
+notify syslog:
+  - name: syslogit
+    platform: group
+    services:
+      - service: syslog
+    
+
+
+alert: !include alert.yaml
+
+
+
+binary_sensor: !include binary_sensor.yaml
+
+####----my example for when i figure out what i really want here.
+# panel_iframe:
+#   grafana:
+#     title: Dashboard
+#     icon: mdi:vector-square
+#     url: http://
+
+
+#define the timer - duration specified in seconds
+timer:
+  den_motion:
+    duration: '600'
+  br_night_motion:
+    duration: '180'
+  hvac_watchdog:
+    duration: '300'
+    

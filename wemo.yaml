@@ -1,0 +1,16 @@
+  static:
+    - !secret wemo1
+    - !secret wemo2
+    - !secret wemo3
+    - !secret wemo4
+    - !secret wemo5
+    - !secret wemo6
+    - !secret wemo7
+    - !secret wemo8
+    - !secret wemo9
+    - !secret wemo10
+    - !secret wemo11
+    - !secret wemo12
+    - !secret wemo13
+    - !secret wemo14
+    - !secret wemo15
