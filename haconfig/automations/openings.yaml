@@ -43,3 +43,57 @@
       service: notify.ios_michaels_iphone
       data_template:
         message: "all closed now"
+        
+- alias: Sensor Change
+  trigger:
+    platform: state
+    entity_id: input_select.opening_list
+  condition:
+    condition: template
+    value_template: '{{ states.input_select.opening_list !=  "None" }}'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: automation.sensor_change
+    - service: mqtt.publish
+      data_template:
+        topic: 'home/433toMQTT'
+        #retain: 'true'
+        payload: >-
+         {% set name = states('input_select.opening_list') %}
+         {% set group = 'group.radiosensors_g' %}
+         {% for entity_id in state_attr(group, 'entity_id') if states[entity_id.split('.', 1)[0]][entity_id.split('.', 1)[1]].name == name %}
+         {% set parts = entity_id.split('.', 1) %}
+         {% set entity = states[parts[0]][parts[1]] %}
+              {% if states('input_select.opening_list_action') == 'On' -%}
+                 {{ entity.attributes.payload_on }}
+              {%- else -%}
+                 {{ entity.attributes.payload_off }}
+              {%- endif %}
+          {% endfor %}
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.opening_list
+        option: 'Nothing'
+    - service: homeassistant.turn_on
+      entity_id: automation.sensor_change
+      
+      
+      
+      
+# - alias: Sensor ON
+#   trigger:
+#     platform: state
+#     entity_id: input_select.opening_list_on
+#   action:
+#     service: mqtt.publish
+#     data_template:
+#       topic: 'home/433toMQTT'
+#       retain: 'true'
+#       payload: >-
+#       {% set name = states('input_select.opening_list_on') %}
+#       {% set group = 'group.hvac_watchlist_g' %}
+#       {% for entity_id in state_attr(group, 'entity_id') if states[entity_id.split('.', 1)[0]][entity_id.split('.', 1)[1]].name == name %}
+#       {% set parts = entity_id.split('.', 1) %}
+#       {% set entity = states[parts[0]][parts[1]] %}
+#       {{ entity.attributes.payload_on }}
+#       {% endfor %}

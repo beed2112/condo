@@ -8,7 +8,7 @@
   initial_state: True
   trigger:
     - platform: state
-      entity_id: binary_sensor.openmqttgateway3_motion
+      entity_id: binary_sensor.den_motion
       from: 'off'
       to: 'on'
     - platform: state
@@ -40,7 +40,7 @@
   initial_state: True
   trigger:
     - platform: state
-      entity_id: binary_sensor.openmqttgateway3_motion
+      entity_id: binary_sensor.den_motion
       from: 'off'
       to: 'on'
   condition:

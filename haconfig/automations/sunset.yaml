@@ -8,7 +8,7 @@
   trigger:
     platform: sun
     event: sunset
-    offset: '-00:30:00'
+    offset: '-00:20:00'
   action:
     - service: switch.turn_on
       entity_id:
@@ -32,3 +32,12 @@
 #       - switch.lr_light
 
 
+- alias: 'Patio CF Light on'
+  initial_state: True
+  trigger:
+    platform: time
+    at: '23:00:00'
+  action:
+   - service: switch.turn_on
+     entity_id:
+     - switch.patiolight
