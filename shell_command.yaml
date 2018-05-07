@@ -17,4 +17,6 @@
 # https://www.ibm.com/support/knowledgecenter/zosbasics/com.ibm.zos.zdatamgmt/zsysprogc_utilities_IEFBR14.htm
 #
   br14: /bin/echo "0" > /dev/null
+  
+  iosnotifycount: /home/homeassistant/.homeassistant/cmds/iosnotifycount.sh
 

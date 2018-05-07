@@ -126,11 +126,11 @@
       message:  ' {{states.sensor.date__time.state}} - {{ trigger.from_state.attributes.friendly_name}} has been closed'
       title: "Something Closed"
 
-- alias: 'Entry Motion Sensor Off Timer'
+- alias: 'Test1 Sensor Off Timer'
   initial_state: 'on'
   trigger:
     platform: state
-    entity_id: binary_sensor.entry_motion
+    entity_id: binary_sensor.test1_motion
     to: 'on'
     for:
      seconds: 4
@@ -138,8 +138,34 @@
     service: mqtt.publish
     data:
       topic: 'home/433toMQTT'
-      payload: '1823626off'
+      payload: '1051530off'
       retain: 'true'
       
+- alias: 'Test2 Sensor Off Timer'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: binary_sensor.test2_motion
+    to: 'on'
+    for:
+     seconds: 4
+  action:
+    service: mqtt.publish
+    data:
+      topic: 'home/433toMQTT'
+      payload: '4551562off'
+      retain: 'true'
       
-      
+- alias: 'xx ios msg counts'
+  trigger:
+    platform: event
+    event_type: call_service
+    event_data:
+      domain: notify
+      service: ios_michaels_iphone
+  action:
+    # putting the delay ensure that the event makes it to the log in the event this is the first notify
+    - delay: 00:00:05
+    - service: shell_command.iosnotifycount
+
+#call_service|{"domain": "notify", "service": "ios_michaels_iphone", "service_data": {"message": "Here i

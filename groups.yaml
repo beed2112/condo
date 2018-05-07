@@ -133,6 +133,7 @@
     icon: mdi:tune
     control: hidden
     entities:
+      - sensor.nest_temperature
       - sensor.mqtt_rf_temperature
       - sensor.living_room_temperature
       - sensor.bed_room_temperature
@@ -152,7 +153,7 @@
       - group.reseter
       
   reseter:
-    name: ' '
+    name: 'Sensor Reset'
     control: hidden
     entities:
       - input_select.opening_list_action
@@ -169,6 +170,8 @@
       - binary_sensor.den_motion
       - binary_sensor.entry_motion
       - binary_sensor.underbed_motion
+      - binary_sensor.test1_motion
+      - binary_sensor.test2_motion
 
   
   radiosensors_g:
@@ -324,54 +327,66 @@
     view: yes
     icon: mdi:percent
     entities:
-     - group.stats_group_day
-     - group.stats_group_week
-     - group.stats_group_last30
+      - group.iosstats
+  #   - group.stats_group_day
+  #   - group.stats_group_week
+  #   - group.stats_group_last30
+
+  iosstats:
+    name: iosNotify Stats
+    control: hidden
+    entities:
+    - sensor.mikeiossent
+    - sensor.mikeioslimit
+    - sensor.mikeioserrors
+    - sensor.mikeiosresetin
+    
+  
       
-  stats_group_day:
-    name: Today
-    control: hidden
-    entities:
-     - sensor.nest_on_today
-     - sensor.lr_ceiling_fan_on_today
-     - sensor.lr_light_on_today
-     - sensor.lr_switch_on_today
-     - sensor.melodie_nighstand_light_on_today
-     - sensor.br_ceiling_fan_on_today
-     - sensor.br_switch_on_today
-     - sensor.coffee_pot_on_today
-     - sensor.kitchen_wax_heater_on_today
-     - sensor.router_fan_on_today
+  # stats_group_day:
+  #   name: Today
+  #   control: hidden
+  #   entities:
+  #   - sensor.nest_on_today
+  #   - sensor.lr_ceiling_fan_on_today
+  #   - sensor.lr_light_on_today
+  #   - sensor.lr_switch_on_today
+  #   - sensor.melodie_nighstand_light_on_today
+  #   - sensor.br_ceiling_fan_on_today
+  #   - sensor.br_switch_on_today
+  #   - sensor.coffee_pot_on_today
+  #   - sensor.kitchen_wax_heater_on_today
+  #   - sensor.router_fan_on_today
 
-  stats_group_week:
-    name: Last 7 days
-    control: hidden
-    entities:
-     - sensor.nest_on_week
-     - sensor.lr_ceiling_fan_on_week
-     - sensor.lr_light_on_week
-     - sensor.lr_switch_on_week
-     - sensor.melodie_nighstand_light_on_week
-     - sensor.br_ceiling_fan_on_week
-     - sensor.br_switch_on_week
-     - sensor.coffee_pot_on_week
-     - sensor.kitchen_wax_heater_on_week
-     - sensor.router_fan_on_week
+  # stats_group_week:
+  #   name: Last 7 days
+  #   control: hidden
+  #   entities:
+  #   - sensor.nest_on_week
+  #   - sensor.lr_ceiling_fan_on_week
+  #   - sensor.lr_light_on_week
+  #   - sensor.lr_switch_on_week
+  #   - sensor.melodie_nighstand_light_on_week
+  #   - sensor.br_ceiling_fan_on_week
+  #   - sensor.br_switch_on_week
+  #   - sensor.coffee_pot_on_week
+  #   - sensor.kitchen_wax_heater_on_week
+  #   - sensor.router_fan_on_week
 
-  stats_group_last30:
-    name: Last 30 days
-    control: hidden
-    entities:
-     - sensor.nest_on_last_30
-     - sensor.lr_ceiling_fan_on_last_30
-     - sensor.lr_light_on_last_30
-     - sensor.lr_switch_on_last_30S
-     - sensor.melodie_nighstand_light_on_last_30
-     - sensor.br_ceiling_fan_on_last_30
-     - sensor.br_switch_on_last_30
-     - sensor.coffee_pot_on_last_30
-     - sensor.kitchen_wax_heater_on_last_30
-     - sensor.router_fan_on_last_30
+  # stats_group_last30:
+  #   name: Last 30 days
+  #   control: hidden
+  #   entities:
+  #   - sensor.nest_on_last_30
+  #   - sensor.lr_ceiling_fan_on_last_30
+  #   - sensor.lr_light_on_last_30
+  #   - sensor.lr_switch_on_last_30S
+  #   - sensor.melodie_nighstand_light_on_last_30
+  #   - sensor.br_ceiling_fan_on_last_30
+  #   - sensor.br_switch_on_last_30
+  #   - sensor.coffee_pot_on_last_30
+  #   - sensor.kitchen_wax_heater_on_last_30
+  #   - sensor.router_fan_on_last_30
 
 ###----------------------------stats end----------------------------------------###
 

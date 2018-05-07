@@ -184,6 +184,28 @@
     payload_on: "1823626"
     payload_off: "1823626off"
     device_class: motion
+
+# Motion  1051530
+# Tamper  1051531
+
+  - platform: mqtt
+    name: "Test1 motion"
+    qos: 0
+    state_topic: "home/433toMQTT"
+    payload_on: "1051530"
+    payload_off: "1051530off"
+    device_class: motion
+    
+# Motion  4551562
+# Tamper  4551563
+
+  - platform: mqtt
+    name: "Test2 motion"
+    qos: 0
+    state_topic: "home/433toMQTT"
+    payload_on: "4551562"
+    payload_off: "4551562off"
+    device_class: motion
     
 #----  workday sensors
   - platform: workday
