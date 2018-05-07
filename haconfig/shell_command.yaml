@@ -7,9 +7,16 @@
 # 0 is off
   melodie_nightstand_off: /bin/echo "0" > /home/homeassistant/.homeassistant/cmds/dash-melodie.sensor
 #
+###----used to keep dash sensor value current
+# 1 is on
+  den_on: /bin/echo "1" > /home/homeassistant/.homeassistant/cmds/dash-den.sensor
+# 0 is off
+  mden_off: /bin/echo "0" > /home/homeassistant/.homeassistant/cmds/dash-den.sensor
 ###---- sometimes you need to do nothing
 #
 # https://www.ibm.com/support/knowledgecenter/zosbasics/com.ibm.zos.zdatamgmt/zsysprogc_utilities_IEFBR14.htm
 #
   br14: /bin/echo "0" > /dev/null
+  
+  iosnotifycount: /home/homeassistant/.homeassistant/cmds/iosnotifycount.sh
 

@@ -29,6 +29,64 @@
     payload_off: "false"
     device_class: "motion"
     
+    
+####-----
+
+  - platform: mqtt
+    name: "Living Room GW"
+    state_topic: "home/LivingRoom/LWT"
+    payload_on: "Online"
+    payload_off: "Offline"
+    device_class: "connectivity"
+
+  - platform: mqtt
+    name: "Bed Room GW"
+    state_topic: "home/BedRoom/LWT"
+    payload_on: "Online"
+    payload_off: "Offline"
+    device_class: "connectivity"
+
+  - platform: mqtt
+    name: "Den GW"
+    state_topic: "home/Den/LWT"
+    payload_on: "Online"
+    payload_off: "Offline"
+    device_class: "connectivity"
+
+    
+
+  - platform: mqtt
+    name: "Test Room GW"
+    state_topic: "home/TestRoom/LWT"
+    payload_on: "Online"
+    payload_off: "Offline"
+    device_class: "connectivity"
+    
+  - platform: mqtt
+    name: "Bed Room GW"
+    state_topic: "home/BedRoom/LWT"
+    payload_on: "Online"
+    payload_off: "Offline"
+    device_class: "connectivity"
+    
+
+#### --- Motion
+
+  - platform: mqtt
+    name: "Den motion"
+    state_topic: "home/Den/motion"
+    payload_on: "true"
+    payload_off: "false"
+    device_class: "motion"
+    
+  - platform: mqtt
+    name: "Underbed motion"
+    state_topic: "home/BedRoom/motion"
+    payload_on: "true"
+    payload_off: "false"
+    device_class: "motion"
+    
+    
 ###------- Door window sensors
 #
 #  GS-WDS07 Wireless Door Magnetic Strip 433MHz for Security Alarm Home System
@@ -125,6 +183,28 @@
     state_topic: "home/433toMQTT"
     payload_on: "1823626"
     payload_off: "1823626off"
+    device_class: motion
+
+# Motion  1051530
+# Tamper  1051531
+
+  - platform: mqtt
+    name: "Test1 motion"
+    qos: 0
+    state_topic: "home/433toMQTT"
+    payload_on: "1051530"
+    payload_off: "1051530off"
+    device_class: motion
+    
+# Motion  4551562
+# Tamper  4551563
+
+  - platform: mqtt
+    name: "Test2 motion"
+    qos: 0
+    state_topic: "home/433toMQTT"
+    payload_on: "4551562"
+    payload_off: "4551562off"
     device_class: motion
     
 #----  workday sensors

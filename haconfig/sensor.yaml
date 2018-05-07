@@ -43,8 +43,75 @@
     value_template: '{{ value | round(2)  }}'
     
 
-###---------------------------------------------------------------------------
+###------------------new gateways------------------------------------------------
+  - platform: mqtt
+    name: "Living Room Temperature"
+    state_topic: "home/LivingRoom/dht1/temp"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | round(2)  }}'
 
+  - platform: mqtt
+    name: "Living Room Humidity"
+    state_topic: "home/LivingRoom/dht1/hum"
+    unit_of_measurement: "%"
+    value_template: '{{ value | round(2)  }}'
+    
+  - platform: mqtt
+    name: "Den Temperature"
+    state_topic: "home/Den/dht1/temp"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | round(2)  }}'
+
+  - platform: mqtt
+    name: "Den Humidity"
+    state_topic: "home/Den/dht1/hum"
+    unit_of_measurement: "%"
+    value_template: '{{ value | round(2)  }}'
+
+  - platform: mqtt
+    name: "Bed Room Temperature"
+    state_topic: "home/BedRoom/dht1/temp"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | round(2)  }}'
+
+  - platform: mqtt
+    name: "Bed Room Humidity"
+    state_topic: "home/BedRoom/dht1/hum"
+    unit_of_measurement: "%"
+    value_template: '{{ value | round(2)  }}'
+    
+  - platform: mqtt
+    name: "Test Room Temperature"
+    state_topic: "home/TestRoom/dht1/temp"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | round(2)  }}'
+
+  - platform: mqtt
+    name: "Test Room Humidity"
+    state_topic: "home/TestRoom/dht1/hum"
+    unit_of_measurement: "%"
+    value_template: '{{ value | round(2)  }}'
+    
+    
+# ios notify stats
+  - platform: mqtt
+    name: "Mike Sent"
+    state_topic: "home/iosmike/sent"
+    value_template: '{{ value }}'
+  - platform: mqtt
+    name: "Mike Errors"
+    state_topic: "home/iosmike/errors"
+    value_template: '{{ value }}'
+  - platform: mqtt
+    name: "Mike rest time"
+    state_topic: "home/iosmike/resettime"
+    value_template: '{{ value }}'
+  - platform: mqtt
+    name: "Mike limit"
+    state_topic: "home/iosmike/limit"
+    value_template: '{{ value }}'
+    
+###------------------new gateways---------------------------------------------
 
 
 
@@ -148,6 +215,18 @@
 ###----
 ###------------------------------------command_line begin  --------------------------------------
   - platform: command_line
+    name: mikeiossent
+    command: "cat /home/homeassistant/.homeassistant/cmds/iosmikesent.sensor"
+  - platform: command_line
+    name: mikeioslimit
+    command: "cat /home/homeassistant/.homeassistant/cmds/iosmikelimit.sensor"
+  - platform: command_line
+    name: mikeioserrors
+    command: "cat /home/homeassistant/.homeassistant/cmds/iosmikeerrors.sensor"
+  - platform: command_line
+    name: mikeiosresetin
+    command: "cat /home/homeassistant/.homeassistant/cmds/iosmikeresettime.sensor"
+  - platform: command_line
     name: furnacefilter
     scan_interval: 10800
     command: "cat /home/homeassistant/.homeassistant/cmds/dash-furnacefilter.sensor"
@@ -184,6 +263,10 @@
     name: melodiedash
     scan_interval: 5
     command: "cat /home/homeassistant/.homeassistant/cmds/dash-melodie.sensor"
+  - platform: command_line
+    name: dendash
+    scan_interval: 5
+    command: "cat /home/homeassistant/.homeassistant/cmds/dash-den.sensor"
 ##-- homeassistant process information
   - platform: command_line
     name: ha_stat_percent_cpu
@@ -886,7 +969,7 @@
         value_template: '{{ states.input_number.wind_speed_threshold.state | int }}'
         
       
-      
+ ###-----------------------------------------------------pills ---------------
       pill_one_taken:
         value_template: '{{ as_timestamp(states.automation.pill_p_1_taken.attributes.last_triggered) | timestamp_custom("%D %H:%M")}}'
   
@@ -896,3 +979,10 @@
   
       pill_three_taken:
         value_template: '{{ as_timestamp(states.automation.pill_3_taken.attributes.last_triggered) | timestamp_custom("%D %H:%M")}}'
+        
+        
+###-----------------------------------------------------Nest ---------------
+      nest_temperature:
+        unit_of_measurement: '°F'
+        friendly_name: "Nest"
+        value_template: '{{ states.climate.arizona_arizona.attributes.current_temperature }}'

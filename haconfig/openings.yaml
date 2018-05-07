@@ -1,0 +1,99 @@
+#-autodoc
+#-autodoc        name: Alert on opening
+#-autodoc description: Sned message that something is open.  This acts on the syslog message sent by alert when someting in the group is opened.  "In" was lazy look into regex
+#-autodoc        file: openings.yaml
+#-autodoc
+- alias: 'Alert on opening'
+  trigger:
+    platform: event
+    event_type: call_service
+    event_data:
+      domain: notify
+      service: syslog
+  condition:
+    condition: template
+    value_template: '{{ "o5150" in trigger.event.data.service_data["message"]}}'
+  action:
+      service: notify.ios_michaels_iphone
+      data_template:
+        message: >
+         Here is what is open:
+         {%- for entity_id in states.group.hvac_watchlist_g.attributes.entity_id -%}
+          {% set parts = entity_id.split('.') -%}
+          {%- if states(entity_id) == 'on' %}
+          {%- if loop.first %} {% elif loop.last %} {% else %} - {% endif -%}{{ states[parts[0]][parts[1]].name }}  for {{relative_time(states[parts[0]][parts[1]].last_updated)}}  {% endif -%}
+          {%- endfor %}
+
+#-autodoc
+#-autodoc        name: Alert when all closed
+#-autodoc description: Send message when all closed.  This acts on the syslog message sent by alert when all openings in group are closed.  "In" was lazy look into regex
+#-autodoc        file: openings.yaml
+#-autodoc
+- alias: 'Alert when all closed'
+  trigger:
+    platform: event
+    event_type: call_service
+    event_data:
+      domain: notify
+      service: syslog
+  condition:
+    condition: template
+    value_template: '{{ "c5150" in trigger.event.data.service_data["message"]}}'
+  action:
+      service: notify.ios_michaels_iphone
+      data_template:
+        message: "all closed now"
+        
+- alias: Sensor Change
+  trigger:
+    platform: state
+    entity_id: input_select.opening_list
+  condition:
+    condition: template
+    value_template: '{{ states.input_select.opening_list !=  "None" }}'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: automation.sensor_change
+    - service: mqtt.publish
+      data_template:
+        topic: 'home/433toMQTT'
+        #retain: 'true'
+        payload: >-
+         {% set name = states('input_select.opening_list') %}
+         {% set group = 'group.radiosensors_g' %}
+         {% for entity_id in state_attr(group, 'entity_id') if states[entity_id.split('.', 1)[0]][entity_id.split('.', 1)[1]].name == name %}
+         {% set parts = entity_id.split('.', 1) %}
+         {% set entity = states[parts[0]][parts[1]] %}
+              {% if states('input_select.opening_list_action') == 'On' -%}
+                 {{ entity.attributes.payload_on }}
+              {%- else -%}
+                 {{ entity.attributes.payload_off }}
+              {%- endif %}
+          {% endfor %}
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.opening_list
+        option: 'Nothing'
+    - service: homeassistant.turn_on
+      entity_id: automation.sensor_change
+      
+      
+      
+      
+# - alias: Sensor ON
+#   trigger:
+#     platform: state
+#     entity_id: input_select.opening_list_on
+#   action:
+#     service: mqtt.publish
+#     data_template:
+#       topic: 'home/433toMQTT'
+#       retain: 'true'
+#       payload: >-
+#       {% set name = states('input_select.opening_list_on') %}
+#       {% set group = 'group.hvac_watchlist_g' %}
+#       {% for entity_id in state_attr(group, 'entity_id') if states[entity_id.split('.', 1)[0]][entity_id.split('.', 1)[1]].name == name %}
+#       {% set parts = entity_id.split('.', 1) %}
+#       {% set entity = states[parts[0]][parts[1]] %}
+#       {{ entity.attributes.payload_on }}
+#       {% endfor %}
