@@ -2,6 +2,13 @@
 
 https://docs.influxdata.com/influxdb/v1.5/tools/shell/
 
+
+**docker friendly**  
+
+curl -G 'http://<influxhost>:8086/query?pretty=true' --data-urlencode "db=home_assistant" --data-urlencode "q=show series" | grep entity_id | more 
+
+****
+
 go to where influx db is 
 cd /var/lib/influxdb/
 influx -database 'home_assistant' - host 'localhost' -port '8086'
