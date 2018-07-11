@@ -17,10 +17,14 @@
 - alias: 'WC light on with motion'
   initial_state: False
   trigger:
-    platform: state
-    entity_id: binary_sensor.openmqttgateway1_motion
-    from: 'off'
-    to: 'on'
+    - platform: state
+      entity_id: binary_sensor.openmqttgateway1_motion
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.br_melodie
+      from: 'off'
+      to: 'on'
   condition:
     condition: state
     entity_id: switch.wc_light_switch
@@ -32,8 +36,7 @@
       data_template:
         entity_id: "timer.br_night_motion"
         duration: '{{ states.input_number.wc_motion_time_on.state | multiply(60) |int}}'
-    # - service: homeassistant.turn_off
-    #   entity_id: automation.wc_light_on_with_motion
+
 
 #-autodoc
 #-autodoc        name: Motion WC light time ends
@@ -72,13 +75,6 @@
   action:
     - service: switch.turn_on
       entity_id: switch.wc_light_switch
-    - wait_template: "{{ states.switch.wc_light_switch.state == 'on' }}"
-    # - service: light.lifx_set_state
-    #   data:
-    #     entity_id: light.masterwclight
-    #     # rgb_color: [0,100,0]
-    #     color_name: green
-    #     brightness: 100
     - service: light.turn_on
       data:
         entity_id: light.masterwclight
@@ -99,10 +95,14 @@
 
 - alias: 'WC set green'
   trigger:
-    platform: state
-    entity_id: input_boolean.night_mode
-    from: 'off'
-    to: 'on'
+    - platform: state
+      entity_id: input_boolean.night_mode
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: input_boolean.bulb_wc_green
+      from: 'off'
+      to: 'on'
   action:
     - service: switch.turn_on
       entity_id: switch.wc_light_switch
@@ -132,10 +132,14 @@
 
 - alias: 'Shower set green'
   trigger:
-    platform: state
-    entity_id: input_boolean.night_mode
-    from: 'off'
-    to: 'on'
+    - platform: state
+      entity_id: input_boolean.night_mode
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: input_boolean.bulb_br_shower_green
+      from: 'off'
+      to: 'on'
   action:
     - service: switch.turn_on
       entity_id: switch.br_shower
@@ -172,10 +176,14 @@
 
 - alias: 'WC set to white'
   trigger:
-    platform: state
-    entity_id: input_boolean.night_mode
-    from: 'on'
-    to: 'off'
+    - platform: state
+      entity_id: input_boolean.night_mode
+      from: 'on'
+      to: 'off'
+    - platform: state
+      entity_id: input_boolean.bulb_wc_green
+      from: 'on'
+      to: 'off'
   action:
     - service: switch.turn_on
       entity_id: switch.wc_light_switch
@@ -205,10 +213,14 @@
 
 - alias: 'Shower set to white'
   trigger:
-    platform: state
-    entity_id: input_boolean.night_mode
-    from: 'on'
-    to: 'off'
+    - platform: state
+      entity_id: input_boolean.night_mode
+      from: 'on'
+      to: 'off'
+    - platform: state
+      entity_id: input_boolean.bulb_br_shower_green
+      from: 'on'
+      to: 'off'
   action:
     - service: switch.turn_on
       entity_id: switch.br_shower
@@ -281,9 +293,62 @@
  
  
  
+- alias: 'WC light on door open'
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: binary_sensor.wc_door
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: switch.wc_light_switch
+    state: 'off'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.wc_light_switch
+      
+- alias: 'WC light off door close'
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: binary_sensor.wc_door
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: state
+    entity_id: switch.wc_light_switch
+    state: 'on'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.wc_light_switch
  
  
  
  
+
  
- 
+- alias: 'Night Mode WC door light control off'
+  trigger:
+    platform: state
+    entity_id: input_boolean.night_mode
+    from: 'off'
+    to: 'on'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: automation.wc_light_off_door_close
+    - service: homeassistant.turn_off
+      entity_id: automation.wc_light_on_door_open
+
+
+- alias: 'Night Mode off WC door light control on'
+  trigger:
+    platform: state
+    entity_id: input_boolean.night_mode
+    from: 'on'
+    to: 'off'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: automation.wc_light_off_door_close
+    - service: homeassistant.turn_on
+      entity_id: automation.wc_light_on_door_open

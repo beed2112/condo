@@ -1,8 +1,6 @@
-#-autodoc
-#-autodoc        name: Alert on opening
-#-autodoc description: Sned message that something is open.  This acts on the syslog message sent by alert when someting in the group is opened.  "In" was lazy look into regex
-#-autodoc        file: openings.yaml
-#-autodoc
+
+#-Send message that something is open.  This acts on the syslog message sent by alert when someting in the group is opened.  "In" was lazy look into regex
+
 - alias: 'Alert on opening'
   trigger:
     platform: event
@@ -24,11 +22,39 @@
           {%- if loop.first %} {% elif loop.last %} {% else %} - {% endif -%}{{ states[parts[0]][parts[1]].name }}  for {{relative_time(states[parts[0]][parts[1]].last_updated)}}  {% endif -%}
           {%- endfor %}
 
-#-autodoc
-#-autodoc        name: Alert when all closed
-#-autodoc description: Send message when all closed.  This acts on the syslog message sent by alert when all openings in group are closed.  "In" was lazy look into regex
-#-autodoc        file: openings.yaml
-#-autodoc
+- alias: 'Alert on opening light 2'
+  trigger:
+    platform: event
+    event_type: call_service
+    event_data:
+      domain: notify
+      service: syslog
+  condition:
+    condition: template
+    value_template: '{{ "o5150" in trigger.event.data.service_data["message"]}}'
+  action:
+    - service: mqtt.publish
+      data:
+        topic: 'home/LimeLight03_ha/state/in'
+        payload: '{"state":"ON","color":{"r":100,"g":0,"b":0},"brightness":50,"effect":"Larson Scanner"}'
+    - delay: 00:00:10
+    - service: mqtt.publish
+      data:
+        topic: 'home/LimeLight03_ha/state/in'
+        payload: '{"state":"ON","color":{"r":0,"g":1000,"b":0},"brightness":50,"effect":"Static"}'
+    - delay: 00:00:05
+    - service: mqtt.publish
+      data:
+        topic: 'home/LimeLight03_ha/state/in'
+        payload: '{"state":"OFF"}'
+
+
+
+
+
+
+#Send message when all closed.  This acts on the syslog message sent by alert when all openings in group are closed.  "In" was lazy look into regex
+
 - alias: 'Alert when all closed'
   trigger:
     platform: event
@@ -43,6 +69,90 @@
       service: notify.ios_michaels_iphone
       data_template:
         message: "all closed now"
+
+
+
+- alias: 'Alert when all closed light'
+  trigger:
+    platform: event
+    event_type: call_service
+    event_data:
+      domain: notify
+      service: syslog
+  condition:
+    condition: template
+    value_template: '{{ "c5150" in trigger.event.data.service_data["message"]}}'
+  action:
+    - service: mqtt.publish
+      data:
+        topic: 'home/LimeLight03_ha/state/in'
+        payload: '{"state":"ON","color":{"r":0,"g":1000,"b":0},"brightness":50,"effect":"Static"}'
+    - delay: 00:00:10
+    - service: mqtt.publish
+      data:
+        topic: 'home/LimeLight03_ha/state/in'
+        payload: '{"state":"OFF"}'
+    # - service: mqtt.publish
+    #   data:
+    #     topic: 'LIMELIGHT_01/in'
+    #     payload: '*00FF00'
+    # - delay: 00:00:05
+    # - service: mqtt.publish
+    #   data:
+    #     topic: 'LIMELIGHT_01/in'
+    #     payload: '*OFF00FF00'
+      
+
+
+- alias: 'alert emptycondo'
+  initial_state: off
+  trigger:
+    platform: event
+    event_type: call_service
+    event_data:
+      domain: notify
+      service: syslog
+  condition:
+    condition: template
+    value_template: '{{ "emptycondo" in trigger.event.data.service_data["message"]}}'
+  action:
+      - service: notify.ios_michaels_iphone
+        data_template:
+          message: >
+           The condo is considered empty;
+      - service: homeassistant.turn_on
+        entity_id: input_boolean.emptycondo
+
+#           The condo is considered empty: {{relative_time(states.input_boolean.emptycondo.last_updated)}}
+
+
+- alias: 'alert occuppied condo'
+  initial_state: off
+  trigger:
+    platform: event
+    event_type: call_service
+    event_data:
+      domain: notify
+      service: syslog
+  condition:
+    condition: template
+    value_template: '{{ "occupiedcondo" in trigger.event.data.service_data["message"]}}'
+  action:
+      - service: notify.ios_michaels_iphone
+        data_template:
+          message: >
+           The condo is considered occupied:
+      - service: homeassistant.turn_off
+        entity_id: input_boolean.emptycondo
+      - service: automation.turn_off
+        entity_id:
+        - automation.alert_emptycondo
+        - automation.alert_occuppied_condo
+        
+         
+
+
+        
         
 - alias: Sensor Change
   trigger:
@@ -77,8 +187,58 @@
     - service: homeassistant.turn_on
       entity_id: automation.sensor_change
       
+
+- alias: 'reset motion sensors'
+  initial_state: on
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.entry
+      from: 'off'
+      to: 'on'
+    - platform: homeassistant
+      event: start
+  action:
+    - delay: 00:00:30
+    - service: mqtt.publish
+      data:
+        topic: 'home/433toMQTT'
+        payload: '1051530off'
+    - service: mqtt.publish
+      data:
+        topic: 'home/433toMQTT'
+        payload: '4551562off'
+    - service: mqtt.publish
+      data:
+        topic: 'home/433toMQTT'
+        payload: '3747914off'
+    - service: mqtt.publish
+      data:
+        topic: 'home/433toMQTT'
+        payload: '2330698off'
+    - service: mqtt.publish
+      data:
+        topic: 'home/433toMQTT'
+        payload: '831562off'
+    - service: mqtt.publish
+      data:
+        topic: 'home/433toMQTT'
+        payload: '6881354off'
       
-      
+
+
+- alias: 'turn occpancy monitoring'
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.entry
+    from: 'off'
+    to: 'on'
+  action:
+      - service: automation.turn_on
+        entity_id:
+        - automation.alert_emptycondo
+        - automation.alert_occuppied_condo
+         
       
 # - alias: Sensor ON
 #   trigger:

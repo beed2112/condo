@@ -1,27 +1,17 @@
-
+                                                                
 # Turn off Patio Light sunset group at (sunset + 1hr )
-#-autodoc
-#-autodoc        name: Patio CF Light Sunrise off
-#-autodoc description: Turn off the Paitio ceiling fan light at sunrise
-#-autodoc        file: sunrise.yaml
-#-autodoc
 - alias: 'Patio CF Light Sunrise off'
   trigger:
     platform: sun
     # Possible values: sunset, sunrise
     event: sunrise
     # Optional time offset. +/-HH:MM:SS
-    # offset: '+00:03:00'
+    offset: '+00:10:00'
   action:
     - service: switch.turn_off
       entity_id: switch.patiolight
 
 # check if furnace filter change time
-#-autodoc
-#-autodoc        name: zzz check furnace filter change date
-#-autodoc description: Check to see if it is time to change the furnace filter based on a date set at the last change.
-#-autodoc        file: sunrise.yaml
-#-autodoc
 - alias: 'zzz check furnace filter change date'
   trigger:
     platform: sun
@@ -37,3 +27,55 @@
     data:
       message: "Furnace Filter"
       title: "Time to change furnace filter"
+      
+
+
+- alias: 'shade down at Dawn'
+  trigger:
+    platform: sun
+    # Possible values: sunset, sunrise
+    event: sunrise
+    # Optional time offset. +/-HH:MM:SS
+    offset: '-00:30:00'
+  action:
+    - service: switch.turn_on
+      entity_id: switch.somfy
+      
+
+
+
+
+- alias: 'Vacation Return day adjust Nest temp'
+  trigger:
+    platform: sun
+    event: sunrise
+  condition:
+    condition: template
+    value_template: '{{ states.sensor.date.state == states.input_datetime.vacation_return_date.state }}'
+  action:
+    - service: persistent_notification.create
+      data:
+        message: "Vacation Return"
+        title: "Returning today"
+    - service: climate.set_temperature
+      data_template:
+        entity_id: climate.arizona_arizona
+        temperature: 72
+        
+- alias: 'Morning HVAC temp drop'
+  trigger:
+    platform: sun
+    event: sunrise
+  # condition:
+  #   condition: template
+  #   value_template: '{{ states.sensor.date.state >= states.input_datetime.vacation_return_date.state }}'  # look for night mode
+  action:
+    # - service: persistent_notification.create
+    #   data:
+    #     message: "Vacation Return"
+    #     title: "Returning today"
+    - service: climate.set_temperature
+      data_template:
+        entity_id: climate.arizona_arizona
+        temperature: '{{ states.climate.arizona_arizona.attributes.temperature - 1 }}'
+        #temperature: 72

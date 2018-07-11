@@ -1,9 +1,5 @@
-#-autodoc
-#-autodoc        name: Motion for den light on
-#-autodoc description: If the den light is not on turn it on when motion is detected.  On time is set in the GUI
-#-autodoc
-#-autodoc        file: den.yaml
-#-autodoc
+#If the den light is not on turn it on when motion is detected.  On time is set in the GUI
+
 - alias: 'Motion for den light on'
   initial_state: True
   trigger:
@@ -22,7 +18,8 @@
     state: 'off'
   action:
     - service: homeassistant.turn_on
-      entity_id: switch.router_fan
+      entity_id:
+        - group.den_motion
     - service: timer.start
       data_template:
         entity_id: "timer.den_motion"
@@ -30,12 +27,8 @@
     - service: homeassistant.turn_on
       entity_id: input_boolean.motionactivated_den
 
-#-autodoc
-#-autodoc        name: Motion for den light timer restart
-#-autodoc description: Restart the timer when motion detected.  On time is set in the GUI
-#-autodoc
-#-autodoc        file: den.yaml
-#-autodoc
+#Restart the timer when motion detected.  On time is set in the GUI
+
 - alias: 'Motion for den light timer restart'
   initial_state: True
   trigger:
@@ -53,12 +46,8 @@
         entity_id: "timer.den_motion"
         duration: '{{ states.input_number.den_motion_time_on.state | multiply(60) |int}}'
 
-#-autodoc
-#-autodoc        name: Motion den light time ends
-#-autodoc description: If timer ends motion has not been detected turn light off. On time is set in the GUI
-#-autodoc
-#-autodoc        file: den.yaml
-#-autodoc
+#-If timer ends motion has not been detected turn light off. On time is set in the GUI
+
 - alias: 'Motion den light time ends'
   initial_state: True
   trigger:
@@ -70,5 +59,54 @@
     - service: homeassistant.turn_off
       entity_id: input_boolean.motionactivated_den
     - service: homeassistant.turn_off
+      entity_id:
+        - group.den_motion
+
+
+
+
+#When the nightstand stand button is pressed and sensor is on turn on the nightstand light - emulating a toggle
+- alias: 'den  ON dash '
+  trigger:
+    platform: state
+    entity_id: sensor.dendash
+    from: '0'
+    to: '1'
+  action:
+    - service: switch.turn_on
       entity_id: switch.router_fan
+      
+#When the nightstand stand button is pressed and sensor is off turn off the nightstand light - emulating a toggle
+- alias: 'den  OFF dash '
+  trigger:
+    platform: state
+    entity_id: sensor.dendash
+    from: '1'
+    to: '0'
+  action:
+    - service: switch.turn_off
+      entity_id: switch.router_fan
+
+#### Begin -Change the sensor used by the dash button so it always has current state of light
+
+- alias: 'zzz Den sensor to ON'
+  trigger:
+    platform: state
+    entity_id: switch.router_fan
+    from: 'off'
+    to: 'on'
+  action:
+    - service: shell_command.den__on
+
+- alias: 'zzz Den sensor to OFF'
+  trigger:
+    platform: state
+    entity_id: switch.router_fan
+    from: 'on'
+    to: 'off'
+  action:
+    - service: shell_command.den_off
+
+
+#### End - Change the sensor used by the dash button so it always has current state of light
       

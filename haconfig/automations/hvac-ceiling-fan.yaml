@@ -1,13 +1,60 @@
-
-#----     Night time bedroom ceiling fan coordinated with Air conditioning
+#----     Window or door open havac shutdown
 #
-#--    turn fan on when air turned off  -
+#--
 #
 #-autodoc
-#-autodoc        name: BR Fan ON when air off
-#-autodoc description: When House goes is in night mode and the HVAC is cooling turn on the bedroom ceiling fan when the HVAC fan stops. (The HVAC Fan dance)
+#-autodoc        name:
+#-autodoc description:
 #-autodoc        file: hvac-ceiling-fan.yaml
 #-autodoc
+- alias: 'Cooling Outside timer begin'
+  trigger:
+    platform: state
+    entity_id: group.hvac_watchlist_g
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: sensor.arizona_thermostat_arizona_operation_mode
+    state: 'cool'
+  action:
+    - service: timer.start
+      data_template:
+        entity_id: "timer.hvac_watchdog"
+
+- alias: 'HVAC Watchdog ends'
+  initial_state: True
+  trigger:
+    - platform: event
+      event_type: timer.finished
+      event_data:
+        entity_id: timer.hvac_watchdog
+  action:
+    - service: climate.turn_off
+      entity_id: climate.arizona_arizona
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.hvac_cool_off_watchdog
+        
+- alias: 'Windows close mayber turn hvac on'
+  trigger:
+    platform: state
+    entity_id: group.hvac_watchlist_g
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: state
+    entity_id: input_boolean.hvac_cool_off_watchdog
+    state: 'on'
+  action:
+    - service: climate.turn_on
+      entity_id: climate.arizona_arizona
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.hvac_cool_off_watchdog
+
+        
+#----     Night time bedroom ceiling fan coordinated with Air conditioning
+#When House goes is in night mode and the HVAC is cooling turn on the bedroom ceiling fan when the HVAC fan stops. (The HVAC Fan dance)
+
 - alias: 'BR Fan ON when air off'
   trigger:
     platform: state
@@ -29,12 +76,7 @@
       - switch.br_ceiling_fan
       
 #--    turn fan off when air turned on
-#-
-#-autodoc
-#-autodoc        name: BR Fan OFF when air on
-#-autodoc description: When House goes is in night mode  and the HVAC is cooling turn off the bedroom ceiling fan when the HVAC fan starts. (The HVAC Fan dance)
-#-autodoc        file: hvac-ceiling-fan.yaml
-#-autodoc
+
 - alias: 'BR Fan OFF when air on'
   trigger:
     platform: state
@@ -56,11 +98,7 @@
       - switch.br_ceiling_fan
 
 # turn off fan air automations when we get up
-#-autodoc
-#-autodoc        name: Stop the HVAC fan dance
-#-autodoc description: When House goes into day mode turn of the HVAC fan dance automation.
-#-autodoc        file: hvac-ceiling-fan.yaml
-#-autodoc
+
 - alias: 'Stop the HVAC fan dance'
   initial_state: False
   trigger:
@@ -76,11 +114,7 @@
 
       
 
-#-autodoc
-#-autodoc        name: zzz enable the HVAC fan dance
-#-autodoc description: When House goes into night mode turn on the HVAC fan dance automation.
-#-autodoc        file: hvac-ceiling-fan.yaml
-#-autodoc
+#When House goes into night mode turn on the HVAC fan dance automation.
 
 - alias: 'zzz enable the HVAC fan dance'
   trigger:
@@ -92,11 +126,8 @@
     - service: homeassistant.turn_on
       entity_id: group.hvac_automations_g
 
-#-autodoc
-#-autodoc        name: zzz enable the HVAC fan dance
-#-autodoc description: When House goes into night mode, HVAC is in cool mode, and HVAC fan is off turn on the bedroom ceiling fan.
-#-autodoc        file: hvac-ceiling-fan.yaml
-#-autodoc
+#-When House goes into night mode, HVAC is in cool mode, and HVAC fan is off turn on the bedroom ceiling fan.
+
 - alias: 'start ceiling fan if hvac not running night'
   trigger:
     platform: state

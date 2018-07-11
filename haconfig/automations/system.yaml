@@ -1,9 +1,4 @@
-###################################################################
-#-autodoc
-#-autodoc        name: zz Auto Renew SSL Cert
-#-autodoc description: Renew SSL cert 28 day before expires
-#-autodoc        file: system.yaml
-#-autodoc
+
 
 - alias: 'zz Auto Renew SSL Cert'
   trigger:
@@ -14,11 +9,7 @@
     service: shell_command.renew_ssl
     
 # fire when weather alert changes to 1 show the group in the weather view
-#-autodoc
-#-autodoc        name: zz Weather alert 1
-#-autodoc description: When there is an active weather alert show the group containing the alert information
-#-autodoc        file: system.yaml
-#-autodoc
+
 - alias: 'zz Weather alert 1'
   trigger:
     platform: state
@@ -32,12 +23,7 @@
       visible: True
 
 # # fire when weather alert changes to 0 hide the group in the weather view
-# fire when weather alert changes to 1 show the group in the weather view
-#-autodoc
-#-autodoc        name: zz Weather alert 0
-#-autodoc description: When the weather alert becomes inactive hide the group containing the alert information
-#-autodoc        file: system.yaml
-#-autodoc
+
 - alias: 'zz Weather alert 0'
   trigger:
     platform: state
@@ -50,11 +36,7 @@
     data:
       visible: False
 # fire when HA restarts and Hide aert group if no active alert
-#-autodoc
-#-autodoc        name: zz Weather alert 0
-#-autodoc description: When HA restarts hide the group containing the alert information if no active alert
-#-autodoc        file: system.yaml
-#-autodoc
+
 - alias: 'zz Weatheralert hide on HA start if no active alert'
   hide_entity: False
   trigger:
@@ -69,11 +51,7 @@
     entity_id: group.weather_alert_group
     data:
       visible: False
-#-autodoc
-#-autodoc        name: zzz toggle automations off
-#-autodoc description: Turn off the group of automations in group.automations_to_toggle_g whne House goes to vacation mode
-#-autodoc        file: system.yaml
-#-autodoc
+
 - alias: 'zzz toggle automations off'
   trigger:
     platform: state
@@ -83,11 +61,7 @@
   action:
     - service: homeassistant.turn_off
       entity_id: group.automations_to_toggle_g
-#-autodoc
-#-autodoc        name: zzz toggle automations on
-#-autodoc description: Turn on the group of automations in group.automations_to_toggle_g whne House goes out of vacation mode
-#-autodoc        file: system.yaml
-#-autodoc
+
 - alias: 'zzz toggle automations on'
   trigger:
     platform: state
@@ -98,48 +72,167 @@
     - service: homeassistant.turn_on
       entity_id: group.automations_to_toggle_
 
-#-autodoc
-#-autodoc        name:
-#-autodoc description:
-#-autodoc        file:
-#-autodoc
-- alias: Something opened
-  trigger:
-    platform: state
-    entity_id: !secret openings_to_watch
-    from: 'off'
-    to: 'on'
-  action:
-    service: persistent_notification.create
-    data_template:
-      message: ' {{states.sensor.date__time.state}} - {{ trigger.from_state.attributes.friendly_name}} has been opened'
-      title: "Something Opened"
-- alias: Something closed
-  trigger:
-    platform: state
-    entity_id: !secret openings_to_watch
-    from: 'on'
-    to: 'off'
-  action:
-    service: persistent_notification.create
-    data_template:
-      message:  ' {{states.sensor.date__time.state}} - {{ trigger.from_state.attributes.friendly_name}} has been closed'
-      title: "Something Closed"
 
-- alias: 'Entry Motion Sensor Off Timer'
+
+- alias: 'LR Sensor Off Timer'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: binary_sensor.test1_motion
+    to: 'on'
+    # for:
+    # seconds: 4
+  action:
+    - delay: 00:00:10
+    - service: mqtt.publish
+      data:
+        topic: 'home/433toMQTT'
+        payload: '1051530off'
+     # retain: 'true'
+      
+- alias: 'BR Upper Sensor Off Timer'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: binary_sensor.test2_motion
+    to: 'on'
+    # for:
+    # seconds: 4
+  action:
+    - delay: 00:00:10
+    - service: mqtt.publish
+      data:
+        topic: 'home/433toMQTT'
+        payload: '4551562off'
+     # retain: 'true'
+      
+
+- alias: 'Melodie BR Sensor Off Timer'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: binary_sensor.br_melodie
+    to: 'on'
+    # for:
+    # seconds: 4
+  action:
+    - delay: 00:00:10
+    - service: mqtt.publish
+      data:
+        topic: 'home/433toMQTT'
+        payload: '3747914off'
+      #retain: 'true'
+ 
+ 
+- alias: 'Kitchen Sensor Off Timer'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: binary_sensor.kitchen_motion
+    to: 'on'
+    # for:
+    # seconds: 6
+  action:
+    - delay: 00:00:10
+    - service: mqtt.publish
+      data:
+        topic: 'home/433toMQTT'
+        payload: '2330698off'
+      #retain: 'true'
+ 
+ 
+- alias: 'Entry Sensor Off Timer'
   initial_state: 'on'
   trigger:
     platform: state
     entity_id: binary_sensor.entry_motion
     to: 'on'
-    for:
-     seconds: 4
+    # for:
+    # seconds: 4
   action:
-    service: mqtt.publish
-    data:
-      topic: 'home/433toMQTT'
-      payload: '1823626off'
-      retain: 'true'
+    - delay: 00:00:10
+    - service: mqtt.publish
+      data:
+        topic: 'home/433toMQTT'
+        payload: '831562off'
+      #retain: 'true'
       
+
+- alias: 'Kitchen Cabinet Off Timer'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: binary_sensor.kitchen_cabinet
+    to: 'on'
+    # for:
+    # seconds: 4
+  action:
+    - delay: 00:00:10
+    - service: mqtt.publish
+      data:
+        topic: 'home/433toMQTT'
+        payload: '6881354off'
+      #retain: 'true'
+
       
+- alias: 'xx ios msg counts'
+  trigger:
+    platform: event
+    event_type: call_service
+    event_data:
+      domain: notify
+      service: ios_michaels_iphone
+  action:
+    # putting the delay ensure that the event makes it to the log in the event this is the first notify
+    - delay: 00:00:05
+    - service: shell_command.iosnotifycount
+
+#call_service|{"domain": "notify", "service": "ios_michaels_iphone", "service_data": {"message": "Here i
+
+- alias: 'zzz LR sensor power reset'
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: binary_sensor.living_room_gw
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: state
+    entity_id: switch.patio_outlet
+    state: 'on'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.patio_outlet
+    - service: homeassistant.turn_on
+      entity_id: switch.patio_outlet
       
+ 
+ 
+ 
+ # #-autodoc
+# #-autodoc        name:
+# #-autodoc description:
+# #-autodoc        file:
+# #-autodoc
+# - alias: Something opened
+#   trigger:
+#     platform: state
+#     entity_id: !secret openings_to_watch
+#     from: 'off'
+#     to: 'on'
+#   action:
+#     service: persistent_notification.create
+#     data_template:
+#       message: ' {{states.sensor.date__time.state}} - {{ trigger.from_state.attributes.friendly_name}} has been opened'
+#       title: "Something Opened"
+# - alias: Something closed
+#   trigger:
+#     platform: state
+#     entity_id: !secret openings_to_watch
+#     from: 'on'
+#     to: 'off'
+#   action:
+#     service: persistent_notification.create
+#     data_template:
+#       message:  ' {{states.sensor.date__time.state}} - {{ trigger.from_state.attributes.friendly_name}} has been closed'
+#       title: "Something Closed"

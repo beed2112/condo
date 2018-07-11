@@ -1,13 +1,6 @@
 
 #----    Good night set status begin
 #
-#-autodoc
-#-autodoc        name: Good Night - set status
-#-autodoc description: When the TV is turned off (drops off network) after 9:30pm turn on night mode.
-#-autodoc              The TV is monitored agressively in the evenings by command line sensor
-#-autodoc        file: goodnight.yaml
-#-autodoc
-#
 - alias: 'Good Night - set status'
   trigger:
     platform: state
@@ -20,14 +13,24 @@
   action:
     - service: homeassistant.turn_on
       entity_id: input_boolean.night_mode
-      
-#----    Good night set status end
-#-autodoc
-#-autodoc        name: Night mode activated
-#-autodoc description: When night mode has been acitvated raise the patio shade, turn light on in bedroom, after 2 minute delay turnn off living room lights.
-#-autodoc              After 30 minute delay tun on night to day monitor automation
-#-autodoc        file: goodnight.yaml
-#-autodoc
+
+#----    Good night set status begin
+#
+- alias: 'Not Good Night - set status'
+  trigger:
+    platform: state
+    entity_id: sensor.lr_tv_status      #this is the lr room tv uses command_line -lr tv status
+    from: '0'
+    to: '1'
+  condition:
+    condition: time
+    after: '21:30:00'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.night_mode
+
+#Night mode on -- close patio shade
+
 - alias: 'Night mode activated'
   trigger:
     platform: state
@@ -35,10 +38,10 @@
     from: 'off'
     to: 'on'
   action:
-    - service: switch.turn_on
-      entity_id:
-      # - switch.br_overhead
-      - switch.melodie_nightstand_
+    # - service: switch.turn_on
+    #   entity_id:
+    #   # - switch.br_overhead
+    #   - switch.melodie_nightstand_
     - service: switch.turn_off
       entity_id:
       - switch.somfy
@@ -48,21 +51,42 @@
         data:
           push:
             sound: "US-EN-Alexa-Good-Night.wav"
-    - delay: 00:02:00
+
+#Night mode on for 2 minutes turn lights off
+      
+- alias: 'Night mode activated - lights off'
+  trigger:
+    platform: state
+    entity_id: input_boolean.night_mode
+    from: 'off'
+    to: 'on'
+    for:
+      minutes: 2
+  action:
     - service: switch.turn_off
       entity_id:
-      - switch.somfy
       - switch.lr_ceiling_fan
       - switch.lr_light
       - switch.lr_switch
     - service: light.turn_off
       entity_id:
       - light.lr_oh
-    - delay: 00:30:00
+ 
+ #Night mode on for 30  minutes transition watchdog turned on
+- alias: 'enable morning transition watchdog'
+  trigger:
+    platform: state
+    entity_id: input_boolean.night_mode
+    from: 'off'
+    to: 'on'
+    for:
+      minutes: 30
+  action:
     - service: homeassistant.turn_on
       entity_id: automation.switch_off_night_mode_br_oh_trigger
-
-
+      
+      
+#Turn on WC motion based lighting for night mode
 
 - alias: 'Night Mode WC motion on'
   trigger:
@@ -73,3 +97,5 @@
   action:
     - service: homeassistant.turn_on
       entity_id: automation.wc_light_on_with_motion
+      
+      

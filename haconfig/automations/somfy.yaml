@@ -1,8 +1,5 @@
-#-autodoc
-#-autodoc        name: Raise Shade any wind  GE set threshold mph
-#-autodoc description: If the wind speed or a wind gust is above the set threshold value (set in interface) raise the runshade and put a notify on the GUI.
-#-autodoc        file: somfy.yaml
-#-autodoc
+#        name: Raise Shade any wind  GE set threshold mph
+
 - alias: 'Raise Shade any wind  GE set threshold mph'
   trigger:
     - platform: template

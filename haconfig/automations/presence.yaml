@@ -1,0 +1,131 @@
+- alias: Mark person as just arrived
+  trigger:
+    - platform: state
+      entity_id:  device_tracker.michaels_iphone
+      from: 'not_home'
+      to: 'home'
+    - platform: state
+      entity_id: device_tracker.iphone_melodie_personal
+      from: 'not_home'
+      to: 'home'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: >
+          {% if trigger.entity_id == 'device_tracker.michaels_iphone' %}
+            input_select.mike_status_dropdown
+          {% else %}
+            input_select.melodie_status_dropdown
+          {% endif %}
+        option: >
+          {% if trigger.entity_id == 'device_tracker.michaels_iphone' %}
+            {% if states.input_select.mike_status_dropdown.state == 'Just Left' %}
+              Home
+            {% else %}
+              Just Arrived
+            {% endif %}
+          {% else %}
+            {% if states.input_select.melodie_status_dropdown.state == 'Just Left' %}
+              Home
+            {% else %}
+              Just Arrived
+            {% endif %}
+          {% endif %}
+ 
+- alias: Mark person as home
+  trigger:
+    - platform: state
+      entity_id: input_select.mike_status_dropdown
+      to: 'Just Arrived'
+      for:
+        minutes: 10
+    - platform: state
+      entity_id: input_select.melodie_status_dropdown
+      to: 'Just Arrived'
+      for:
+        minutes: 10
+    - platform: state
+      entity_id: input_select.mike_status_dropdown
+      from: 'Just Left'
+      to: 'Just Arrived'
+    - platform: state
+      entity_id: input_select.melodie_status_dropdown
+      from: 'Just Left'
+      to: 'Just Arrived'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: >
+          {% if trigger.entity_id == 'input_select.mike_status_dropdown' %}
+            input_select.mike_status_dropdown
+          {% else %}
+            input_select.melodie_status_dropdown
+          {% endif %}
+        option: Home
+ 
+- alias: Mark person as just left
+  trigger:
+    - platform: state
+      entity_id:  device_tracker.michaels_iphone
+      from: 'home'
+      to: 'not_home'
+    - platform: state
+      entity_id: device_tracker.iphone_melodie_personal
+      from: 'home'
+      to: 'not_home'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: >
+          {% if trigger.entity_id == 'device_tracker.michaels_iphone' %}
+            input_select.mike_status_dropdown
+          {% else %}
+            input_select.melodie_status_dropdown
+          {% endif %}
+        option: Just Left
+ 
+- alias: Mark person as away
+  trigger:
+    - platform: state
+      entity_id: input_select.mike_status_dropdown
+      to: 'Just Left'
+      for:
+        minutes: 10
+    - platform: state
+      entity_id: input_select.melodie_status_dropdown
+      to: 'Just Left'
+      for:
+        minutes: 10
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: >
+          {% if trigger.entity_id == 'input_select.mike_status_dropdown' %}
+            input_select.mike_status_dropdown
+          {% else %}
+            input_select.melodie_status_dropdown
+          {% endif %}
+        option: Away
+ 
+- alias: Mark person as extended away
+  trigger:
+    - platform: state
+      entity_id: input_select.mike_status_dropdown
+      to: 'Away'
+      for:
+        hours: 24
+    - platform: state
+      entity_id: input_select.melodie_status_dropdown
+      to: 'Away'
+      for:
+        hours: 24
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: >
+          {% if trigger.entity_id == 'input_select.mike_status_dropdown' %}
+            input_select.mike_status_dropdown
+          {% else %}
+            input_select.melodie_status_dropdown
+          {% endif %}
+        option: Extended Away

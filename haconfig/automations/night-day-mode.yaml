@@ -1,10 +1,5 @@
 # the overhead light switch  and hall switch will always turn night mode off
-#-autodoc
-#-autodoc        name: switch off night mode br oh trigger
-#-autodoc description: When the bedroom over head or hall light is turned on change from night to day.  This automation is enable 30 minutes after House enters night mode.
-#-autodoc              This automation is enabled 30 minutes after House enters night mode and disables itself when run.
-#-autodoc        file: night-day-mode.yaml
-#-autodoc
+
 - alias: 'switch off night mode br oh trigger'
   initial_state: False
   trigger:
@@ -26,8 +21,11 @@
       entity_id: input_boolean.night_mode
     - service: homeassistant.turn_off
       entity_id: automation.switch_off_night_mode_br_oh_trigger
+    - service: timer.cancel
+      entity_id: timer.br_night_motion
       
       
+#entity_id: "timer.br_night_motion"
       
 - alias: 'Day Mode WC motion off'
   trigger:
