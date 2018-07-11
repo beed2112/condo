@@ -1,0 +1,26 @@
+###---------------------------------nest begin ------------------------------------###
+    binary_sensor.arizona_thermostat_arizona_fan:
+      friendly_name: Nest fan
+      icon: mdi:fan
+    climate.arizona_arizona:
+      friendly_name: Nest Display
+    sensor.arizona_thermostat_arizona_humidity:
+      friendly_name: Humidity
+    sensor.arizona_thermostat_arizona_temperature:
+      friendly_name: Set
+    sensor.arizona_thermostat_arizona_target:
+      friendly_name: Target
+    sensor.arizona_thermostat_arizona_operation_mode:
+      friendly_name: Mode
+    binary_sensor.arizona_thermostat_arizona_online:
+      friendly_name: Online
+    binary_sensor.arizona_thermostat_arizona_has_leaf:
+      friendly_name: Leaf
+    binary_sensor.arizona_thermostat_arizona_is_locked:
+      friendly_name: Locked
+    binary_sensor.arizona_thermostat_arizona_is_using_emergency_heat:
+      friendly_name: Emergency Heat
+    sensor.arizona_thermostat_arizona_hvac_stater:
+      friendly_name: Nestunk2
+
+###---------------------------------nest end------------------------------------###

@@ -1,0 +1,210 @@
+
+
+    light.lr_oh:
+      occupancy_simulation: 'on'
+    
+    switch.lr_light:
+      occupancy_simulation: 'on'
+      
+    switch.lr_switch:
+      occupancy_simulation: 'on'
+      
+    switch.br_overhead:
+      occupancy_simulation: 'on'
+      
+    switch.br_switch:
+      occupancy_simulation: 'on'
+      
+    switch.melodie_nightstand_:
+      occupancy_simulation: 'on'
+      
+    switch.router_fan:
+      occupancy_simulation: 'on'
+      friendly_name: Den Light
+
+    switch.den_switch:
+      occupancy_simulation: 'on'
+  
+    switch.den_test:
+      occupancy_simulation: 'on'
+  
+    switch.den_middle:
+      occupancy_simulation: 'on'
+      friendly_name: BR14
+  
+    switch.den_oh:
+      occupancy_simulation: 'on'
+      
+    
+
+
+
+
+    group.all_automations:
+      hidden: false
+
+
+
+    #sensor.occupancy_simulation_entity:
+      #scan_interval: 36000  # 1 hour
+      
+      
+
+
+
+
+
+ 
+
+      
+    binary_sensor.test1_motion:
+      friendly_name: LR Motion
+      
+    binary_sensor.test2_motion:
+      friendly_name: BR Upper
+
+    binary_sensor.openmqttgateway1_motion:
+      friendly_name: BR Mike
+      
+   
+    switch.patio_outlet:
+      friendly_name: LR sensor power
+
+    device_tracker.michaels_iphone:
+      friendly_name: Mike Phone BT
+      
+    device_tracker.michaelsiphone:
+      friendly_name: Mike Phone WL
+      
+      
+    device_tracker.iphone_melodie_personal:
+      friendly_name: Melodie Phone BT
+      
+    
+    device_tracker.melodies_ipad_2:
+      friendly_name: Melodie iPad BT
+    
+    binary_sensor.entry_motion:
+      friendly_name: Entry
+      
+###---------------------------------openmqttgw stuff ------------------------------------###
+
+    binary_sensor.openmqttgateway1:
+      friendly_name: BR MQTT
+    binary_sensor.openmqttgateway2:
+      friendly_name: LR MQTT
+    binary_sensor.openmqttgateway3:
+      friendly_name: Den MQTT
+
+
+
+    binary_sensor.openmqttgateway3_motion:
+      friendly_name: Den
+
+    sensor.mqtt_rf_humidity:
+      friendly_name: BR Humidity
+      icon: mdi:water-percent
+    sensor.mqtt_rf_humidity2:
+      friendly_name: LR Humidity
+      icon: mdi:water-percent
+    sensor.mqtt_rf_humidity3:
+      friendly_name: Den Humidity
+      icon: mdi:water-percent
+
+
+    sensor.mqtt_rf_temperature:
+      friendly_name: BR Temp
+    sensor.mqtt_rf_temperature2:
+      friendly_name: LR Temp
+    sensor.mqtt_rf_temperature3:
+      friendly_name: Den Temp
+
+      
+
+###---------------------------------openmqttgw stuff ------------------------------------###
+
+
+###---------------------------------lights-switches begin------------------------------------###
+
+    light.masterwclight:
+      friendly_name: WC Light
+      
+    switch.wc_light_switch:
+      friendly_name: WC Light switch
+      
+    switch.somfy:
+      friendly_name: 'Shade at Rail'
+      icon: mdi:blinds
+
+###---------------------------------lights-switches end------------------------------------###
+
+
+
+
+
+###---------------------------------sun  begin ------------------------------------###
+    sensor.sun_dawn_time:
+      friendly_name: 'Next Dawn'
+      icon: mdi:weather-sunset-up
+    sensor.sun_sunrise_time:
+      friendly_name: 'Next Sunrise'
+      icon: mdi:weather-sunny
+    sensor.sun_sunset_time:
+      friendly_name: 'Next Sunset'
+      icon: mdi:weather-sunset
+    sensor.sun_dusk_time:
+      friendly_name: 'Next Dusk'
+      icon: mdi:weather-sunset-down
+    sensor.sun_elevation:
+      friendly_name: 'Elevation'
+      icon: mdi:elevation-rise
+    sensor.sun_azimuth:
+      friendly_name: 'Azimuth'
+      icon: mdi:alpha
+###---------------------------------sun  end ------------------------------------###
+
+###---------------------------------weather begin ------------------------------------###
+
+    sensor.weather_alert_description:
+      friendly_name: 'Alert'
+      icon: mdi:alert-outline
+    sensor.weather_alert_expires:
+      friendly_name: 'Expires'
+      icon: mdi:clock-end
+    sensor.weather_alert:
+      friendly_name: 'Info'
+      icon: mdi:information-outline
+    sensor.weather_update_time:
+      friendly_name: Last update
+      
+###---------------------------------weather end ------------------------------------###
+ 
+
+
+
+
+###---------------------------------scripts ------------------------------------###
+
+    script.white:
+      friendly_name: 'Light to White'
+      icon: mdi:home-assistant
+    script.green:
+      friendly_name: 'Light to Green'
+      icon: mdi:home-assistant
+    script.night:
+      friendly_name: 'Good Night'
+      icon: mdi:sleep
+      
+      
+      
+###---------------------------------pills ------------------------------------###
+
+    sensor.pill_one_taken:
+      friendly_name: 'Thyroid'
+      icon: mdi:clock
+    sensor.pill_two_taken:
+      friendly_name: 'Morning Skin'
+      icon: mdi:clock
+    sensor.pill_three_taken:
+      friendly_name: 'Evening Skin'
+      icon: mdi:clock
