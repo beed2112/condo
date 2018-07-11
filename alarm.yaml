@@ -1,0 +1,27 @@
+###---------------------------------alarm clock begin ------------------------------------###
+   # Alarm clock sensors:
+    # sensor.time:
+    #   hidden: true
+    sensor.alarm_clock_hour:
+      hidden: true
+    sensor.alarm_clock_minute:
+      hidden: true
+    sensor.alarm_clock_time_long:
+      hidden: true
+    sensor.alarm_clock_time:
+      friendly_name: 'Alarm Time'
+      icon: mdi:alarm
+    # Alarm clock inputs
+    input_number.alarm_clock_hour:
+      friendly_name: 'Hour'
+      icon: mdi:timer
+    input_number.alarm_clock_minute:
+      friendly_name: 'Minute'
+      icon: mdi:timer
+    input_boolean.alarm_clock_status:
+      friendly_name: 'Alarm Off/On'
+      icon: mdi:alarm-check
+
+
+###---------------------------------alarm clock end ------------------------------------###
+
