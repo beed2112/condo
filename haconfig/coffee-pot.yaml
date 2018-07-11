@@ -1,0 +1,86 @@
+###----     coffee pot notifications
+- alias: 'xx Coffee Pot is ON Send'
+  hide_entity: False
+  trigger:
+    platform: event
+    event_type: call_service
+    event_data:
+      domain: notify
+      service: syslog
+  condition:
+    condition: template
+    value_template: '{{ "coffeeon" in trigger.event.data.service_data["message"]}}'
+  action:
+   - service: notify.ios_michaels_iphone
+     data:
+        message: "Coffee Pot is ON"
+        data:
+          push:
+            # badge: 5
+            category: "coffeepot" # Needs to match the top level identifier you used in the ios configuration
+          action_data: # Anything passed in action_data will get echoed back to Home Assistant.
+            entity_id: switch.coffee
+            my_custom_data: foo_bar
+
+
+###----     coffee pot notifications    begin
+#
+#
+# -- handle coffee pot off response
+
+- alias: 'xx CoffeePot Off Response'
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: OFF_COFFEEPOT
+  action:
+   - service: switch.turn_off
+     entity_id:
+     - switch.coffee
+   - service: notify.ios_michaels_iphone
+     data:
+        message: "Coffee pot turned off "
+         
+         
+#
+# -- handle coffee pot on response     - here for completeness executing br14 script
+#
+- alias: 'xx CoffeePot On Response'
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: ON_COFFEEPOT
+  action:
+    - service: shell_command.br14
+    - service: notify.ios_michaels_iphone
+      data:
+         message: "Leave on response received"
+
+#
+ 
+###----     coffee pot notifications    end
+- alias: 'xx Coffee Pot is ON Send'
+  hide_entity: False
+  trigger:
+    platform: event
+    event_type: call_service
+    event_data:
+      domain: notify
+      service: syslog
+      #message: C2112
+  condition:
+    condition: template
+    value_template: '{{ "o2112" in trigger.event.data.service_data["message"]}}'
+  action:
+   - service: notify.ios_michaels_iphone
+     data:
+        message: "Coffee Pot is ON"
+        data:
+          push:
+            # badge: 5
+            category: "coffeepot" # Needs to match the top level identifier you used in the ios configuration
+          action_data: # Anything passed in action_data will get echoed back to Home Assistant.
+            entity_id: switch.coffee
+            my_custom_data: foo_bar

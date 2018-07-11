@@ -24,7 +24,7 @@
       - switch.melodie_nightstand_
       - switch.wc_light_switch
       - switch.br_shower
-      - switch.patio_outlet
+     # - switch.patio_outlet
       - switch.coffee
       - switch.lr_ceiling_fan
       - switch.br_ceiling_fan
@@ -107,6 +107,7 @@
     icon: mdi:tune
     control: hidden
     entities:
+      - input_boolean.emptycondo
       - input_boolean.night_mode
       - input_boolean.on_vaca
       - input_boolean.bulb_wc_green
@@ -166,12 +167,14 @@
     icon: mdi:tune
     control: hidden
     entities:
-      - binary_sensor.openmqttgateway1_motion
       - binary_sensor.den_motion
       - binary_sensor.entry_motion
-      - binary_sensor.underbed_motion
+      - binary_sensor.kitchen_motion
+      - binary_sensor.kitchen_cabinet
       - binary_sensor.test1_motion
       - binary_sensor.test2_motion
+      - binary_sensor.openmqttgateway1_motion
+      - binary_sensor.br_melodie
 
   
   radiosensors_g:
@@ -275,6 +278,11 @@
       - sensor.time__date
       - sensor.time_utc
 
+  den_motion:
+    name: den motion stuff
+    entities:
+      - switch.router_fan
+      - switch.den_oh
 
   timedates2:
     name: Sun info
@@ -289,8 +297,13 @@
 
   timedates3:
     name: Random Times
+    control: hidden
     entities:
 #      - sensor.sun
+#     - binary_sensor.sun_up
+      - binary_sensor.occupancy_simulation_active
+#     - binary_sensor.test_this
+      - sensor.occupancy_sim_active_entity
       - sensor.random_late_nite_time
       - sensor.random_late_nite_Duration
       - sensor.random_evening_time
@@ -301,6 +314,10 @@
       - sensor.random_morning_Duration
       - sensor.random_early_morning_time
       - sensor.random_early_morning_Duration
+      - switch.den_oh
+      - switch.den_switch
+      - switch.den_test
+      - switch.den_middle
 
   # timedates4:
   #   name: OpenMqtt Test
@@ -328,6 +345,12 @@
     icon: mdi:percent
     entities:
       - group.iosstats
+      - group.geekview2
+      - group.geekview21
+      - group.geekview22
+      - group.geekview23
+      - group.geekview24
+      
   #   - group.stats_group_day
   #   - group.stats_group_week
   #   - group.stats_group_last30
@@ -392,19 +415,19 @@
 
 ###----------------------------mmj begin----------------------------------------###
 
-  mmj_view:
-    name: mmj
-    view: yes
-    icon: mdi:cannabis
-    entities:
-      - group.mmj
+  # mmj_view:
+  #   name: mmj
+  #   view: yes
+  #   icon: mdi:cannabis
+  #   entities:
+  #     - group.mmj
 
-  mmj:
-    name: AZNS
-    control: hidden
-    entities:
-     - sensor.azns_strains
-     - sensor.azns_sale
+  # mmj:
+  #   name: AZNS
+  #   control: hidden
+  #   entities:
+  #   - sensor.azns_strains
+  #   - sensor.azns_sale
  
 ###----------------------------mmj end----------------------------------------###
 
@@ -417,23 +440,25 @@
     entities:
       - group.geekview1
       - group.geekview
-      - group.geekview2
       - group.geekview3
+      - group.geekview31
+      - group.people_status
       - group.all_automations
       
   geekview:
     name: ' '
     control: hidden
     entities:
-      - input_select.opening_list_action
-      - input_select.opening_list
       - sensor.lr_tv_status
       - light.masterwclight
       - light.master_br_shower
-      - switch.br_shower
-      - switch.somfy
       - switch.esp
       - switch.router_fan
+      - switch.patio_outlet
+      - switch.lrhutch
+      - light.limelight02
+      - light.limelight03
+      - light.limelight04
       
   geekview1:
     name: ' '
@@ -442,31 +467,72 @@
       - binary_sensor.living_room_gw
       - binary_sensor.bed_room_gw
       - binary_sensor.den_gw
+      - binary_sensor.den_on_with_motion
+      - binary_sensor.coffee_on
+      - binary_sensor.hold_open
+      - binary_sensor.emptycondo
+
+
       
       
   geekview2:
-    name: ' '
+    name: 'HA Processor '
     entities:
-      - sensor.cpu_use
-      - sensor.received_eth0
-      - sensor.sent_eth0
-      - sensor.disk_use_
-      - sensor.disk_use_varlog
-      - sensor.ram_use
-      - sensor.ram_free
+      - sensor.processor_use
+      - sensor.load_1m
+      - sensor.load_5m
+      - sensor.load_15m
+
+
+  geekview21:
+    name: 'HA Memory '
+    entities:
+      - sensor.memory_use_percent
+      - sensor.memory_use
+      - sensor.memory_free
+
+
+  geekview22:
+    name: 'HA Disk '
+    entities:
+      - sensor.disk_use_percent_varlog
+      - sensor.swap_use_percent
       - sensor.swap_use
       - sensor.swap_free
+
+
+  geekview23:
+    name: 'HA Network '
+    entities:
+      - sensor.network_in_eth0
+      - sensor.network_out_eth0
+      - sensor.packets_in_eth0
+      - sensor.packets_out_eth0
+      
+  geekview24:
+    name: 'HA Uptime '
+    entities:
       - sensor.last_boot
       - sensor.since_last_boot
+ 
+      
+
 
   geekview3:
-    name: ' '
+    name: 'Mike'
     entities:
       - device_tracker.michaels_iphone
       # - device_tracker.mike_ipad
       # - device_tracker.mikechromebook
       - device_tracker.michaelsiphone
 
+  geekview31:
+    name: 'Melodie'
+    entities:
+      - device_tracker.iphone_melodie_personal
+      - device_tracker.melodies_ipad2
+      - device_tracker.melodiesipad2
+      
 
 ###----------------------------geek views end----------------------------------------###
       
@@ -503,9 +569,9 @@
       - switch.coffee
       - switch.br_shower
       - switch.wc_light_switch
-#     - switch.br_overhead
+ #     - switch.br_overhead
       - switch.br_switch
-#     - switch.melodie_nightstand_
+ #     - switch.melodie_nightstand_
       
   
   automations_to_toggle_g:
@@ -557,7 +623,13 @@
       - switch.br_overhead
       - switch.br_hall
 
-
+  people_status:
+    name: People Status
+    entities:
+      - sensor.mike_status
+      - sensor.melodie_status
+    
+    
 ###----------------------Melodie view begin----------------------------------------------###
   # melodie_v:
   # name: ""

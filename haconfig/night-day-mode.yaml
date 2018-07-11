@@ -1,0 +1,38 @@
+# the overhead light switch  and hall switch will always turn night mode off
+
+- alias: 'switch off night mode br oh trigger'
+  initial_state: False
+  trigger:
+    - platform: state
+      entity_id: switch.br_overhead
+      # entity_id: group.br_mode_triggers
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: switch.br_hall
+      from: 'off'
+      to: 'on'
+  condition:
+    condition: state
+    entity_id: input_boolean.night_mode
+    state: 'on'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.night_mode
+    - service: homeassistant.turn_off
+      entity_id: automation.switch_off_night_mode_br_oh_trigger
+    - service: timer.cancel
+      entity_id: timer.br_night_motion
+      
+      
+#entity_id: "timer.br_night_motion"
+      
+- alias: 'Day Mode WC motion off'
+  trigger:
+    platform: state
+    entity_id: input_boolean.night_mode
+    from: 'on'
+    to: 'off'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: automation.wc_light_on_with_motion

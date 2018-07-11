@@ -1,0 +1,70 @@
+matchon freindly_name
+
+dale3h
+
+{% set name = 'BR' %}
+{% set group = 'group.hvac_watchlist_g' %}
+
+name: "{{ name }}"
+group: "{{ group }}"
+
+
+{% for entity_id in state_attr(group, 'entity_id') if states[entity_id.split('.', 1)[0]][entity_id.split('.', 1)[1]].name == name %}
+  {% set parts = entity_id.split('.', 1) %}
+  {% set entity = states[parts[0]][parts[1]] %}
+  entity_id: "{{ entity_id }}"
+  payload_on: "{{ entity.attributes.payload_on }}"
+  payload_off: "{{ entity.attributes.payload_off }}"
+{% endfor %}
+
+
+
+
+code for automation enable disable
+
+omeassistant:
+  customize:
+    automation.hello_world:
+      vacation_enable: false
+    
+    automation.another_automation:
+      vacation_enable: true
+```
+
+And then for the template (for automation.turn_off > data_template > entity_id, I suppose):
+```jinja
+{%- set comma = joiner(', ') -%}
+{%- for x in states.automation if not x.attributes.vacation_enable -%}
+  {{- comma() -}}
+  {{- x.entity_id -}}
+{%- endfor -%}
+```
+
+That should generate a comma separated list of automations that have `vacation_enable: false`
+#}
+
+
+
+{%- macro ttmc(string) -%}
+  {%- set morse_code = {' ':'/','A':'.-','B':'-...','C':'-.-.','D':'-..','E':'.','F':'..-.','G':'--.','H':'....','I':'..','J':'.---','K':'-.-','L':'.-..','M':'--','N':'-.','O':'---','P':'.--.','Q':'--.-','R':'.-.','S':'...','T':'-','U':'..-','V':'...-','W':'.--','X':'-..-','Y':'-.--','Z':'--..','0':'-----','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.','.':'.-.-.-',',':'--..--',':':'---...','?':'..--..','\'':'.----.','-':'-....-','/':'-..-.','(':'-.--.-','"':'.-..-.','@':'.--.-.','=':'-...-'} -%}
+  {%- set space = joiner(' ') -%}
+  {%- for chr in string|upper if chr in morse_code -%}
+    {{- space() -}}
+    {{- morse_code[chr|upper] -}}
+  {%- endfor -%}
+{%- endmacro -%}
+
+{{ ttmc('Hello World?') }}
+{# Output: .... . .-.. .-.. --- / .-- --- .-. .-.. -.. ..--.. #}
+
+
+
+
+
+
+
+
+
+mac address gateways
+b4:e6:2d:04:be:a8  @ BedRoom
+ 

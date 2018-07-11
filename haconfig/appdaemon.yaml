@@ -1,0 +1,20 @@
+AppDaemon:
+  logfile: STDOUT
+  errorfile: STDERR
+  logsize: 100000
+  log_generations: 3
+  threads: 10
+  # cert_path: <path/to/root/CA/cert>
+  # cert_verify: True
+  # time_zone: <time zone>
+  api_port: 5000
+  # api_key: !secret api_key
+  # api_ssl_certificate: <path/to/root/CA/cert>
+  # api_ssl_key: <path/to/root/CA/key>
+HASS:
+  ha_url: https://beedaz.duckdns.org:8123
+  ha_key: !secret api_pass
+HADashboard:
+  dash_url: https://beedaz.duckdns.org:5050
+  dash_ssl_certificate: //etc/letsencrypt/live/beedaz.duckdns.org/fullchain.pem
+  dash_ssl_key: /etc/letsencrypt/live/beedaz.duckdns.org/privkey.pem

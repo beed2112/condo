@@ -1,3 +1,8 @@
+  emptycondo:
+    name: Empty Condo
+
+
+
   hvac_cool_off_watchdog:
     name: HVAC Cool off
   motionactivated_den:

@@ -1,5 +1,6 @@
   default: info
   logs:
+    homeassistant.components.binary_sensor.mqtt: error
     homeassistant.core: error
     homeassistant.components.http: warning
     homeassistant.components.http.ban: warning
@@ -20,6 +21,6 @@
     homeassistant.components.discovery: info
     homeassistant.setup: info
     homeassistant.loader: info
-    homeassistant.components.automation: info
-    homeassistant.helpers.script: info
+    homeassistant.components.automation: warning
+    homeassistant.helpers.script: warning
     homeassistant.components.wemo: info

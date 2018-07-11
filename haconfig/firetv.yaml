@@ -1,0 +1,3 @@
+devices:
+  lr-firetv:
+    host: 192.168.11.230:5555

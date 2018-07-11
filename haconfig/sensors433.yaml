@@ -1,0 +1,46 @@
+    binary_sensor.patio:
+      payload_on: "12187146"
+      payload_off: "12187150"
+      icon: mdi:door
+
+    binary_sensor.lr_n:
+      payload_on: "3766538"
+      payload_off: "3766542"
+
+    binary_sensor.lr_e:
+      payload_on: "11874058"
+      payload_off: "11874062"
+
+    binary_sensor.dr:
+      payload_on: "818954"
+      payload_off: "818958"
+
+    binary_sensor.kitchen:
+      payload_on: "934666"
+      payload_off: "934670"
+
+    binary_sensor.br:
+      payload_on: "12296202"
+      payload_off: "12296206"
+
+    binary_sensor.den:
+      payload_on: "13279242"
+      payload_off: "13279246"
+
+#cry for help 12597770
+#tamper 12598791
+    binary_sensor.entry:
+      payload_on: "12598794"
+      payload_off: "12598798"
+      icon: mdi:door
+
+    binary_sensor.shade:
+      payload_on: "783626"
+      payload_off: "783630"
+
+    binary_sensor.screen:
+      payload_on: "12157706"
+      payload_off: "12157710"
+      icon: mdi:door
+      
+

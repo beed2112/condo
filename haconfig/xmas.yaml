@@ -1,0 +1,28 @@
+# Turn on Patio outlet
+
+- alias: 'Patio outlet on at Sunset'
+  initial_state: False
+  trigger:
+    platform: sun
+    event: sunset
+  action:
+    - service: switch.turn_on
+      entity_id:
+      - switch.patio_outlet
+      
+#At xmas turn off patio outlet and turn on ceiling fan light - enabled during xmas season
+
+- alias: 'Xmas off Patio CF Light on'
+  initial_state: False
+  trigger:
+    platform: time
+    at: '23:00:00'
+  action:
+   - service: switch.turn_off
+     entity_id:
+     - switch.patio_outlet
+     - switch.lr_light
+   - service: switch.turn_on
+     entity_id:
+     - switch.patiolight
+

@@ -80,10 +80,17 @@
     device_class: "motion"
     
   - platform: mqtt
-    name: "Underbed motion"
-    state_topic: "home/BedRoom/motion"
-    payload_on: "true"
-    payload_off: "false"
+    name: "BR Melodie"
+    state_topic: "home/433toMQTT"
+    payload_on: "3747914"
+    payload_off: "3747914off"
+    device_class: "motion"
+    
+  - platform: mqtt
+    name: "Kitchen motion"
+    state_topic: "home/433toMQTT"
+    payload_on: "2330698"
+    payload_off: "2330698off"
     device_class: "motion"
     
     
@@ -93,6 +100,14 @@
 #  https://fccid.io/2AIKI-G90/
 #
 
+# Tamper code: 4065543
+  - platform: mqtt
+    name: "WC door"
+    state_topic: "home/433toMQTT"
+    payload_on: "4065546"
+    payload_off: "4065550"
+    device_class: "opening"
+    
 # Tamper code: 783623
   - platform: mqtt
     name: "Shade"
@@ -181,8 +196,8 @@
     name: "Entry motion"
     qos: 0
     state_topic: "home/433toMQTT"
-    payload_on: "1823626"
-    payload_off: "1823626off"
+    payload_on: "831562"
+    payload_off: "831562off"
     device_class: motion
 
 # Motion  1051530
@@ -207,6 +222,16 @@
     payload_off: "4551562off"
     device_class: motion
     
+
+
+  - platform: mqtt
+    name: "Kitchen Cabinet"
+    qos: 0
+    state_topic: "home/433toMQTT"
+    payload_on: "6881354"
+    payload_off: "6881354off"
+    device_class: motion
+    
 #----  workday sensors
   - platform: workday
     country: US
@@ -222,3 +247,27 @@
     name: yesterday_work_day
     days_offset: -1
     
+    
+  - platform:  template
+    sensors:
+      occupancy_simulation_active:
+        friendly_name: "Occupancy Simulation"
+        value_template: "{{states.timer.occupancy_sim.state == 'active'}}"
+      test_this:
+        friendly_name: "binary sensor test"
+        value_template: "{{states.switch.den_oh.state == 'on'}}"
+      sun_up:
+        friendly_name: "Sun down"
+        value_template: "{{ states.sun.sun.attributes.elevation|float < 0 }}"
+      den_on_with_motion:
+        friendly_name: "Den Motion On"
+        value_template: "{{states.timer.den_motion.state == 'active' and states.group.den_motion.state == 'on' }}"
+      hold_open:
+        friendly_name: "Hold Open"
+        value_template: "{{ states.alert.holdopen.state == 'on'  }}"
+      coffee_on:
+        friendly_name: "CoffeePot Alert"
+        value_template: "{{ states. alert.coffeeon.state == 'on'  }}"
+      emptycondo:
+        friendly_name: "Empty Condo Alert"
+        value_template: "{{ states.alert.coffeeon.state == 'on'  }}"

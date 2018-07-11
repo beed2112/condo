@@ -1,0 +1,188 @@
+ ####  Test automations with ios notify melodie phone
+#-autodoc
+#-autodoc        name: yy ios notify test off melodie
+#-autodoc description: test automation ..
+#-autodoc        file: test-ios.yaml
+#-autodoc
+# - alias: 'yy ios notify test off melodie'
+#   trigger:
+#     platform: state
+#     entity_id: input_boolean.on_vaca
+#     to: 'off'
+#   action:
+#     service: notify.ios_iphone_melodie_personal
+#     data:
+#         message: "Test message"
+#         data:
+#           push:
+#             category: "iostest" # Needs to match the top level identifier you used in the ios configuration
+#           action_data: # Anything passed in action_data will get echoed back to Home Assistant.
+#             entity_id: input_boolean.pill_one
+#             my_custom_data: foo_bar
+          
+#################################################################
+####  Test automations with ios notify
+#-autodoc
+#-autodoc        name: yy ios notify test on mike phone
+#-autodoc description: test automation ..
+#-autodoc        file: test-ios.yaml
+#-autodoc
+# - alias: 'yy ios notify test on mike phone '
+#   trigger:
+#     platform: state
+#     entity_id: input_boolean.on_vaca
+#     to: 'on'
+#   action:
+#     service: notify.ios_michaels_iphone
+#     data:
+#         message: "Test message"
+#         data:
+#           push:
+#             category: "iostest" # Needs to match the top level identifier you used in the ios configuration
+#           action_data: # Anything passed in action_data will get echoed back to Home Assistant.
+#             entity_id: input_boolean.pill_one
+#             my_custom_data: foo_bar
+            
+#-autodoc
+#-autodoc        name: yy ios notify test on mike ipad
+#-autodoc description: test automation ..
+#-autodoc        file: test-ios.yaml
+#-autodoc
+# - alias: 'yy ios notify test on mike ipad '
+#   trigger:
+#     platform: state
+#     entity_id: input_boolean.on_vaca
+#     to: 'on'
+#   action:
+#     service: notify.ios_mike_ipad
+#     data:
+#         message: "Test message"
+#         data:
+#           push:
+#             category: "iostest" # Needs to match the top level identifier you used in the ios configuration
+#           action_data: # Anything passed in action_data will get echoed back to Home Assistant.
+#             entity_id: input_boolean.pill_one
+#             my_custom_data: foo_bar
+
+
+
+
+#-autodoc
+#-autodoc        name: syslog
+#-autodoc description: test automation ..
+#-autodoc        file: test-ios.yaml
+#-autodoc
+# - alias: 'syslog  '
+#   trigger:
+#     platform: event
+#     event_type: call_service
+#     event_data:
+#       domain: notify
+#       service: syslog
+#       #message: C2112
+#   condition:
+#     condition: template
+#     value_template: '{{ "o2112" in trigger.event.data.service_data["message"]}}'
+#   action:
+#   - service: persistent_notification.create
+#     data_template:
+#       message: '{{states.sensor.date__time.state}} coffee pot is on.'
+#       title: "Syslog Test"
+
+      # message: '{{states.sensor.date__time.state}} service data: - {{trigger.event.data["service_data"] }} -C2112 in message: -{{ "C2112" in trigger.event.data.service_data["message"]}}  domain: {{ trigger.event.data["domain"]}} message: {{ trigger.event.data.service_data["message"]}}'
+      
+# call_service|{"domain": "notify", "service": "syslog", "service_data": {"message": "this is the massage"}, "service_call_id": "1967758832-30"}
+
+
+- alias: 'vacation off a1'
+#  initial_state: False
+  trigger:
+    platform: state
+    entity_id: input_boolean.always_on
+    from: 'on'
+    to: 'off'          #this should never happen ..
+  action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.always_on
+        
+- alias: 'vacation off a2'
+#  initial_state: False
+  trigger:
+    platform: state
+    entity_id: input_boolean.always_on
+    from: 'on'
+    to: 'off'          #this should never happen ..
+  action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.always_on
+- alias: 'vacation off a3'
+#  initial_state: False
+  trigger:
+    platform: state
+    entity_id: input_boolean.always_on
+    from: 'on'
+    to: 'off'          #this should never happen ..
+  action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.always_on
+- alias: 'vacation off a4'
+#  initial_state: False
+  trigger:
+    platform: state
+    entity_id: input_boolean.always_on
+    from: 'on'
+    to: 'off'          #this should never happen ..
+  action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.always_on
+
+- alias: 'vacation on a1'
+#  initial_state: False
+  trigger:
+    platform: state
+    entity_id: input_boolean.always_on
+    from: 'on'
+    to: 'off'          #this should never happen ..
+  action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.always_on
+- alias: 'vacation on a2'
+#  initial_state: False
+  trigger:
+    platform: state
+    entity_id: input_boolean.always_on
+    from: 'on'
+    to: 'off'          #this should never happen ..
+  action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.always_on
+- alias: 'vacation on a3'
+#  initial_state: False
+  trigger:
+    platform: state
+    entity_id: input_boolean.always_on
+    from: 'on'
+    to: 'off'          #this should never happen ..
+  action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.always_on
+- alias: 'vacation on a4'
+#  initial_state: False
+  trigger:
+    platform: state
+    entity_id: input_boolean.always_on
+    from: 'on'
+    to: 'off'          #this should never happen ..
+  action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.always_on
+      
+      
+
+
+
+
+
+
+
+

@@ -1,0 +1,35 @@
+# Turn on stuff in sunset group at (sunset - 30min )
+
+- alias: 'LR switch Sunset(-30) on'
+  trigger:
+    platform: sun
+    event: sunset
+    offset: '-00:45:00'
+  action:
+    - service: switch.turn_on
+      entity_id:
+      - switch.lr_switch
+      - switch.lr_light
+
+
+- alias: 'LR switch Sunset(+3) off'
+  trigger:
+    platform: sun
+    event: sunset
+    offset: '+03:00:00'
+  action:
+    - service: switch.turn_off
+      entity_id:
+      - switch.lr_switch
+      - switch.lr_light
+
+
+- alias: 'Patio CF Light on'
+  initial_state: True
+  trigger:
+    platform: time
+    at: '23:00:00'
+  action:
+   - service: switch.turn_on
+     entity_id:
+     - switch.patiolight

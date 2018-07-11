@@ -17,6 +17,18 @@
   exclude:
     entities:
       - automation.motion_for_den_light_timer_restart
+      - automation.test1_sensor_off_timer
+      - automation.test2_sensor_off_time
+      - automation.motion_den_light_time_ends
+      - automation.kitchen_sensor_off_timer
+      - automation.melodie_br_sensor_off_timer
+      - automation.zzz_den_sensor_to_on
+      - automation.zzz_den_sensor_to_off
+      - automation.entry_sensor_off_timer
+      - automation.kitchen_cabinet_off_timer
+      - automation.lr_sensor_off_timer
+      - automation.br_upper_sensor_off_timer
+      - automation.motion_for_den_light_on
  
       
 

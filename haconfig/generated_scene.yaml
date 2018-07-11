@@ -1,0 +1,105 @@
+Home Assistant notifications (Log started: 2017-11-02T03:27:41.597194+00:00)
+--------------------------------------------------------------------------------
+#############################################
+## automation
+#############################################
+
+automation.good_night__set_status:
+  state: on
+
+automation.xx_coffeepot_off_response:
+  state: on
+
+automation.melodie_nightstand_off_dash_:
+  state: on
+
+automation.zzz_toggle_automations_off:
+  state: on
+
+automation.zz_weather_alert_0:
+  state: on
+
+automation.wc_set_green:
+  state: on
+
+automation.xx_coffeepot_on_response:
+  state: on
+
+automation.morning_alarm:
+  state: on
+
+automation.zzz_enable_the_hvac_fan_dance:
+  state: on
+
+automation.zzz_nightstand_sensor_to_on:
+  state: on
+
+automation.zzz_nightstand_sensor_to_off:
+  state: on
+
+automation.zz_weatheralert_hide_on_ha_start_if_no_active_alert:
+  state: on
+
+automation.yy_ios_notify_test_on:
+  state: on
+
+automation.xx_coffee_pot_is_on_send:
+  state: on
+
+automation.zz_weather_alert_1:
+  state: on
+
+automation.yy_ios_notify_test_off:
+  state: on
+
+automation.melodie_nightstand_on_dash_:
+  state: on
+
+automation.patio_cf_light_sunset_60_on:
+  state: on
+
+automation.br_fan_on_when_air_off:
+  state: off
+
+automation.shower_set_to_white:
+  state: on
+
+automation.patio_cf_light_sunrise_off:
+  state: on
+
+automation.wc_set_to_white:
+  state: on
+
+automation.good_night:
+  state: on
+  mode_day: enabled
+  mode_night: enabled
+  mode_vac: disabled
+  mode_guest: enabled
+
+automation.br_fan_off_when_air_on:
+  state: off
+
+automation.stop_the_hvac_fan_dance:
+  state: off
+
+automation.switch_off_night_mode_br_oh_trigger:
+  state: off
+
+automation.lr_switch_sunset30_on:
+  state: on
+
+automation.zz_auto_renew_ssl_cert:
+  state: on
+
+automation.zzz_toggle_automations_on:
+  state: on
+
+automation.wc_light_on_color_dash_:
+  state: on
+
+automation.wc_light_reset_to_white__script:
+  state: on
+
+automation.shower_set_green:
+  state: on
