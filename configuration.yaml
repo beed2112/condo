@@ -12,7 +12,10 @@ homeassistant:
   
   time_zone: America/Phoenix
 
-  customize: !include customize.yaml
+# a directory of automaions
+  customize: !include_dir_merge_named customize/
+
+#  customize: !include customize.yaml
 
 
 # mqtt using remote host
@@ -21,6 +24,8 @@ mqtt:
   client_id: haserver
   username: !secret mqtt_user
   password: !secret mqtt_pass
+  discovery: true
+  discovery_prefix: homeassistant
   
 
     
@@ -171,7 +176,7 @@ group: !include groups.yaml
 automation: !include_dir_merge_list automations/
 
 # for testing to specific a specific file only
-#automation: !include automations/test-ios.yaml
+#automation: !include automations/presence-condo.yaml
 
 script: !include scripts.yaml
 
@@ -197,27 +202,47 @@ input_select:
      - LR N
      - LR E
      - DR
-     - Entry motion
+     - WC door
+     
 
-  # opening_list_on:
-  #   name: Turn on Sensor
-  #   options:
-  #   - Shade
-  #   - Entry
-  #   - Patio
-  #   - Screen
-  #   - BR
-  #   - Den
-  #   - Kitchen
-  #   - LR N
-  #   - LR E
-  #   - DR
 
   opening_list_action:
     name: Action
     options:
      - "Off"
      - "On"
+
+
+  mike_status_dropdown:
+    name: Mike
+    options:
+      - Home
+      - Just Arrived
+      - Just Left
+      - Away
+      - Extended Away
+    initial: Home
+
+  melodie_status_dropdown:
+    name: Melodie
+    options:
+      - Home
+      - Just Arrived
+      - Just Left
+      - Away
+      - Extended Away
+    initial: Home
+
+  condo_status_dropdown:
+    name: Condo
+    options:
+      - Occupied
+      - Just Occupied
+      - Just Unoccupied
+      - Unoccupied
+      - Unoccupied Extended
+    initial: Occupied
+
 
 notify ios:
   - name: iOS
@@ -256,4 +281,22 @@ timer:
     duration: '180'
   hvac_watchdog:
     duration: '300'
+  occupancy_sim:
+    duration: '300'
+  occupancy_sim_morning:
+    duration: '300'
+  occupancy_sim_afternoon:
+    duration: '300'
+  occupancy_sim_evening:
+    duration: '300'
+  occupancy_sim_late_nite:
+    duration: '120'
     
+    
+    
+input_datetime:
+  vacation_return_date:
+    name: Vacation Return Date
+    has_date: true
+    has_time: false
+    initial: '2018-06-27'
