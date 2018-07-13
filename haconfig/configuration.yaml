@@ -176,7 +176,7 @@ group: !include groups.yaml
 automation: !include_dir_merge_list automations/
 
 # for testing to specific a specific file only
-# automation: !include automations/mode-control.yaml
+#automation: !include automations/presence-condo.yaml
 
 script: !include scripts.yaml
 
@@ -205,19 +205,6 @@ input_select:
      - WC door
      
 
-  # opening_list_on:
-  #   name: Turn on Sensor
-  #   options:
-  #   - Shade
-  #   - Entry
-  #   - Patio
-  #   - Screen
-  #   - BR
-  #   - Den
-  #   - Kitchen
-  #   - LR N
-  #   - LR E
-  #   - DR
 
   opening_list_action:
     name: Action
@@ -246,7 +233,15 @@ input_select:
       - Extended Away
     initial: Home
 
-
+  condo_status_dropdown:
+    name: Condo
+    options:
+      - Occupied
+      - Just Occupied
+      - Just Unoccupied
+      - Unoccupied
+      - Uboccupied Extended
+    initial: Occupied
 
 
 notify ios:
