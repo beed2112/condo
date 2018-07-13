@@ -1,0 +1,73 @@
+- alias: Mark Condo as just ooccupied
+  trigger:
+    - platform: state
+      entity_id:  input_boolean.emptycondo
+      from: 'on'
+      to: 'off'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.condo_status_dropdown
+        option: >
+          {% if trigger.entity_id == 'input_boolean.emptycondo' %}
+            {% if states.input_select.condo_status_dropdown.state == 'Just Left' %}
+              Occupied
+            {% else %}
+              Just Occupied
+            {% endif %}
+           {% endif %}
+
+- alias: Mark Condo as Occupied
+  trigger:
+    - platform: state
+      entity_id: input_select.condo_status_dropdown
+      to: 'Just Occupied'
+      for:
+        minutes: 10
+    - platform: state
+      entity_id: input_select.condo_status_dropdown
+      from: 'Just Unoccupied'
+      to: 'Just Occupied'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.condo_status_dropdown
+        option: Occupied
+ 
+- alias: Mark Condo as just Unoccupied
+  trigger:
+    - platform: state
+      entity_id:  input_boolean.emptycondo
+      from: 'off'
+      to: 'on'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.condo_status_dropdown
+        option: Just Unoccupied
+ 
+- alias: Mark Condo as Unoccupied
+  trigger:
+    - platform: state
+      entity_id: input_select.condo_status_dropdown
+      to: 'Just Unoccupied'
+      for:
+        minutes: 10
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.condo_status_dropdown
+        option: Unoccupied
+ 
+- alias: Mark Condo as Unoccupied Extended
+  trigger:
+    - platform: state
+      entity_id: input_select.condo_status_dropdown
+      to: 'Unoccupied'
+      for:
+        hours: 24
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.condo_status_dropdown
+        option: Unoccupied Extended
