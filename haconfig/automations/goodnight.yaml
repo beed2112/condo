@@ -54,7 +54,7 @@
 
 #Night mode on for 2 minutes turn lights off
       
-- alias: 'Night mode activated - lights off'
+- alias: 'night mode activated Melodie'
   trigger:
     platform: state
     entity_id: input_boolean.night_mode
@@ -63,14 +63,36 @@
     for:
       minutes: 2
   action:
+    #- service: switch.turn_off
+    #   entity_id:
+    #   - switch.lr_ceiling_fan
+    #   - switch.lr_light
+    #   - switch.lr_switch
+    #   - switch.dendresser
+    # - service: light.turn_off
+    #   entity_id:
+    #   - light.lr_oh
     - service: switch.turn_off
-      entity_id:
-      - switch.lr_ceiling_fan
-      - switch.lr_light
-      - switch.lr_switch
+      data_template:
+        entity_id: >-
+          {%- set comma = joiner(', ') -%}
+          {{- comma() -}}
+          {{- "switch.dummy" -}}
+          {%- for x in states.switch if x.state == 'on' if x.attributes.occupancy_controlled == 'on' if x.attributes.location != 'master' if x.attributes.location != 'wc' if x.attributes.location != 'masterbath'  -%}
+            {{- comma() -}}
+            {{- x.entity_id -}}
+          {%- endfor -%}
     - service: light.turn_off
-      entity_id:
-      - light.lr_oh
+      data_template:
+        entity_id: >-
+          {%- set comma = joiner(', ') -%}
+          {{- comma() -}}
+          {{- "light.dummy" -}}
+          {%- for x in states.light if x.state == 'on' if x.attributes.occupancy_controlled == 'on' if x.attributes.location != 'master' if x.attributes.location != 'wc' if x.attributes.location != 'masterbath'   -%}
+            {{- comma() -}}
+            {{- x.entity_id -}}
+          {%- endfor -%}
+ 
  
  #Night mode on for 30  minutes transition watchdog turned on
 - alias: 'enable morning transition watchdog'
@@ -97,5 +119,31 @@
   action:
     - service: homeassistant.turn_on
       entity_id: automation.wc_light_on_with_motion
+
+- alias: 'turn off wax warmers'
+  trigger:
+    platform: state
+    entity_id: input_boolean.night_mode
+    from: 'off'
+    to: 'on'
+  action:
+    - service: switch.turn_off
+      entity_id:
+      - group.wax_warmers
       
       
+
+- alias: 'Night mode activated'
+  trigger:
+    platform: state
+    entity_id: input_boolean.night_mode
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: device_tracker.michaels_iphone
+    state: 'not_home'
+  action:
+    - service: switch.turn_on
+      entity_id:
+      - switch.br_shower
