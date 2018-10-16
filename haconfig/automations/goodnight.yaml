@@ -54,7 +54,7 @@
 
 #Night mode on for 2 minutes turn lights off
       
-- alias: 'night mode activated Melodie'
+- alias: 'night mode activated '
   trigger:
     platform: state
     entity_id: input_boolean.night_mode
@@ -133,7 +133,7 @@
       
       
 
-- alias: 'Night mode activated'
+- alias: 'Night mode activated Melodie'
   trigger:
     platform: state
     entity_id: input_boolean.night_mode
